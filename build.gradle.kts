@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    testImplementation(kotlin("test"))
+    implementation("net.dv8tion:JDA:c525f6f")
 }
 
 tasks.test {
