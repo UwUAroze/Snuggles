@@ -8,10 +8,11 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    maven { url = uri("https://jitpack.io") }
 }
 
 dependencies {
-    implementation("net.dv8tion:JDA:c525f6f")
+    implementation("com.github.DV8FromTheWorld:JDA:v5.0.0-beta.3")
 }
 
 tasks.test {
