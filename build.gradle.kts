@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.DV8FromTheWorld:JDA:v5.0.0-beta.3")
+    implementation("com.github.DV8FromTheWorld:JDA:v4.4.0")
 }
 
 tasks.test {
