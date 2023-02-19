@@ -1,4 +1,4 @@
-package me.aroze.snuggles.commands.impl
+package me.aroze.snuggles.commands.impl.generic
 
 import me.aroze.snuggles.commands.BaseCommand
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent
