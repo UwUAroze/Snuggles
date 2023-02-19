@@ -2,12 +2,14 @@ package me.aroze.snuggles.commands
 
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
+import net.dv8tion.jda.api.interactions.commands.OptionMapping
 import net.dv8tion.jda.api.interactions.commands.OptionType
 import net.dv8tion.jda.api.interactions.commands.build.CommandData
 
 abstract class BaseCommand(private val name: String, private val description: String) : ListenerAdapter() {
-    private val options = ArrayList<Option>()
-    private val guildOnly = false
+    protected val options = ArrayList<Option>()
+    protected val guildOnly = false
+
     override fun onSlashCommand(event: SlashCommandEvent) {
         if (event.name == name) {
             if (guildOnly && event.guild == null) {
@@ -31,11 +33,6 @@ abstract class BaseCommand(private val name: String, private val description: St
             }
             return command
         }
-
-    protected fun getOption(event: SlashCommandEvent, name: String): String? {
-        val option = event.getOption(name) ?: return null
-        return option.asString
-    }
 
     abstract fun onExecute(event: SlashCommandEvent)
     class Option(var type: OptionType, var name: String, var description: String, var required: Boolean)
