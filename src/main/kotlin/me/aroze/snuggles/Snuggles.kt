@@ -33,7 +33,7 @@ fun main() {
                 val target = event.getOption("target")?.asUser ?: return
 
                 var messages: List<String> = listOf()
-                if (target.isBot && it.bot.isNotEmpty()) messages = it.bot
+                if (target.id == jda.selfUser.id && it.bot.isNotEmpty()) messages = it.bot
                 else if (event.user.id == target.id && it.self.isNotEmpty()) messages = it.self
                 else messages = it.messages
 
