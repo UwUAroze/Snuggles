@@ -1,5 +1,6 @@
 import me.aroze.snuggles.commands.BaseCommand
-import me.aroze.snuggles.commands.impl.PingCommand
+import me.aroze.snuggles.commands.Feelings
+import me.aroze.snuggles.commands.impl.generic.PingCommand
 import me.aroze.snuggles.initialisation.Login.login
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.interactions.commands.build.CommandData
