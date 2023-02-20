@@ -118,7 +118,17 @@ enum class Feelings(val feeling: String, val description: String, val messages: 
             "Aint no way bro just tried to lick me.",
             "Do you have a licking kink?? Aw, cute. But I'm not the one. Sorry, not sorry.",
             "Go lick yourself.",
-            "Go lick someone else, or I'm gonna start licking you. Jk, you wish. You desperate little bitch."
+            "Go lick someone else, or I'm gonna start licking you. Jk, you wish. You desperate little bitch.",
+            "You lick me one more time and I'm gonna kick your ass.",
+            "I'm gonna sue you if you keep licking me.",
+            "Get the fuck away from me, you little pervert.",
+            "If you come near me with your tongue again, I'm gonna punch you.",
+            "You can just forget about licking me, it ain't gonna happen.",
+            "I'm gonna kick your ass if you try to lick me again.",
+            "What the hell is wrong with you? Stop licking me!",
+            "I'm gonna call the police if you don't stop licking me.",
+            "I swear to God, if you don't stop licking me I'm gonna fight you.",
+            "You want a licking? I'll give you one you won't forget."
         )
     ),
 
