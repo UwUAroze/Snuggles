@@ -13,6 +13,8 @@ repositories {
 
 dependencies {
     implementation("com.github.DV8FromTheWorld:JDA:v4.4.0")
+    implementation("commons-io:commons-io:2.11.0")
+    implementation("com.google.code.gson:gson:2.10.1")
 }
 
 tasks.test {
