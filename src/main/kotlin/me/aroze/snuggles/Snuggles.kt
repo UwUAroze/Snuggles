@@ -19,6 +19,8 @@ fun main() {
     login()
     println(jda.selfUser.asTag)
 
+    registerFeelings()
+
     registerCommands(
         PingCommand,
         *feelings.toTypedArray()
