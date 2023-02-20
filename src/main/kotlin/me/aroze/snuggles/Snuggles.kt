@@ -1,7 +1,9 @@
 import me.aroze.snuggles.commands.BaseCommand
 import me.aroze.snuggles.commands.feelings.Feelings
 import me.aroze.snuggles.commands.feelings.RegisterFeelings.feelings
+import me.aroze.snuggles.commands.feelings.RegisterFeelings.registerFeelings
 import me.aroze.snuggles.commands.impl.generic.PingCommand
+import me.aroze.snuggles.commands.impl.generic.UwUifyCommand
 import me.aroze.snuggles.config.ConfigLoader
 import me.aroze.snuggles.initialisation.Login.login
 import net.dv8tion.jda.api.JDA
@@ -23,6 +25,7 @@ fun main() {
 
     registerCommands(
         PingCommand,
+        UwUifyCommand,
         *feelings.toTypedArray()
     )
 
