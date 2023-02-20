@@ -1,6 +1,6 @@
 package me.aroze.snuggles.commands
 
-enum class Feelings(val feeling: String, val description: String, val messages: List<String>, val self: List<String> = listOf(), val bot: List<String> = listOf()) {
+enum class Feelings(val feeling: String, val description: String, var messages: List<String>, var self: List<String> = listOf(), var bot: List<String> = listOf()) {
     HUG("hug", "Hugs a user", listOf(
         "{user} hugs {target}, awh.",
         "{user} gives {target} a big fat snuggly wuggly, these two are adorable.",

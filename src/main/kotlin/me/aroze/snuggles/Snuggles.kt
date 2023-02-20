@@ -20,9 +20,17 @@ fun main() {
     println(jda.selfUser.asTag)
 
     val feelings = mutableListOf<BaseCommand>()
+    val feelingsIndexes = mutableMapOf<Feelings, MutableMap<Int, Int>>()
 
     // Register feelings
     Feelings.values().forEach {
+
+        it.messages = it.messages.shuffled()
+        it.self = it.self.shuffled()
+        it.bot = it.bot.shuffled()
+
+        feelingsIndexes[it] = mutableMapOf(0 to 0, 1 to 0, 2 to 0)
+
         feelings.add(object : BaseCommand(it.feeling.lowercase(), it.description) {
             init {
                 options.add(Option(
@@ -36,13 +44,20 @@ fun main() {
             override fun onExecute(event: SlashCommandEvent) {
                 val target = event.getOption("target")?.asUser ?: return
 
-                var messages: List<String> = listOf()
-                if (target.id == jda.selfUser.id && it.bot.isNotEmpty()) messages = it.bot
-                else if (event.user.id == target.id && it.self.isNotEmpty()) messages = it.self
-                else messages = it.messages
+                var subIndex: Int
+                val messages: List<String>
 
-                val random = Random()
-                val message = messages[random.nextInt(messages.size)]
+                if (target.id == jda.selfUser.id && it.bot.isNotEmpty()) { messages = it.bot; subIndex = 0 }
+                else if (event.user.id == target.id && it.self.isNotEmpty()) { messages = it.self; subIndex = 1 }
+                else messages = it.messages; subIndex = 2
+
+                val currentIndex = feelingsIndexes[it]?.get(subIndex) ?: 0
+                if (currentIndex >= messages.size - 1) {
+                    it.messages = it.messages.shuffled()
+                    feelingsIndexes[it]?.set(subIndex, 0)
+                } else feelingsIndexes[it]?.set(subIndex, currentIndex + 1)
+
+                val message = messages[feelingsIndexes[it]?.get(subIndex)!!]
                     .replace("{user}", event.user.asMention)
                     .replace("{target}", target.asMention)
 
