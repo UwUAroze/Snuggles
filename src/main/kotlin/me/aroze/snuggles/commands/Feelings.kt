@@ -120,8 +120,17 @@ enum class Feelings(val feeling: String, val description: String, val messages: 
             "Go lick yourself.",
             "Go lick someone else, or I'm gonna start licking you. Jk, you wish. You desperate little bitch."
         )
-    )
+    ),
 
-    // TODO: Slap, high five, yell, facepalm, bite, shake, stab, murder, dab, cry, pat, stalk
+    // TODO: Slap, high five, yell, facepalm, bite, shake, stab, murder, dab, cry, pat
+
+    // Template:
+
+    //    ACTION("action", "whatever", listOf(
+    //        ""
+    //    ),
+    //        listOf(),
+    //        listOf()
+    //    )
 
 }
