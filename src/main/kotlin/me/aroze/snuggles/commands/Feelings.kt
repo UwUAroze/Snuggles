@@ -73,6 +73,16 @@ enum class Feelings(val feeling: String, val description: String, val messages: 
             "I'm not a toy, back the fuck off.",
             "Ahah. hahhaha. haha. hah. I'm gonna poke YOU!",
             "You're a fucking idiot, you know that? You can't poke me, you moron.",
+            "Poke me one more time and I'm gonna fucking kill you.",
+            "You try to poke me again and I'm gonna break your fingers.",
+            "What are you, some kind of masochist? Stop poking me.",
+            "If you touch me again, I'm gonna make you regret it.",
+            "I'll break your arm if you try to poke me again.",
+            "You're lucky I don't punch you right now. Stop poking me.",
+            "I'm gonna make you sorry if you keep poking me.",
+            "You want to poke me? Come get some.",
+            "I'm gonna break your face if you try to poke me again.",
+            "I'm warning you, stop poking me or you're gonna regret it."
         )
     ),
 
