@@ -35,7 +35,17 @@ enum class Feelings(val feeling: String, val description: String, val messages: 
         listOf(
             "Don't touch me, you whore.",
             "Get your disgusting ass hands off of me, little bitch.",
-            "Go hug a human, you desperate slut."
+            "Go hug a human, you desperate slut.",
+            "Keep your hands to yourself, I'm not hugging you.",
+            "If you try to hug me, I'm gonna break your neck.",
+            "I'm gonna make you sorry if you keep trying to hug me.",
+            "You think I'm gonna let you hug me? Think again.",
+            "I'm gonna slap you if you try to hug me again.",
+            "You want to hug me? Come and get it.",
+            "I'm gonna kick your ass if you try to hug me.",
+            "I'm gonna break your face if you keep trying to hug me.",
+            "I'm warning you, don't hug me or I'll make you regret it.",
+            "You're lucky I don't punch you right now. Stop trying to hug me."
         )
     ),
 
