@@ -1,14 +1,12 @@
 import me.aroze.snuggles.commands.BaseCommand
-import me.aroze.snuggles.commands.feelings.Feelings
 import me.aroze.snuggles.commands.feelings.RegisterFeelings.feelings
 import me.aroze.snuggles.commands.feelings.RegisterFeelings.registerFeelings
+import me.aroze.snuggles.commands.impl.generic.GlobalStatsCommand
 import me.aroze.snuggles.commands.impl.generic.PingCommand
 import me.aroze.snuggles.commands.impl.generic.UwUifyCommand
 import me.aroze.snuggles.config.ConfigLoader
 import me.aroze.snuggles.initialisation.Login.login
 import net.dv8tion.jda.api.JDA
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent
-import net.dv8tion.jda.api.interactions.commands.OptionType
 import net.dv8tion.jda.api.interactions.commands.build.CommandData
 import kotlin.collections.ArrayList
 
@@ -24,6 +22,7 @@ fun main() {
     registerFeelings()
 
     registerCommands(
+        GlobalStatsCommand,
         PingCommand,
         UwUifyCommand,
         *feelings.toTypedArray()
