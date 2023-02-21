@@ -65,7 +65,7 @@ enum class Feelings(val feeling: String, val description: String, var messages: 
         "With a ticklish poke, {user} sends {target} into a fit of giggles.",
         "With a playful poke, {user} teases {target} and invites them to join in on the fun.",
         "{user} pokes {target} and then runs away, daring them to try and catch them.",
-        "With a quick poke and a wink, {user} hints at the playful shenanigans to come.",
+        "With a quick poke and a wink, {user} hints to {target} at the playful shenanigans to come.",
         "As {user} pokes {target} more and more, they both burst into uncontrollable laughter.",
         "With a series of playful pokes, {user} and {target} engage in a lighthearted game of poking tag.",
         "{user} pokes {target} and then jumps back, ready for a round of playful banter.",
