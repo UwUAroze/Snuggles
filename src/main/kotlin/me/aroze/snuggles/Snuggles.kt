@@ -10,14 +10,14 @@ import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.interactions.commands.build.CommandData
 import kotlin.collections.ArrayList
 
-lateinit var jda: JDA
+lateinit var instance: JDA
 
 fun main() {
 
     ConfigLoader.load()
 
     login()
-    println(jda.selfUser.asTag)
+    println(instance.selfUser.asTag)
 
     registerFeelings()
 
@@ -33,8 +33,8 @@ fun main() {
 private fun registerCommands(vararg commands: BaseCommand) {
     val queued: MutableList<CommandData> = ArrayList()
     for (command in commands) {
-        jda.addEventListener(command)
+        instance.addEventListener(command)
         queued.add(command.build)
     }
-    jda.updateCommands().addCommands(queued).queue()
+    instance.updateCommands().addCommands(queued).queue()
 }

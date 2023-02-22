@@ -1,6 +1,6 @@
 package me.aroze.snuggles.commands.impl.generic
 
-import jda
+import instance
 import me.aroze.snuggles.commands.BaseCommand
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.Emoji
@@ -15,7 +15,7 @@ object GlobalStatsCommand : BaseCommand("globalstats", "Some fun little global s
         eb.setTitle("Snuggles • Global Stats")
         eb.setDescription("Here's some fun little global stats about Snuggles!")
         eb.setColor(0xFFBAD3)
-        eb.addField("Server count", jda.guilds.size.toString(), true)
+        eb.addField("Server count", instance.guilds.size.toString(), true)
         eb.setFooter("Snuggles • Made with ♥ by Aroze#0001")
 
         event.replyEmbeds(eb.build())

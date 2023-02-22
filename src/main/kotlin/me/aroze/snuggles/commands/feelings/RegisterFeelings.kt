@@ -1,6 +1,6 @@
 package me.aroze.snuggles.commands.feelings
 
-import jda
+import instance
 import me.aroze.snuggles.commands.BaseCommand
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent
 import net.dv8tion.jda.api.interactions.commands.OptionType
@@ -42,7 +42,7 @@ object RegisterFeelings {
                     This way, there'll be like 50 unique messages in a row (relative to each other, and provided there is enough messages)
                     ^ Works much better than randomly picking a message from the list; duplicates are much more noticeable that way */
 
-                    if (target.id == jda.selfUser.id && it.bot.isNotEmpty()) { messages = it.bot; subIndex = 0 }
+                    if (target.id == instance.selfUser.id && it.bot.isNotEmpty()) { messages = it.bot; subIndex = 0 }
                     else if (event.user.id == target.id && it.self.isNotEmpty()) { messages = it.self; subIndex = 1 }
                     else messages = it.messages; subIndex = 2
 
