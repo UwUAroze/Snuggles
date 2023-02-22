@@ -9,6 +9,8 @@ import net.dv8tion.jda.api.interactions.commands.build.CommandData
 abstract class BaseCommand(private val name: String, private val description: String) : ListenerAdapter() {
     protected val options = ArrayList<Option>()
     protected val guildOnly = false
+    protected var silent = false
+    open val defaultSilent = false
 
     override fun onSlashCommand(event: SlashCommandEvent) {
         if (event.name == name) {
@@ -16,6 +18,7 @@ abstract class BaseCommand(private val name: String, private val description: St
                 // TODO: Send error message to user
                 return
             }
+            silent = event.getOption("silent")?.asBoolean ?: defaultSilent
             onExecute(event)
         }
     }
@@ -31,9 +34,15 @@ abstract class BaseCommand(private val name: String, private val description: St
                     option.required
                 )
             }
+            command.addOption(
+                OptionType.BOOLEAN,
+                "silent",
+                "Whether command output should only be visible to you",
+            )
             return command
         }
 
     abstract fun onExecute(event: SlashCommandEvent)
     class Option(var type: OptionType, var name: String, var description: String, var required: Boolean)
+
 }

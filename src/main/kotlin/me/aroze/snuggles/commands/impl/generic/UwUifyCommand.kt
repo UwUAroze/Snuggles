@@ -21,7 +21,7 @@ object UwUifyCommand : BaseCommand("uwuify", "Sends your specified message uwuif
     override fun onExecute(event: SlashCommandEvent) {
         val message = event.getOption("message")!!.asString
             .replace("@", "`@`")
-        event.reply(uwuify(message)).queue()
+        event.reply(uwuify(message)).setEphemeral(silent).queue()
     }
 
 }

@@ -19,6 +19,7 @@ object GlobalStatsCommand : BaseCommand("globalstats", "Some fun little global s
         eb.setFooter("Snuggles • Made with ♥ by Aroze#0001")
 
         event.replyEmbeds(eb.build())
+            .setEphemeral(silent)
             .addActionRow(
                 Button.link("https://github.com/UwUAroze/Snuggles", "I'm open sourced!")
                     .withEmoji(Emoji.fromMarkdown("<:github:1077388578511917167>")),

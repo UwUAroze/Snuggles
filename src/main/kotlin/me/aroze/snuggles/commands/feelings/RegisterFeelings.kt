@@ -56,7 +56,7 @@ object RegisterFeelings {
                         .replace("{user}", event.user.asMention)
                         .replace("{target}", target.asMention)
 
-                    event.reply(message).queue()
+                    event.reply(message).setEphemeral(silent).queue()
                 }
             })
         }
