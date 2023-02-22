@@ -73,7 +73,7 @@ enum class Feelings(val feeling: String, val description: String, var messages: 
     ),
         listOf(
             "Awwwh you wanna poke yourself? That's so cute.",
-            "Since you get 0 bitches, you've settled for poking yourself, honestly that's so sad.",
+            "Since you get 0 joes, you've settled for poking yourself. Honestly, that's so sad.",
             "bwo twied poking themsewves, yikie wikies.",
             "Find someone else, you maidenless, lonely bitch.",
             "Go play with yourself elsewhere, that's so gross.",
