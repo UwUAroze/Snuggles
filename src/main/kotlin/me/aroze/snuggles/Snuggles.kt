@@ -1,3 +1,5 @@
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import me.aroze.snuggles.commands.BaseCommand
 import me.aroze.snuggles.commands.feelings.RegisterFeelings.feelings
 import me.aroze.snuggles.commands.feelings.RegisterFeelings.registerFeelings
@@ -6,16 +8,23 @@ import me.aroze.snuggles.commands.impl.generic.PingCommand
 import me.aroze.snuggles.commands.impl.generic.UserInfoCommand
 import me.aroze.snuggles.commands.impl.generic.UwUifyCommand
 import me.aroze.snuggles.config.ConfigLoader
+import me.aroze.snuggles.database.Database
 import me.aroze.snuggles.initialisation.Login.login
+import me.aroze.snuggles.models.BotStats
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.interactions.commands.build.CommandData
+import java.util.Timer
 import kotlin.collections.ArrayList
+import kotlin.concurrent.schedule
 
 lateinit var instance: JDA
 
-fun main() {
+var stats: BotStats = BotStats()
+
+fun main() = runBlocking {
 
     ConfigLoader.load()
+    Database.connect()
 
     login()
     println(instance.selfUser.asTag)
@@ -29,6 +38,18 @@ fun main() {
         UserInfoCommand,
         *feelings.toTypedArray()
     )
+
+    launch {
+        Timer().schedule(300000) {
+            Database.botStats.save()
+        }
+    }
+
+    Runtime.getRuntime().addShutdownHook(Thread {
+        Database.botStats.save()
+        Database.disconnect()
+        println("Database disconnected")
+    })
 
 }
 

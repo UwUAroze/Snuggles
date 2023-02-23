@@ -16,6 +16,8 @@ dependencies {
     implementation("commons-io:commons-io:2.11.0")
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("com.github.UwUAroze:ArozeUtils:205fe4677d")
+    implementation("org.litote.kmongo:kmongo:4.8.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
 }
 
 tasks.test {
