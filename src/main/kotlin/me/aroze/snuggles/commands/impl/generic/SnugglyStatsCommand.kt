@@ -2,23 +2,25 @@ package me.aroze.snuggles.commands.impl.generic
 
 import instance
 import me.aroze.snuggles.commands.BaseCommand
-import net.dv8tion.jda.api.EmbedBuilder
+import me.aroze.snuggles.database.Database
+import me.aroze.snuggles.utils.FancyEmbed
+import me.aroze.snuggles.utils.bar
 import net.dv8tion.jda.api.entities.Emoji
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent
 import net.dv8tion.jda.api.interactions.components.Button
 
-object GlobalStatsCommand : BaseCommand("globalstats", "Some fun little global stats about Snuggles") {
+object SnugglyStatsCommand : BaseCommand("globalstats", "Some fun little global stats about Snuggles") {
 
     override fun onExecute(event: SlashCommandEvent) {
 
-        val eb = EmbedBuilder()
-        eb.setTitle("Snuggles • Global Stats")
-        eb.setDescription("Here's some fun little global stats about Snuggles!")
-        eb.setColor(0xFFBAD3)
-        eb.addField("Server count", instance.guilds.size.toString(), true)
-        eb.setFooter("Snuggles • Made with ♥ by Aroze#0001")
+        val eb = FancyEmbed()
+            .setTitle("Snuggles • Global Stats")
+            .setDescription("Here's some fun little global stats about Snuggles!")
+            .addField("Server count", instance.guilds.size.toString(), true)
+            .addField("Total slash command executions", Database.botStats.totalExecutions.toString(), true)
 
         event.replyEmbeds(eb.build())
+            .bar()
             .setEphemeral(silent)
             .addActionRow(
                 Button.link("https://github.com/UwUAroze/Snuggles", "I'm open sourced!")
