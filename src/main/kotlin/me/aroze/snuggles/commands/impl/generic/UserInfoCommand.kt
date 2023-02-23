@@ -1,19 +1,10 @@
 package me.aroze.snuggles.commands.impl.generic
 
-import instance
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import me.aroze.snuggles.commands.BaseCommand
 import me.aroze.snuggles.utils.FancyEmbed
-import me.aroze.snuggles.utils.bar
-import me.aroze.snuggles.utils.getBar
 import me.aroze.snuggles.utils.toMember
-import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent
 import net.dv8tion.jda.api.interactions.commands.OptionType
-import net.dv8tion.jda.api.utils.TimeFormat
-import java.io.File
-import java.time.format.DateTimeFormatter
 
 class UserInfoCommand : BaseCommand("userinfo", "Displays useful information about a user or server member") {
 
@@ -44,7 +35,6 @@ class UserInfoCommand : BaseCommand("userinfo", "Displays useful information abo
             }
 
             event.replyEmbeds(eb.build())
-                .bar()
                 .setEphemeral(silent)
                 .queue()
 
