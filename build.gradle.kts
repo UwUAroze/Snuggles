@@ -18,6 +18,7 @@ dependencies {
     implementation("com.github.UwUAroze:ArozeUtils:205fe4677d")
     implementation("org.litote.kmongo:kmongo:4.8.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    implementation("org.reflections:reflections:0.10.2")
 }
 
 tasks.test {

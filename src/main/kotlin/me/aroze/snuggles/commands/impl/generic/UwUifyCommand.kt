@@ -5,7 +5,7 @@ import me.aroze.snuggles.commands.BaseCommand
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent
 import net.dv8tion.jda.api.interactions.commands.OptionType
 
-object UwUifyCommand : BaseCommand("uwuify", "Sends your specified message uwuified") {
+class UwUifyCommand : BaseCommand("uwuify", "Sends your specified message uwuified") {
 
     init {
         options.add(Option(

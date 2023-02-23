@@ -13,6 +13,7 @@ import me.aroze.snuggles.initialisation.Login.login
 import me.aroze.snuggles.models.BotStats
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.interactions.commands.build.CommandData
+import org.reflections.Reflections
 import java.util.Timer
 import kotlin.collections.ArrayList
 import kotlin.concurrent.schedule
@@ -31,11 +32,12 @@ fun main() = runBlocking {
 
     registerFeelings()
 
+    val commands = Reflections("me.aroze.snuggles.commands.impl")
+        .getSubTypesOf(BaseCommand::class.java)
+        .map { it.getDeclaredConstructor().newInstance() }
+
     registerCommands(
-        GlobalStatsCommand,
-        PingCommand,
-        UwUifyCommand,
-        UserInfoCommand,
+        *commands.toTypedArray(),
         *feelings.toTypedArray()
     )
 

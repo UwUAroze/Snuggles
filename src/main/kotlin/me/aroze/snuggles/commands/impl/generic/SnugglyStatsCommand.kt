@@ -9,7 +9,7 @@ import net.dv8tion.jda.api.entities.Emoji
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent
 import net.dv8tion.jda.api.interactions.components.Button
 
-object SnugglyStatsCommand : BaseCommand("globalstats", "Some fun little global stats about Snuggles") {
+class SnugglyStatsCommand : BaseCommand("snugglystats", "Some fun little global stats about Snuggles") {
 
     override fun onExecute(event: SlashCommandEvent) {
 
