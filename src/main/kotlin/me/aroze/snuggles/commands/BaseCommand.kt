@@ -19,9 +19,9 @@ abstract class BaseCommand(private val name: String, private val description: St
                 // TODO: Send error message to user
                 return
             }
+            Database.botStats.totalExecutions++
             silent = event.getOption("silent")?.asBoolean ?: defaultSilent
             onExecute(event)
-            Database.botStats.totalExecutions++
         }
     }
 
