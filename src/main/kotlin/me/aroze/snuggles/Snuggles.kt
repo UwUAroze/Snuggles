@@ -49,6 +49,13 @@ fun main() = runBlocking {
         println("Database disconnected")
     })
 
+    instance.getGuildById(892579969329414155)?.let { devGuild ->
+        registerDevCommands(devGuild,
+            *commands.filter { it.devOnly }.toTypedArray()
+        )
+    }
+
+    Unit
 }
 
 private fun registerCommands(vararg commands: BaseCommand) {
