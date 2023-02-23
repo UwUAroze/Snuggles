@@ -3,6 +3,7 @@ import me.aroze.snuggles.commands.feelings.RegisterFeelings.feelings
 import me.aroze.snuggles.commands.feelings.RegisterFeelings.registerFeelings
 import me.aroze.snuggles.commands.impl.generic.GlobalStatsCommand
 import me.aroze.snuggles.commands.impl.generic.PingCommand
+import me.aroze.snuggles.commands.impl.generic.UserInfoCommand
 import me.aroze.snuggles.commands.impl.generic.UwUifyCommand
 import me.aroze.snuggles.config.ConfigLoader
 import me.aroze.snuggles.initialisation.Login.login
@@ -25,6 +26,7 @@ fun main() {
         GlobalStatsCommand,
         PingCommand,
         UwUifyCommand,
+        UserInfoCommand,
         *feelings.toTypedArray()
     )
 

@@ -1,5 +1,6 @@
 package me.aroze.snuggles.commands
 
+import me.aroze.snuggles.database.Database
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import net.dv8tion.jda.api.interactions.commands.OptionMapping
@@ -20,6 +21,7 @@ abstract class BaseCommand(private val name: String, private val description: St
             }
             silent = event.getOption("silent")?.asBoolean ?: defaultSilent
             onExecute(event)
+            Database.botStats.totalExecutions++
         }
     }
 
