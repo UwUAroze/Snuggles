@@ -14,8 +14,8 @@ fun User.toMember(guild: Guild, callback: (Member?) -> Unit) {
     })
 }
 
-fun ReplyAction.bar(): ReplyAction {
-    this.addFile(getBar(), "bar.png")
+fun ReplyAction.bar(type: BarStyle): ReplyAction {
+    this.addFile(getResourceStream(type.img)!!, "bar.png")
     return this
 }
 
@@ -24,4 +24,9 @@ class FancyEmbed: EmbedBuilder() {
         setColor(0x2F3136)
         setImage("attachment://bar.png")
     }
+}
+
+enum class BarStyle(val img: String) {
+    PINK("img/bar_pink.png"),
+    ERROR("img/bar_error.png")
 }
