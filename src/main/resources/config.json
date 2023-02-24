@@ -1,4 +1,5 @@
 {
   "token": "your token",
-  "mongo": "mongodb://localhost:27017"
+  "mongo": "mongodb://localhost:27017",
+  "developers": ["000000000000000000"]
 }

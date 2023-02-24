@@ -1,5 +1,6 @@
 package me.aroze.snuggles.commands
 
+import me.aroze.snuggles.config.ConfigLoader
 import me.aroze.snuggles.utils.BarStyle
 import me.aroze.snuggles.utils.FancyEmbed
 import me.aroze.snuggles.utils.bar
@@ -15,7 +16,7 @@ abstract class DevCommand(name: String, val description: String) : BaseCommand(n
 
     override fun onExecute(event: SlashCommandEvent) {
 
-        if (event.user.idLong != 273524398483308549) {
+        if (!ConfigLoader.config.developers.contains(event.user.id)) {
             val eb = FancyEmbed()
                 .addField("Woah there, slow down", "This command is only for Snuggles devs, and you are no developer!", false)
 
