@@ -29,7 +29,7 @@ class PingCommand : BaseCommand("ping", "Pongs") {
             ":stopwatch: **Internal Latency**",
             " - **Database Latency** <a:loading:1079091360046522489>",
             "",
-            " - **Total command Latency** ${now - timeSent}ms"
+            " - **Total Command Latency** ${now - timeSent}ms"
         )
 
         val eb = FancyEmbed()
