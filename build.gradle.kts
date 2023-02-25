@@ -1,6 +1,10 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 plugins {
     kotlin("jvm") version "1.8.0"
+    id("com.github.johnrengelman.shadow") version "7.1.2"
     application
+    java
 }
 
 group = "me.aroze.snuggles"
@@ -30,5 +34,24 @@ kotlin {
 }
 
 application {
-    mainClass.set("me.aroze.snuggles.MainKt")
+    mainClass.set("Snuggles")
+}
+
+tasks {
+    jar {
+        manifest {
+            attributes("Main-Class" to "Snuggles")
+        }
+    }
+}
+
+tasks.build {
+    dependsOn(tasks.shadowJar)
+}
+
+tasks {
+    named<ShadowJar>("shadowJar") {
+        archiveClassifier.set("")
+        archiveFileName.set("Snuggles.jar")
+    }
 }

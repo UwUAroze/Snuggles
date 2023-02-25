@@ -1,3 +1,5 @@
+@file:JvmName("Snuggles")
+
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import me.aroze.snuggles.commands.BaseCommand
