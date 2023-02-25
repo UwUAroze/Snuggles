@@ -1,0 +1,16 @@
+# Snuggles config!
+# This is not a config for servers, but for the bot itself; you should only worry about this if you're self-hosting.
+#
+# Incase you mess up bad, you can find the original config for reference here:
+# https://github.com/UwUAroze/Snuggles/blob/master/src/main/resources/config.json
+# Alternatively you can just delete this file and restart the bot, generating a new one for you.
+
+[authentication]
+token = "Discord bot token"
+mongo = "mongodb://localhost:27017"
+openai = "Your 0penAi api key" # Optional, only required for /gpt
+
+[developers]
+ids = ["000000000000000000"] # Developer user ID(s); these users can use /dev [subcommand]
+guilds = ["000000000000000000"] # Development guild ID(s), used for feature below
+lockCommandsToGuilds = false # Enabling this will only register "dev commands" in the guilds specified above

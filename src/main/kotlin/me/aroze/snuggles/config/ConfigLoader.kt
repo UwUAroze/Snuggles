@@ -10,9 +10,9 @@ object ConfigLoader {
     lateinit var config: BotConfig
 
     fun load() {
-        val config = this::class.java.classLoader.getResourceAsStream("config.json") ?: return
+        val config = this::class.java.classLoader.getResourceAsStream("config.toml") ?: return
         val cwd = Paths.get("").toAbsolutePath()
-        val configFile = cwd.resolve("./config.json").toFile()
+        val configFile = cwd.resolve("config.toml").toFile()
 
         if (!configFile.exists()) {
             configFile.createNewFile()

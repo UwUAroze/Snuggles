@@ -2,5 +2,5 @@
 /.gradle/
 /build/
 /build/classes/kotlin/main/
-/config.json
+/config.toml
 /.idea/
