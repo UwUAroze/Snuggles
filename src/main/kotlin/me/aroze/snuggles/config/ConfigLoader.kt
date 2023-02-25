@@ -1,13 +1,12 @@
 package me.aroze.snuggles.config
 
-import com.google.gson.Gson
+import com.moandjiezana.toml.Toml
 import org.apache.commons.io.FileUtils
-import java.nio.charset.StandardCharsets
 import java.nio.file.Paths
 
 object ConfigLoader {
 
-    lateinit var config: BotConfig
+    lateinit var config: Toml
 
     fun load() {
         val config = this::class.java.classLoader.getResourceAsStream("config.toml") ?: return
@@ -19,7 +18,7 @@ object ConfigLoader {
             FileUtils.copyInputStreamToFile(config, configFile)
         }
 
-        this.config = Gson().fromJson(FileUtils.readFileToString(configFile, StandardCharsets.UTF_8), BotConfig::class.java)
+        ConfigLoader.config = Toml().read(configFile)
     }
 
 }
