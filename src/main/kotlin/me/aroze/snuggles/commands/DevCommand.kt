@@ -16,7 +16,7 @@ abstract class DevCommand(name: String, val description: String) : BaseCommand(n
 
     override fun onExecute(event: SlashCommandEvent) {
 
-        if (!ConfigLoader.config.developers.contains(event.user.id)) {
+        if (!ConfigLoader.config.getList<String>("developers.ids") .contains(event.user.id)) {
             val eb = FancyEmbed()
                 .addField("Woah there, slow down", "This command is only for Snuggles devs, and you are no developer!", false)
 

@@ -2,7 +2,6 @@ package me.aroze.snuggles.database
 
 import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoDatabase
-import com.mongodb.client.model.FindOneAndReplaceOptions
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import me.aroze.snuggles.config.ConfigLoader
@@ -18,7 +17,7 @@ object Database {
     var botStats = BotStats()
 
     fun connect() = runBlocking {
-        client = KMongo.createClient(ConfigLoader.config.mongo)
+        client = KMongo.createClient(ConfigLoader.config.getString("authentication.mongo"))
         database = client.getDatabase("Snuggles")
 
         val statsCollection = database.getCollection<BotStats>()

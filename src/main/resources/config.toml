@@ -8,7 +8,6 @@
 [authentication]
 token = "Discord bot token"
 mongo = "mongodb://localhost:27017"
-openai = "Your 0penAi api key" # Optional, only required for /gpt
 
 [developers]
 ids = ["000000000000000000"] # Developer user ID(s); these users can use /dev [subcommand]
