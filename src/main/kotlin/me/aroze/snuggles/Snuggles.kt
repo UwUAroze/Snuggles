@@ -12,15 +12,10 @@ import me.aroze.snuggles.initialisation.Login.login
 import me.aroze.snuggles.models.BotStats
 import me.aroze.snuggles.utils.safeConstruct
 import net.dv8tion.jda.api.JDA
-import net.dv8tion.jda.api.entities.Guild
-import net.dv8tion.jda.api.events.ReadyEvent
-import net.dv8tion.jda.api.hooks.ListenerAdapter
-import net.dv8tion.jda.api.interactions.commands.OptionType
 import net.dv8tion.jda.api.interactions.commands.build.CommandData
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData
 import org.reflections.Reflections
-import java.util.Timer
-import kotlin.collections.ArrayList
+import java.util.*
 import kotlin.concurrent.schedule
 
 lateinit var instance: JDA
@@ -42,7 +37,7 @@ fun main() = runBlocking {
         .getSubTypesOf(BaseCommand::class.java)
         .mapNotNull { it.safeConstruct() }
 
-    registerCommands(
+    val cmds = registerCommands(
         *commands.filter {!it.devOnly}.toTypedArray(),
         *feelings.toTypedArray()
     )
@@ -59,25 +54,22 @@ fun main() = runBlocking {
         println("Database disconnected")
     })
 
-    instance.getGuildById(892579969329414155)?.let { devGuild ->
-        registerDevCommands(devGuild,
-            *commands.filter { it.devOnly }.toTypedArray()
-        )
-    }
+    registerDevCommands(cmds, *commands.filter { it.devOnly }.toTypedArray())
 
     Unit
 }
 
-private fun registerCommands(vararg commands: BaseCommand) {
+private fun registerCommands(vararg commands: BaseCommand): List<CommandData> {
     val queued: MutableList<CommandData> = ArrayList()
     for (command in commands) {
         instance.addEventListener(command)
         queued.add(command.build)
     }
     instance.updateCommands().addCommands(queued).queue()
+    return queued
 }
 
-private fun registerDevCommands(guild: Guild, vararg commands: BaseCommand) {
+private fun registerDevCommands(original: List<CommandData>, vararg commands: BaseCommand) {
     val queued: MutableList<CommandData> = ArrayList()
 
     for (command in commands) {
@@ -96,5 +88,10 @@ private fun registerDevCommands(guild: Guild, vararg commands: BaseCommand) {
         }
     }
 
-    guild.updateCommands().addCommands(queued).queue()
+    if (ConfigLoader.config.getBoolean("developers.lockCommandsToGuilds")) {
+        for (guild in ConfigLoader.config.getList<String>("developers.guilds")) {
+            for (command in queued) instance.getGuildById(guild)?.upsertCommand(command)?.queue()
+        }
+    } else for (command in queued) instance.upsertCommand(command).queue()
+
 }
