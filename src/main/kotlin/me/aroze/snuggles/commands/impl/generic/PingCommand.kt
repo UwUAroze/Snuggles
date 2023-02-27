@@ -3,22 +3,23 @@ package me.aroze.snuggles.commands.impl.generic
 import instance
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import me.aroze.snuggles.commands.BaseCommand
+import me.aroze.snuggles.commands.handler.Command
+import me.aroze.snuggles.commands.handler.CommandEvent
 import me.aroze.snuggles.database.database
 import me.aroze.snuggles.utils.BarStyle
 import me.aroze.snuggles.utils.FancyEmbed
 import me.aroze.snuggles.utils.bar
 import me.aroze.snuggles.utils.ping
 import net.dv8tion.jda.api.EmbedBuilder
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent
 import net.dv8tion.jda.api.interactions.InteractionHook
-import java.time.Instant
 
-class PingCommand : BaseCommand("ping", "Pongs") {
-
-    override fun onExecute(event: SlashCommandEvent) {
+@Command(
+    description = "Pongs"
+)
+class PingCommand {
+    fun main(event: CommandEvent) {
         val now = System.currentTimeMillis()
-        val timeSent = event.timeCreated.toInstant().toEpochMilli()
+        val timeSent = event.message.timeCreated.toInstant().toEpochMilli()
 //        val wsPing = instance.restPing.complete()
 
         val description = mutableListOf(
@@ -36,9 +37,9 @@ class PingCommand : BaseCommand("ping", "Pongs") {
             .setTitle("<:ping:1079067285945335869>  Pong!")
             .setDescription(description.joinToString("\n"))
 
-        event.replyEmbeds(eb.build())
+        event.message.replyEmbeds(eb.build())
             .bar(BarStyle.PINK)
-            .setEphemeral(silent)
+            .setEphemeral(event.silent)
             .queue { update(it, eb, description) }
     }
 

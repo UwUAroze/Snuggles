@@ -1,7 +1,7 @@
 package me.aroze.snuggles.commands.feelings
 
-enum class Feelings(val feeling: String, val description: String, var messages: List<String>, var self: List<String> = listOf(), var bot: List<String> = listOf()) {
-    HUG("hug", "Hugs a user", listOf(
+enum class Feelings(var messages: List<String>, var self: List<String> = listOf(), var bot: List<String> = listOf()) {
+    HUG(listOf(
         "{user} hugs {target}, awh.",
         "{user} gives {target} a big fat snuggly wuggly, these two are adorable.",
         "{user} tightly cuddles {target}. Look at these two, they're so cute together.",
@@ -49,7 +49,7 @@ enum class Feelings(val feeling: String, val description: String, var messages: 
         )
     ),
 
-    POKE("poke", "Pokes your victim", listOf(
+    POKE(listOf(
         "{user} playfully pokes {target} with a grin on their face.",
         "{user} pokes {target} and laughs, clearly enjoying the playful moment.",
         "With a mischievous glint in their eye, {user} pokes {target} and tries to stifle a giggle.",
@@ -98,7 +98,7 @@ enum class Feelings(val feeling: String, val description: String, var messages: 
         )
     ),
 
-    LICK("lick", "Use this to lick your prey ;)", listOf(
+    LICK(listOf(
         "{user} sneakily licks {target}'s nose, so adorable!",
         "{user} affectionately licks {target}'s face, what a sweetie!",
         "{user} curiously licks {target}'s ear, how silly!",
@@ -154,7 +154,7 @@ enum class Feelings(val feeling: String, val description: String, var messages: 
         )
     ),
 
-    SLAP("slap", "slaps your victim", listOf(
+    SLAP(listOf(
         "{user} grabs {target} and slaps them so hard, it echoes through the room.",
         "{user} grabs {target}'s face and viciously slaps them with all their might.",
         "{user} throws out their hand and slaps {target} hard enough to make their ears ring.",
@@ -253,7 +253,7 @@ enum class Feelings(val feeling: String, val description: String, var messages: 
         )
     ),
 
-    YELL("yell", "Yell at a meanie weanie", listOf(
+    YELL(listOf(
         "{user} screams at the top of their lungs towards {target}, their voice echoing through the room.",
         "{user} unleashes a furious bellow at {target}, their veins throbbing from anger.",
         "{user} shouts out a string of expletives at {target}, their voice filled with rage.",

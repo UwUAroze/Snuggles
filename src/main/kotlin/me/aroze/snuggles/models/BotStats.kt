@@ -1,7 +1,6 @@
 package me.aroze.snuggles.models
 
 import com.mongodb.client.model.FindOneAndReplaceOptions
-import me.aroze.snuggles.database.Database
 import me.aroze.snuggles.database.database
 import org.bson.codecs.pojo.annotations.BsonIgnore
 import org.litote.kmongo.getCollection

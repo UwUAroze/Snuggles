@@ -2,18 +2,15 @@
 
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import me.aroze.snuggles.commands.BaseCommand
-import me.aroze.snuggles.commands.DevCommand
-import me.aroze.snuggles.commands.feelings.RegisterFeelings.feelings
-import me.aroze.snuggles.commands.feelings.RegisterFeelings.registerFeelings
+import me.aroze.snuggles.commands.handler.Command
+import me.aroze.snuggles.commands.handler.CommandHandler
 import me.aroze.snuggles.config.ConfigLoader
 import me.aroze.snuggles.database.Database
 import me.aroze.snuggles.initialisation.Login.login
 import me.aroze.snuggles.models.BotStats
-import me.aroze.snuggles.utils.safeConstruct
 import net.dv8tion.jda.api.JDA
-import net.dv8tion.jda.api.interactions.commands.build.CommandData
-import net.dv8tion.jda.api.interactions.commands.build.SubcommandData
+import net.dv8tion.jda.api.events.interaction.SlashCommandEvent
+import net.dv8tion.jda.api.hooks.ListenerAdapter
 import org.reflections.Reflections
 import java.util.*
 import kotlin.concurrent.schedule
@@ -31,17 +28,6 @@ fun main() = runBlocking {
     instance.awaitReady()
     println(instance.selfUser.asTag)
 
-    registerFeelings()
-
-    val commands = Reflections("me.aroze.snuggles.commands.impl")
-        .getSubTypesOf(BaseCommand::class.java)
-        .mapNotNull { it.safeConstruct() }
-
-    val cmds = registerCommands(
-        *commands.filter {!it.devOnly}.toTypedArray(),
-        *feelings.toTypedArray()
-    )
-
     launch {
         Timer().schedule(300000) {
             Database.botStats.save()
@@ -54,44 +40,41 @@ fun main() = runBlocking {
         println("Database disconnected")
     })
 
-    registerDevCommands(cmds, *commands.filter { it.devOnly }.toTypedArray())
+    Reflections("me.aroze.snuggles.commands.impl")
+        .getTypesAnnotatedWith(Command::class.java)
+        .filterIsInstance<Class<*>>()
+        .map { CommandHandler.register(it) }
+
+    instance.addEventListener(object : ListenerAdapter() {
+        override fun onSlashCommand(event: SlashCommandEvent) {
+            CommandHandler.execute(event)
+        }
+    })
+
+    val lockCommandsToGuild = ConfigLoader.config.getBoolean("developers.lockCommandsToGuilds")
+    val guilds = ConfigLoader.config.getList<String>("developers.guilds")
+
+    val globalCommands = CommandHandler.commands.filter { !it.annotation.devOnly }
+    val developmentCommands = CommandHandler.commands.filter { it.annotation.devOnly }
+
+    if (lockCommandsToGuild) {
+        instance.updateCommands().addCommands(globalCommands.map { it.build }).queue()
+        for (id in guilds) {
+            val guild = instance.getGuildById(id) ?: continue
+            val commands = developmentCommands.map { it.build }
+            guild.updateCommands().addCommands(commands).queue()
+        }
+    } else {
+        instance.updateCommands().addCommands(CommandHandler.commands.map { it.build }).queue()
+        for (id in guilds) {
+            val guild = instance.getGuildById(id) ?: continue
+            guild.retrieveCommands().queue { commands ->
+                commands.forEach { command ->
+                    guild.deleteCommandById(command.id).queue()
+                }
+            }
+        }
+    }
 
     Unit
-}
-
-private fun registerCommands(vararg commands: BaseCommand): List<CommandData> {
-    val queued: MutableList<CommandData> = ArrayList()
-    for (command in commands) {
-        instance.addEventListener(command)
-        queued.add(command.build)
-    }
-    instance.updateCommands().addCommands(queued).queue()
-    return queued
-}
-
-private fun registerDevCommands(original: List<CommandData>, vararg commands: BaseCommand) {
-    val queued: MutableList<CommandData> = ArrayList()
-
-    for (command in commands) {
-        instance.addEventListener(command)
-        if (command !is DevCommand) queued.add(command.build)
-        else {
-
-            val commandName = command.info[0]
-            val existing = queued.find { it.name == commandName }
-            if (existing == null) queued.add(CommandData(commandName, "Development Command"))
-
-            queued.find { it.name == commandName }?.addSubcommands(SubcommandData(
-                command.info[1],
-                command.description
-            ).addOptions(*command.optionData.toTypedArray()))
-        }
-    }
-
-    if (ConfigLoader.config.getBoolean("developers.lockCommandsToGuilds")) {
-        for (guild in ConfigLoader.config.getList<String>("developers.guilds")) {
-            for (command in queued) instance.getGuildById(guild)?.upsertCommand(command)?.queue()
-        }
-    } else for (command in queued) instance.upsertCommand(command).queue()
-
 }
