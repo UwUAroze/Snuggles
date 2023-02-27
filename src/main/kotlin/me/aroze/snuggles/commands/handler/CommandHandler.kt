@@ -72,6 +72,8 @@ object CommandHandler {
 
         val data = execution.getAnnotation(Command::class.java) ?: command.clazz.getAnnotation(Command::class.java) ?: return
         eventBundle.silent = command.annotation.defaultSilent
+        eventBundle.silent = event.getOption("silent")?.asBoolean ?: eventBundle.silent
+
         if (data.devOnly && !isDev) {
             val eb = FancyEmbed()
                 .addField("Woah there, slow down", "This command is only for Snuggles devs, and you are no developer!", false)
@@ -99,6 +101,13 @@ object CommandHandler {
         for (parameter in parameters) {
             options.add(parameter.toOption(command, verb))
         }
+
+        options.add(OptionData(
+            OptionType.BOOLEAN,
+            "silent",
+            "Whether or not to send the message publicly",
+            false
+        ))
 
         return options
     }
