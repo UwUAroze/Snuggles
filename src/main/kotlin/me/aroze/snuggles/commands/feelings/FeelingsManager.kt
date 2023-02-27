@@ -2,7 +2,6 @@ package me.aroze.snuggles.commands.feelings
 
 import instance
 import me.aroze.snuggles.commands.handler.CommandEvent
-import org.litote.kmongo.index
 import java.util.function.Function
 
 object FeelingsManager {
