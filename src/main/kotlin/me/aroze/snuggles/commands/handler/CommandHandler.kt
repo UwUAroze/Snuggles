@@ -70,11 +70,10 @@ object CommandHandler {
             Command.getSubCommands(command.clazz).find { it.name == event.subcommandName } ?: return
         } else Command.getMainCommand(command.clazz) ?: return
 
-        val data = execution.getAnnotation(Command::class.java) ?: command.clazz.getAnnotation(Command::class.java) ?: return
         eventBundle.silent = command.annotation.defaultSilent
         eventBundle.silent = event.getOption("silent")?.asBoolean ?: eventBundle.silent
 
-        if (data.devOnly && !isDev) {
+        if (command.annotation.devOnly && !isDev) {
             val eb = FancyEmbed()
                 .addField("Woah there, slow down", "This command is only for Snuggles devs, and you are no developer!", false)
 
