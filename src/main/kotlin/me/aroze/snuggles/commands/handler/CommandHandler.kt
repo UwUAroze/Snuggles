@@ -1,6 +1,7 @@
 package me.aroze.snuggles.commands.handler
 
 import me.aroze.snuggles.config.ConfigLoader
+import me.aroze.snuggles.database.Database
 import me.aroze.snuggles.utils.*
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.entities.GuildChannel
@@ -85,6 +86,8 @@ object CommandHandler {
 
         val parameters = execution.parameters.drop(1).map { it.kotlinParameter(execution) }.toList()
         val args = fetchArguments(event, parameters).toTypedArray()
+
+        Database.botStats.totalExecutions++
 
         execution.invoke(command.instance, eventBundle, *args)
     }
