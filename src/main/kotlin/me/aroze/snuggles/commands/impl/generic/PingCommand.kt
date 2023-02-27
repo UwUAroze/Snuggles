@@ -20,7 +20,6 @@ class PingCommand {
     fun main(event: CommandEvent) {
         val now = System.currentTimeMillis()
         val timeSent = event.message.timeCreated.toInstant().toEpochMilli()
-//        val wsPing = instance.restPing.complete()
 
         val description = mutableListOf(
             ":satellite: **Discord Latency**",
