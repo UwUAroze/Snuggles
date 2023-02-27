@@ -10,6 +10,6 @@ import me.aroze.snuggles.commands.handler.CommandEvent
 )
 class UwUifyCommand {
     fun main(event: CommandEvent, message: String) {
-        event.message.reply(uwuify(message.replace("@", "`@`"))).setEphemeral(event.silent).queue()
+        event.message.reply(uwuify(message)).setEphemeral(event.silent).queue()
     }
 }
