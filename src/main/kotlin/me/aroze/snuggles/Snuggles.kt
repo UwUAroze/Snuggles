@@ -10,7 +10,7 @@ import me.aroze.snuggles.initialisation.Login.login
 import me.aroze.snuggles.listeners.CountingListener
 import me.aroze.snuggles.models.BotStats
 import net.dv8tion.jda.api.JDA
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import org.reflections.Reflections
 import java.util.*
@@ -50,7 +50,7 @@ fun main() = runBlocking {
         .map { CommandHandler.register(it) }
 
     instance.addEventListener(object : ListenerAdapter() {
-        override fun onSlashCommand(event: SlashCommandEvent) {
+        override fun onSlashCommandInteraction(event: SlashCommandInteractionEvent) {
             CommandHandler.execute(event)
         }
     })

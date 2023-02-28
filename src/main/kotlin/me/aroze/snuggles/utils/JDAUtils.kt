@@ -4,7 +4,8 @@ import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.Guild
 import net.dv8tion.jda.api.entities.Member
 import net.dv8tion.jda.api.entities.User
-import net.dv8tion.jda.api.requests.restaction.interactions.ReplyAction
+import net.dv8tion.jda.api.requests.restaction.interactions.ReplyCallbackAction
+import net.dv8tion.jda.api.utils.FileUpload
 
 fun User.toMember(guild: Guild, callback: (Member?) -> Unit) {
     guild.retrieveMember(this).queue({
@@ -14,9 +15,8 @@ fun User.toMember(guild: Guild, callback: (Member?) -> Unit) {
     })
 }
 
-fun ReplyAction.bar(type: BarStyle): ReplyAction {
-    this.addFile(getResourceStream(type.img)!!, "bar.png")
-    return this
+fun ReplyCallbackAction.bar(type: BarStyle): ReplyCallbackAction {
+    return this.addFiles(FileUpload.fromData(getResourceStream(type.img)!!, "bar.png"))
 }
 
 class FancyEmbed: EmbedBuilder() {

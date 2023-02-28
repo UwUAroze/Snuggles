@@ -4,13 +4,14 @@ import me.aroze.snuggles.config.ConfigLoader
 import me.aroze.snuggles.database.Database
 import me.aroze.snuggles.utils.*
 import net.dv8tion.jda.api.JDA
-import net.dv8tion.jda.api.entities.GuildChannel
 import net.dv8tion.jda.api.entities.Member
 import net.dv8tion.jda.api.entities.User
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent
+import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import net.dv8tion.jda.api.interactions.commands.OptionType
 import net.dv8tion.jda.api.interactions.commands.build.CommandData
+import net.dv8tion.jda.api.interactions.commands.build.Commands
 import net.dv8tion.jda.api.interactions.commands.build.OptionData
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData
 import java.lang.reflect.Method
@@ -28,7 +29,7 @@ object CommandHandler {
             val bundle = CommandBundle(
                 annotation,
                 command,
-                CommandData(annotation.getName(command.simpleName), annotation.description),
+                Commands.slash(annotation.getName(command.simpleName), annotation.description),
                 command.safeConstruct() ?: continue
             )
 
@@ -55,13 +56,13 @@ object CommandHandler {
     fun load(bot: JDA) {
         bot.updateCommands().addCommands(commands.map { it.build }).queue()
         bot.addEventListener(object : ListenerAdapter() {
-            override fun onSlashCommand(event: SlashCommandEvent) {
+            override fun onSlashCommandInteraction(event: SlashCommandInteractionEvent) {
                 execute(event)
             }
         })
     }
 
-    fun execute(event: SlashCommandEvent) {
+    fun execute(event: SlashCommandInteractionEvent) {
         val command = commands.find { it.build.name == event.name } ?: return
         val isDev = ConfigLoader.config.getList<String>("developers.ids").contains(event.user.id)
         val eventBundle = CommandEvent(event)
@@ -128,7 +129,7 @@ object CommandHandler {
     }
 
     @OptIn(ExperimentalStdlibApi::class)
-    private fun fetchArguments(event: SlashCommandEvent, types: List<KParameter>): List<Any> {
+    private fun fetchArguments(event: SlashCommandInteractionEvent, types: List<KParameter>): List<Any> {
         val args = mutableListOf<Any>()
 
         for (option in event.options) {
@@ -142,7 +143,7 @@ object CommandHandler {
                 Double::class.java -> option.asDouble
                 User::class.java -> option.asUser
                 Member::class.java -> option.asMember!!
-                GuildChannel::class.java -> option.asGuildChannel
+                GuildChannel::class.java -> option.asChannel
                 else -> option.asString
             })
         }
