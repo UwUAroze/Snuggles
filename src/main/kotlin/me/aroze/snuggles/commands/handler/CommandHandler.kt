@@ -10,7 +10,6 @@ import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import net.dv8tion.jda.api.interactions.commands.OptionType
-import net.dv8tion.jda.api.interactions.commands.build.CommandData
 import net.dv8tion.jda.api.interactions.commands.build.Commands
 import net.dv8tion.jda.api.interactions.commands.build.OptionData
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData
@@ -89,6 +88,20 @@ object CommandHandler {
         val parameters = execution.parameters.drop(1).map { it.kotlinParameter(execution) }.toList()
         val args = fetchArguments(event, parameters).toTypedArray()
 
+        for ((i, parameter) in execution.parameters.withIndex()) {
+            val autocomplete = parameter.getAnnotation(Autocomplete::class.java) ?: continue
+            if (autocomplete.force && !autocomplete.options.contains(args[i - 1])) {
+                val eb = FancyEmbed()
+                    .addField("You aren't blind, nor are you loved.", "There were options and I know you saw them. Use them, you bitch.", false)
+
+                event.replyEmbeds(eb.build())
+                    .bar(BarStyle.ERROR)
+                    .setEphemeral(true)
+                    .queue()
+                return
+            }
+        }
+
         Database.botStats.totalExecutions++
 
         execution.invoke(command.instance, eventBundle, *args)
@@ -99,7 +112,7 @@ object CommandHandler {
 
         val parameters = command.parameters.drop(1)
         for (parameter in parameters) {
-            options.add(parameter.toOption(command, verb))
+            options.add(parameter.toOption(command, verb).setAutoComplete(parameter.isAnnotationPresent(Autocomplete::class.java)))
         }
 
         options.add(OptionData(

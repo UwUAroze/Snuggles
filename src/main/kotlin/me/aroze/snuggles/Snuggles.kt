@@ -7,6 +7,7 @@ import me.aroze.snuggles.commands.handler.CommandHandler
 import me.aroze.snuggles.config.ConfigLoader
 import me.aroze.snuggles.database.Database
 import me.aroze.snuggles.initialisation.Login.login
+import me.aroze.snuggles.listeners.AutocompleteListener
 import me.aroze.snuggles.listeners.CountingListener
 import me.aroze.snuggles.models.BotStats
 import net.dv8tion.jda.api.JDA
@@ -28,7 +29,7 @@ fun main() = runBlocking {
     login()
     instance.awaitReady()
 
-    instance.addEventListener(CountingListener)
+    instance.addEventListener(CountingListener, AutocompleteListener)
 
     println(instance.selfUser.asTag)
 
