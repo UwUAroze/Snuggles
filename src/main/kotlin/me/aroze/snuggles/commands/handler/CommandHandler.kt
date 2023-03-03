@@ -142,11 +142,15 @@ object CommandHandler {
     }
 
     @OptIn(ExperimentalStdlibApi::class)
-    private fun fetchArguments(event: SlashCommandInteractionEvent, types: List<KParameter>): List<Any> {
-        val args = mutableListOf<Any>()
+    private fun fetchArguments(event: SlashCommandInteractionEvent, types: List<KParameter>): List<Any?> {
+        val args = mutableListOf<Any?>()
 
-        for (option in event.options) {
-            val parameter = types.find { it.name == option.name } ?: continue
+        for (parameter in types) {
+            val option = event.getOption(parameter.name!!)
+            if (option == null) {
+                args.add(null)
+                continue
+            }
 
             args.add(when (parameter.type.javaType) {
                 String::class.java -> option.asString
@@ -183,7 +187,7 @@ object CommandHandler {
             },
             kParameter.name!!,
             description,
-            !kParameter.isOptional
+            !kParameter.type.isMarkedNullable
         )
     }
 

@@ -8,6 +8,7 @@ import org.litote.kmongo.getCollection
 
 data class CountData(
     val id: String,
+    val guild: String,
     var count: Int = 0
 ) {
 
@@ -21,6 +22,13 @@ data class CountData(
         )
     }
 
+    @BsonIgnore
+    fun delete() {
+        val collection = database.getCollection<CountData>()
+        collection.deleteOne(::id eq this.id)
+        instances.remove(this)
+    }
+
     companion object {
         private val instances: MutableList<CountData> = mutableListOf()
 
@@ -31,8 +39,8 @@ data class CountData(
             }
         }
 
-        fun create(channel: String): CountData {
-            val data = CountData(channel)
+        fun create(channel: String, guild: String): CountData {
+            val data = CountData(channel, guild)
             instances.add(data)
             data.save()
             return data
