@@ -10,7 +10,9 @@ import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel
 
 @Command(
     "counting",
-    "Settings for counting"
+    "Settings for counting",
+    devOnly = true,
+    defaultSilent = true,
 )
 class CountingCommand {
 
