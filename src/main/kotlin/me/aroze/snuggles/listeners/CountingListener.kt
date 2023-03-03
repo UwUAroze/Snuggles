@@ -23,11 +23,19 @@ object CountingListener: ListenerAdapter() {
             if (number.toInt() != count.count + 1) {
                 event.message.addReaction(Emoji.fromFormatted("<a:bonk:1081320319500955718>")).queue()
                 event.message.channel.sendMessage("You're so fucking stupid, ${event.author.asMention}. Go back to school.").queue()
-                count.count = 0
+                count.resetCurrentCount()
+                return@launch
+            }
+
+            if (!count.allowConsecutiveUsers && count.lastCounter == event.author.id) {
+                event.message.addReaction(Emoji.fromFormatted("<a:bonk:1081320319500955718>")).queue()
+                event.message.channel.sendMessage("You ruined it ${event.author.asMention}! You aren't allowed to type two numbers in a row.").queue()
+                count.resetCurrentCount()
                 return@launch
             }
 
             count.count++
+            count.lastCounter = event.author.id
             event.message.addReaction(Emoji.fromFormatted("<:yes:953661030268022795>")).queue()
 
         }
