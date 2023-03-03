@@ -35,12 +35,11 @@ fun main() = runBlocking {
 
     launch {
         Timer().schedule(300000) {
-            Database.botStats.save()
+            Database.save()
         }
     }
 
     Runtime.getRuntime().addShutdownHook(Thread {
-        Database.botStats.save()
         Database.disconnect()
         println("Database disconnected")
     })

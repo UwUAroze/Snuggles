@@ -28,5 +28,10 @@ annotation class Command(
             val main = getMainCommand(clazz)
             return getApplicableMethods(clazz).filter { it != main }
         }
+
+        fun getSubCommandGroups(clazz: Class<*>): List<Class<*>> {
+            return clazz.declaredClasses.filter { it.kotlin.visibility == KVisibility.PUBLIC }
+        }
+
     }
 }

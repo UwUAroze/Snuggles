@@ -13,6 +13,7 @@ import net.dv8tion.jda.api.interactions.commands.OptionType
 import net.dv8tion.jda.api.interactions.commands.build.Commands
 import net.dv8tion.jda.api.interactions.commands.build.OptionData
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData
+import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData
 import java.lang.reflect.Method
 import java.lang.reflect.Parameter
 import kotlin.reflect.KParameter
@@ -49,6 +50,29 @@ object CommandHandler {
                 bundle.subBuilds.add(subBuild)
                 bundle.build.addSubcommands(subBuild)
             }
+
+            Command.getSubCommandGroups(command).forEach { subGroup ->
+                val subGroupData = subGroup.getAnnotation(Command::class.java)
+                val name = subGroupData?.getName(subGroup.simpleName) ?: subGroup.simpleName
+                val desc = subGroupData?.description ?: "No description provided"
+
+                val subGroupBuild = SubcommandGroupData(name.lowercase(), desc)
+                bundle.groupBuilds[subGroupBuild] = mutableListOf()
+                bundle.build.addSubcommandGroups(subGroupBuild)
+
+                Command.getSubCommands(subGroup).forEach { sub ->
+                    val subData = sub.getAnnotation(Command::class.java)
+                    val subName = subData?.getName(sub.name) ?: sub.name
+                    val subDesc = subData?.description ?: "No description provided"
+
+                    val options = buildOptions(sub, subName)
+                    val subBuild = SubcommandData(subName, subDesc).addOptions(options)
+
+                    bundle.groupBuilds[subGroupBuild]?.add(subBuild)
+                    subGroupBuild.addSubcommands(subBuild)
+                }
+            }
+
         }
     }
 
@@ -65,9 +89,15 @@ object CommandHandler {
         val command = commands.find { it.build.name == event.name } ?: return
         val isDev = ConfigLoader.config.getList<String>("developers.ids").contains(event.user.id)
         val eventBundle = CommandEvent(event)
+        var instance = command.instance
 
-        val execution: Method = if (event.subcommandName != null) {
-            Command.getSubCommands(command.clazz).find { it.name == event.subcommandName } ?: return
+        val execution: Method = if (event.subcommandGroup != null) {
+            Command.getSubCommandGroups(command.clazz).find { it.simpleName.lowercase() == event.subcommandGroup!!.lowercase() }?.let { group ->
+                instance = group.safeConstruct() ?: return
+                Command.getSubCommands(group).find { it.name.lowercase() == event.subcommandName!!.lowercase() } ?: return
+            } ?: return
+        } else if (event.subcommandName != null) {
+            Command.getSubCommands(command.clazz).find { it.name.lowercase() == event.subcommandName!!.lowercase() } ?: return
         } else Command.getMainCommand(command.clazz) ?: return
 
         eventBundle.silent = command.annotation.defaultSilent
@@ -104,7 +134,7 @@ object CommandHandler {
 
         Database.botStats.totalExecutions++
 
-        execution.invoke(command.instance, eventBundle, *args)
+        execution.invoke(instance, eventBundle, *args)
     }
 
     private fun buildOptions(command: Method, verb: String): List<OptionData> {

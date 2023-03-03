@@ -6,6 +6,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import me.aroze.snuggles.config.ConfigLoader
 import me.aroze.snuggles.models.BotStats
+import me.aroze.snuggles.models.CountData
 import org.litote.kmongo.KMongo
 import org.litote.kmongo.getCollection
 
@@ -27,7 +28,13 @@ object Database {
         }
     }
 
+    fun save() {
+        botStats.save()
+        for (countData in CountData.instances) countData.save()
+    }
+
     fun disconnect() {
+        save()
         client.close()
     }
 
