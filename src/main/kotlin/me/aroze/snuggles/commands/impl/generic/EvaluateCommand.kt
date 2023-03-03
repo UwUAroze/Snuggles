@@ -25,7 +25,9 @@ class EvaluateCommand {
             return
         }
 
-        event.message.reply("$expression = $number").queue()
+        event.message.reply("$expression = $number")
+            .setEphemeral(event.silent)
+            .queue()
     }
 
 }
