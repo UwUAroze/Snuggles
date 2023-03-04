@@ -1,12 +1,11 @@
 package me.aroze.snuggles.commands.impl.settings
 
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import me.aroze.snuggles.commands.handler.Command
 import me.aroze.snuggles.commands.handler.CommandEvent
-import me.aroze.snuggles.models.CountData
-import net.dv8tion.jda.api.entities.channel.concrete.TextChannel
-import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel
+import me.aroze.snuggles.utils.FancyEmbed
+import net.dv8tion.jda.api.entities.channel.ChannelType
+import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu
+import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu
 
 @Command(
     "counting",
@@ -16,42 +15,40 @@ import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel
 )
 class CountingCommand {
 
-    class Channel {
+    @Command(
+        description = "Settings for the counting module.",
+        silentToggle = false
+    )
+    fun settings(event: CommandEvent) {
 
-        @Command(description = "Set the channel for counting")
-        fun add(event: CommandEvent, channel: GuildChannel?) = runBlocking {
-            val channy = channel ?: event.message.channel
+        val channelSelection = EntitySelectMenu.create("counting-channels", EntitySelectMenu.SelectTarget.CHANNEL)
+            .setChannelTypes(ChannelType.TEXT)
+            .setPlaceholder("Select a channel for counting to take place in.")
+            .setRequiredRange(0, 1)
+            .build()
 
-            if (channy !is TextChannel) {
-                event.message.reply("You must provide a text channel").queue()
-                return@runBlocking
-            }
+        val settingsSelection = StringSelectMenu.create("counting-settings")
+            .setPlaceholder("Toggle settings for the counting module.")
+            .setRequiredRange(0, 25)
+            .addOption("Consecutive counting", "consecutive-counting", "Allows for the same user to count multiple times in a row.")
+            .addOption("Allow speaking", "allow-speaking", "Allows for users to speak in the counting channel.")
+            .build()
 
-            launch {
-                CountData.create(channy.id, channy.guild.id)
-                event.message.reply("Counting channel set to ${channy.asMention}").queue()
-            }
+        val eb = FancyEmbed()
+            .setTitle("Counting Settings <:flushed_cool:1081364373295087686>")
+            .setDescription(
+                "The menu's below should be really self explanatory.\n" +
+                "BUT. If your stupid ass needs help, don't worry. I got you \n\n" +
+                "The thingy that says `select a channel`, is to select a channel\n" +
+                "And the other thingy that says `toggle settings`, is to toggle settings.\n\n" +
+                "You're fucking welcome."
+            )
 
-        }
-
-        fun remove(event: CommandEvent, channel: GuildChannel?) = runBlocking {
-            val channy = channel ?: event.message.channel
-
-            if (channy !is TextChannel) {
-                event.message.reply("You must provide a text channel").queue()
-                return@runBlocking
-            }
-
-            launch {
-                CountData.get(channy.id)?.delete() ?: let {
-                    event.message.reply("${channy.asMention} has not been added as a counting channel").queue()
-                    return@launch
-                }
-
-                event.message.reply("Counting channel removed from ${channy.asMention}").queue()
-            }
-
-        }
+        event.message.replyEmbeds(eb.build())
+            .addActionRow(channelSelection)
+            .addActionRow(settingsSelection)
+            .setEphemeral(true)
+            .queue()
     }
 
 }
