@@ -1,8 +1,9 @@
 package me.aroze.snuggles.models
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.mongodb.client.model.FindOneAndReplaceOptions
 import me.aroze.snuggles.database.database
-import org.bson.codecs.pojo.annotations.BsonIgnore
+import net.dv8tion.jda.api.interactions.components.selections.SelectOption
 import org.bson.codecs.pojo.annotations.BsonProperty
 import org.litote.kmongo.eq
 import org.litote.kmongo.getCollection
