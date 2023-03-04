@@ -11,7 +11,8 @@ annotation class Command(
     val description: String = "No description provided",
     val devOnly: Boolean = false,
     val defaultSilent: Boolean = false,
-    val global: Boolean = false
+    val global: Boolean = false,
+    val silentToggle: Boolean = true,
 ) {
     companion object {
         fun getApplicableMethods(clazz: Class<*>): List<Method> {

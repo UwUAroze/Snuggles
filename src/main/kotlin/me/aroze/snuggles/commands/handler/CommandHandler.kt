@@ -35,7 +35,7 @@ object CommandHandler {
 
             this.commands.add(bundle)
             Command.getMainCommand(command)?.let {
-                val options = buildOptions(it, bundle.build.name)
+                val options = buildOptions(it, bundle.build.name, annotation.silentToggle)
                 bundle.build.addOptions(options)
             }
 
@@ -44,7 +44,7 @@ object CommandHandler {
                 val name = subData?.getName(sub.name) ?: sub.name
                 val desc = subData?.description ?: "No description provided"
 
-                val options = buildOptions(sub, name)
+                val options = buildOptions(sub, name, subData?.silentToggle ?: true)
                 val subBuild = SubcommandData(name, desc).addOptions(options)
 
                 bundle.subBuilds.add(subBuild)
@@ -65,7 +65,7 @@ object CommandHandler {
                     val subName = subData?.getName(sub.name) ?: sub.name
                     val subDesc = subData?.description ?: "No description provided"
 
-                    val options = buildOptions(sub, subName)
+                    val options = buildOptions(sub, subName, subData?.silentToggle ?: true)
                     val subBuild = SubcommandData(subName, subDesc).addOptions(options)
 
                     bundle.groupBuilds[subGroupBuild]?.add(subBuild)
@@ -149,7 +149,7 @@ object CommandHandler {
         execution.invoke(instance, eventBundle, *args)
     }
 
-    private fun buildOptions(command: Method, verb: String): List<OptionData> {
+    private fun buildOptions(command: Method, verb: String, silent: Boolean = true): List<OptionData> {
         val options = mutableListOf<OptionData>()
 
         val parameters = command.parameters.drop(1)
@@ -157,7 +157,7 @@ object CommandHandler {
             options.add(parameter.toOption(command, verb).setAutoComplete(parameter.isAnnotationPresent(Autocomplete::class.java)))
         }
 
-        options.add(OptionData(
+        if (silent) options.add(OptionData(
             OptionType.BOOLEAN,
             "silent",
             "Whether or not to send the message publicly",
