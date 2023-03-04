@@ -10,14 +10,14 @@ import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu
 @Command(
     "counting",
     "Settings for counting",
-    devOnly = true,
-    defaultSilent = true,
-)
+    silentToggle = false
+    )
 class CountingCommand {
 
     @Command(
         description = "Settings for the counting module.",
-        silentToggle = false
+        permissions = [Permission.MANAGE_CHANNEL],
+        silentToggle = false,
     )
     fun settings(event: CommandEvent) {
 

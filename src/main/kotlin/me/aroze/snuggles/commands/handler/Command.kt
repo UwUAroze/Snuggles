@@ -1,5 +1,6 @@
 package me.aroze.snuggles.commands.handler
 
+import net.dv8tion.jda.api.Permission
 import java.lang.reflect.Method
 import kotlin.reflect.KVisibility
 import kotlin.reflect.jvm.kotlinFunction
@@ -13,6 +14,7 @@ annotation class Command(
     val defaultSilent: Boolean = false,
     val global: Boolean = false,
     val silentToggle: Boolean = true,
+    val permissions: Array<Permission> = [],
 ) {
     companion object {
         fun getApplicableMethods(clazz: Class<*>): List<Method> {

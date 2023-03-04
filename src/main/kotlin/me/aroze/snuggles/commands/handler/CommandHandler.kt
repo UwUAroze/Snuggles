@@ -1,5 +1,6 @@
 package me.aroze.snuggles.commands.handler
 
+import me.aroze.arozeutils.kotlin.extension.prettify
 import me.aroze.snuggles.config.ConfigLoader
 import me.aroze.snuggles.database.Database
 import me.aroze.snuggles.utils.*
@@ -14,6 +15,7 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands
 import net.dv8tion.jda.api.interactions.commands.build.OptionData
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData
+import net.dv8tion.jda.api.utils.FileUpload
 import java.lang.reflect.Method
 import java.lang.reflect.Parameter
 import kotlin.reflect.KParameter
@@ -125,6 +127,33 @@ object CommandHandler {
                 .queue()
 
             return
+        }
+
+        val permissions = execution.getAnnotation(Command::class.java)?.permissions ?: command.annotation.permissions
+        if (permissions.isNotEmpty()) {
+            val hasPermission = permissions.any { event.member!!.hasPermission(it) }
+            val amount = permissions.size
+            if (!hasPermission) {
+
+                val eb = FancyEmbed()
+                    .setAuthor("Insufficient Rights", null, "attachment://forbidden.png")
+
+                if (amount == 1) {
+                    eb.setDescription("You do not have the **${permissions[0].toString().prettify()}** permission!")
+                } else {
+                    var description = "You must have one of the following permissions:\n\n"
+                    description += permissions.joinToString("\n") { " > ${it.name.prettify()}" }
+                    eb.setDescription(description)
+                }
+
+                event.replyEmbeds(eb.build())
+                    .addFiles(FileUpload.fromData(getResourceStream("img/forbidden.png")!!, "forbidden.png"))
+                    .bar(BarStyle.ERROR)
+                    .setEphemeral(true)
+                    .queue()
+
+                return
+            }
         }
 
         val parameters = execution.parameters.drop(1).map { it.kotlinParameter(execution) }.toList()
