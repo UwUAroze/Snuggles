@@ -1,8 +1,11 @@
 package me.aroze.snuggles.listeners
 
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import me.aroze.snuggles.models.CountData
 import me.aroze.snuggles.utils.FancyEmbed
 import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent
+import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 
 
@@ -22,6 +25,16 @@ object SelectionListener : ListenerAdapter() {
                     .setEphemeral(true)
                     .queue()
 
+            }
+        }
+        Unit
+    }
+
+    override fun onStringSelectInteraction(event: StringSelectInteractionEvent) = runBlocking {
+        launch {
+            if (event.componentId == "counting-settings") {
+                val settings = event.values
+                event.message.reply(if (settings.isEmpty()) "None" else settings.joinToString(", ")).queue()
             }
         }
         Unit
