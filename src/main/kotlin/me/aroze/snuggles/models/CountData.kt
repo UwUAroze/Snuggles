@@ -22,7 +22,7 @@ data class CountData(
 
 ) {
 
-    @BsonIgnore
+    @JsonIgnore
     fun save() {
         val collection = database.getCollection<CountData>()
         collection.findOneAndReplace(
@@ -32,14 +32,14 @@ data class CountData(
         )
     }
 
-    @BsonIgnore
+    @JsonIgnore
     fun delete() {
         val collection = database.getCollection<CountData>()
         collection.deleteOne(::id eq this.id)
         instances.remove(this)
     }
 
-    @BsonIgnore()
+    @JsonIgnore
     fun resetCurrentCount() {
         count = 0
         lastCounter = ""
