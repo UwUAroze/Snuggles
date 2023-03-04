@@ -91,6 +91,18 @@ object CommandHandler {
         val eventBundle = CommandEvent(event)
         var instance = command.instance
 
+        if (!command.annotation.global && event.guild == null) {
+            val eb = FancyEmbed()
+                .addField("Awwwwhh.", "This command is only supported in guilds ;c. If you really want support for it in dms, well you're weird, but maybe shout at a dev!\n~~Then again, we probably won't care.~~ Love you <3", false)
+
+            event.replyEmbeds(eb.build())
+                .bar(BarStyle.ERROR)
+                .setEphemeral(true)
+                .queue()
+
+            return
+        }
+
         val execution: Method = if (event.subcommandGroup != null) {
             Command.getSubCommandGroups(command.clazz).find { it.simpleName.lowercase() == event.subcommandGroup!!.lowercase() }?.let { group ->
                 instance = group.safeConstruct() ?: return

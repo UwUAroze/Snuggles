@@ -10,7 +10,8 @@ annotation class Command(
     val name: String = "_reflection",
     val description: String = "No description provided",
     val devOnly: Boolean = false,
-    val defaultSilent: Boolean = false
+    val defaultSilent: Boolean = false,
+    val global: Boolean = false
 ) {
     companion object {
         fun getApplicableMethods(clazz: Class<*>): List<Method> {
