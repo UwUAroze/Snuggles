@@ -8,7 +8,7 @@ import org.litote.kmongo.eq
 import org.litote.kmongo.getCollection
 
 data class CountData(
-    val id: String,
+    var id: String,
     val guild: String,
 
     var lastCounter: String = "",
@@ -16,6 +16,9 @@ data class CountData(
 
     @BsonProperty("consecutive_users")
     var allowConsecutiveUsers: Boolean = false,
+
+    @BsonProperty("allow_talking")
+    var allowTalking: Boolean = true
 
 ) {
 
@@ -45,17 +48,25 @@ data class CountData(
     companion object {
         val instances: MutableList<CountData> = mutableListOf()
 
-        fun get(channel: String): CountData? {
+        fun getByChannel(channel: String): CountData? {
             return instances.firstOrNull { it.id == channel } ?: let {
                 val collection = database.getCollection<CountData>()
                 collection.find(CountData::id eq channel).firstOrNull()?.also { instances.add(it) }
             }
         }
 
+        fun getByGuild(guild: String): CountData? {
+            return instances.firstOrNull { it.guild == guild } ?: let {
+                val collection = database.getCollection<CountData>()
+                collection.find(CountData::guild eq guild).firstOrNull()?.also { instances.add(it) }
+            }
+        }
+
         fun create(channel: String, guild: String): CountData {
-            val data = CountData(channel, guild)
+            val data = getByGuild(guild) ?: CountData(channel, guild)
+            data.id = channel
+            instances.removeIf { it.guild == guild }
             instances.add(data)
-            data.save()
             return data
         }
     }

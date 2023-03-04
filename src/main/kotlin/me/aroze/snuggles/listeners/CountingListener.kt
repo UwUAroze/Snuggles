@@ -18,7 +18,7 @@ object CountingListener: ListenerAdapter() {
         catch (e: Exception) { return@runBlocking }
 
         launch {
-            val count = CountData.get(event.channel.id) ?: return@launch
+            val count = CountData.getByChannel(event.channel.id) ?: return@launch
 
             if (number.toInt() != count.count + 1) {
                 event.message.addReaction(Emoji.fromFormatted("<a:bonk:1081320319500955718>")).queue()
