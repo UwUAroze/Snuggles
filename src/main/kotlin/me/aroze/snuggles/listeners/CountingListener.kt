@@ -3,6 +3,7 @@ package me.aroze.snuggles.listeners
 import com.github.keelar.exprk.Expressions
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import me.aroze.snuggles.database.Database
 import me.aroze.snuggles.models.CountData
 import net.dv8tion.jda.api.entities.emoji.Emoji
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
@@ -34,6 +35,7 @@ object CountingListener: ListenerAdapter() {
                 return@launch
             }
 
+            Database.botStats.totalCounts++
             count.count++
             count.lastCounter = event.author.id
             event.message.addReaction(Emoji.fromFormatted("<:yes:953661030268022795>")).queue()

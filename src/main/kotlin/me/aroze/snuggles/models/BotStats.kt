@@ -7,7 +7,8 @@ import org.litote.kmongo.getCollection
 import org.litote.kmongo.gt
 
 data class BotStats(
-    var totalExecutions: Int = 0
+    var totalExecutions: Int = 0,
+    var totalCounts: Int = 0
 ) {
 
     @BsonIgnore
