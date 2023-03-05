@@ -87,6 +87,11 @@ object CommandHandler {
         })
     }
 
+    fun isCommand(method: Method, name: String): Boolean {
+        return (method.isAnnotationPresent(Command::class.java) && method.getAnnotation(Command::class.java).name == name)
+            || method.name.lowercase() == name.lowercase()
+    }
+
     fun execute(event: SlashCommandInteractionEvent) {
         val command = commands.find { it.build.name == event.name } ?: return
         val isDev = ConfigLoader.config.getList<String>("developers.ids").contains(event.user.id)
@@ -108,10 +113,10 @@ object CommandHandler {
         val execution: Method = if (event.subcommandGroup != null) {
             Command.getSubCommandGroups(command.clazz).find { it.simpleName.lowercase() == event.subcommandGroup!!.lowercase() }?.let { group ->
                 instance = group.safeConstruct() ?: return
-                Command.getSubCommands(group).find { it.name.lowercase() == event.subcommandName!!.lowercase() } ?: return
+                Command.getSubCommands(group).find { isCommand(it, event.subcommandName!!) } ?: return
             } ?: return
         } else if (event.subcommandName != null) {
-            Command.getSubCommands(command.clazz).find { it.name.lowercase() == event.subcommandName!!.lowercase() } ?: return
+            Command.getSubCommands(command.clazz).find { isCommand(it, event.subcommandName!!) } ?: return
         } else Command.getMainCommand(command.clazz) ?: return
 
         eventBundle.silent = command.annotation.defaultSilent
