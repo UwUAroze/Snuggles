@@ -49,7 +49,7 @@ data class CountData(
     @JsonIgnore
     fun getSelectedOptions() : List<SelectOption> {
         val options = mutableListOf<SelectOption>()
-        if (allowConsecutiveUsers) options.add(SelectOption.of("Consecutive counting", "consecutive-speaking"))
+        if (allowConsecutiveUsers) options.add(SelectOption.of("Consecutive counting", "consecutive-counting"))
         if (allowTalking) options.add(SelectOption.of("Allow speaking", "allow-speaking"))
         return options
     }
