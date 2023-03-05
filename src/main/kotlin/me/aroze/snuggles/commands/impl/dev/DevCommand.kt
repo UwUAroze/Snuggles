@@ -5,6 +5,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import me.aroze.snuggles.commands.handler.Command
 import me.aroze.snuggles.commands.handler.CommandEvent
+import me.aroze.snuggles.database.Database
 import me.aroze.snuggles.utils.BarStyle
 import me.aroze.snuggles.utils.FancyEmbed
 import me.aroze.snuggles.utils.bar
@@ -39,13 +40,25 @@ class DevCommand {
                         "\nGuild was created: <t:${guild.timeCreated.toEpochSecond()}:R> and Snuggles joined: <t:${guild.selfMember.timeJoined.toEpochSecond()}:R>",
                     false
                 )
-
             }
 
             event.message.replyEmbeds(eb.build())
                 .bar(BarStyle.PINK)
                 .setEphemeral(event.silent)
                 .queue()
+        }
+    }
+
+    @Command(
+        name = "force-save",
+        description = "Forces a save of all cached data to the database."
+    )
+    fun forceSave(event: CommandEvent) = runBlocking {
+        launch {
+            event.message.deferReply().setEphemeral(event.silent).queue{
+                Database.save()
+                it.editOriginal("Saved all cached data to the database!").queue()
+            }
         }
     }
 }
