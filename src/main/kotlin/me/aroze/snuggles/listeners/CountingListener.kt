@@ -15,11 +15,14 @@ object CountingListener: ListenerAdapter() {
         if (!event.isFromGuild) return@runBlocking
         if (event.isWebhookMessage || event.message.author.isBot) return@runBlocking
 
-        val number = try { Expressions().eval(event.message.contentDisplay) }
-        catch (e: Exception) { return@runBlocking }
-
         launch {
             val count = CountData.getByChannel(event.channel.id) ?: return@launch
+
+            val number = try { Expressions().eval(event.message.contentDisplay) }
+            catch (e: Exception) {
+                if (!count.allowTalking) event.message.delete().queue()
+                return@launch
+            }
 
             if (number.toInt() != count.count + 1) {
                 event.message.addReaction(Emoji.fromFormatted("<a:bonk:1081320319500955718>")).queue()
