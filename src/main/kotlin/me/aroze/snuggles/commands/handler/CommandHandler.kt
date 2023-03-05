@@ -180,6 +180,7 @@ object CommandHandler {
 
         Database.botStats.totalExecutions++
 
+        println("${event.user.asTag} (${event.user.id}) executed slash command: ${event.commandString}")
         execution.invoke(instance, eventBundle, *args)
     }
 
