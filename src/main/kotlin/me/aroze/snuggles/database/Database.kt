@@ -29,8 +29,10 @@ object Database {
     }
 
     fun save() {
+        println("Starting database save...")
         botStats.save()
         for (countData in CountData.instances) countData.save()
+        println("Database save complete")
     }
 
     fun disconnect() {
