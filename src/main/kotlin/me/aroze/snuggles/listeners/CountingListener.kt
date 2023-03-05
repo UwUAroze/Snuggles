@@ -38,7 +38,15 @@ object CountingListener: ListenerAdapter() {
             Database.botStats.totalCounts++
             count.count++
             count.lastCounter = event.author.id
-            event.message.addReaction(Emoji.fromFormatted("<:yes:953661030268022795>")).queue()
+            val highScore = count.count > count.highScore
+
+            if (highScore) {
+                event.message.addReaction(Emoji.fromFormatted("<:tick_viola:1082002568005296279>")).queue()
+                count.highScore = count.count
+                return@launch
+            }
+
+            event.message.addReaction(Emoji.fromFormatted("<:tick_pink:1081999667287568384>")).queue()
 
         }
     }

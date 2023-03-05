@@ -14,6 +14,7 @@ data class CountData(
 
     var lastCounter: String = "",
     var count: Int = 0,
+    var highScore: Int = 0,
 
     var disabled: Boolean = false,
 
