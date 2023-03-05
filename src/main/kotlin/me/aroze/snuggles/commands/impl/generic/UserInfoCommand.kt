@@ -2,7 +2,9 @@ package me.aroze.snuggles.commands.impl.generic
 
 import me.aroze.snuggles.commands.handler.Command
 import me.aroze.snuggles.commands.handler.CommandEvent
+import me.aroze.snuggles.utils.BarStyle
 import me.aroze.snuggles.utils.FancyEmbed
+import me.aroze.snuggles.utils.bar
 import me.aroze.snuggles.utils.toMember
 import net.dv8tion.jda.api.entities.User
 
@@ -25,6 +27,7 @@ class UserInfoCommand {
             }
 
             event.message.replyEmbeds(eb.build())
+                .bar(BarStyle.PINK)
                 .setEphemeral(event.silent)
                 .queue()
         }
