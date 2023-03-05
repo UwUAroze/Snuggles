@@ -2,11 +2,12 @@ package me.aroze.snuggles.listeners
 
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import me.aroze.snuggles.commands.impl.settings.CountingCommand
 import me.aroze.snuggles.models.CountData
-import me.aroze.snuggles.utils.FancyEmbed
 import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
+import net.dv8tion.jda.api.interactions.components.ActionRow
 
 
 object SelectionListener : ListenerAdapter() {
@@ -14,17 +15,13 @@ object SelectionListener : ListenerAdapter() {
     override fun onEntitySelectInteraction(event: EntitySelectInteractionEvent) = runBlocking {
         launch {
             if (event.componentId == "counting-channels") {
-                val channel = event.mentions.channels.first()
-                CountData.create(channel.id, event.guild!!.id)
-                println("Counting channel set to ${channel.name}")
+                val options = event.mentions.channels
+                val count = if (options.isEmpty()) null else CountData.create(options.first().id, event.guild!!.id)
 
-                val eb = FancyEmbed()
-                    .setDescription("This server's counting channel has been set to ${channel.asMention}")
-
-                event.replyEmbeds(eb.build())
-                    .setEphemeral(true)
+                val replyData = CountingCommand.getCountingUI(count)
+                event.interaction.editMessageEmbeds(replyData.embed.build())
+                    .setComponents(ActionRow.of(replyData.channelSelection), ActionRow.of(replyData.settingsSelection))
                     .queue()
-
             }
         }
         Unit
@@ -32,9 +29,17 @@ object SelectionListener : ListenerAdapter() {
 
     override fun onStringSelectInteraction(event: StringSelectInteractionEvent) = runBlocking {
         launch {
+            val count = CountData.getByGuild(event.guild!!.id)!!
+
             if (event.componentId == "counting-settings") {
                 val settings = event.values
-                event.message.reply(if (settings.isEmpty()) "None" else settings.joinToString(", ")).queue()
+                count.allowConsecutiveUsers = settings.contains("consecutive-counting")
+                count.allowTalking = settings.contains("allow-speaking")
+
+                val replyData = CountingCommand.getCountingUI(count)
+                event.interaction.editMessageEmbeds(replyData.embed.build())
+                    .setComponents(ActionRow.of(replyData.channelSelection), ActionRow.of(replyData.settingsSelection))
+                    .queue()
             }
         }
         Unit
