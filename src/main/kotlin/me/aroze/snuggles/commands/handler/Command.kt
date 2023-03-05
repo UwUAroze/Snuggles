@@ -21,7 +21,7 @@ annotation class Command(
             return clazz.declaredMethods.filter {
                 it.isAnnotationPresent(Command::class.java)
                     || it.kotlinFunction?.visibility == KVisibility.PUBLIC
-            }
+            }.filter { !it.isAnnotationPresent(Ignore::class.java) }
         }
 
         fun getMainCommand(clazz: Class<*>): Method? {
@@ -34,7 +34,7 @@ annotation class Command(
         }
 
         fun getSubCommandGroups(clazz: Class<*>): List<Class<*>> {
-            return clazz.declaredClasses.filter { it.kotlin.visibility == KVisibility.PUBLIC }
+            return clazz.declaredClasses.filter { it.kotlin.visibility == KVisibility.PUBLIC && !it.isAnnotationPresent(Ignore::class.java) }
         }
 
     }
