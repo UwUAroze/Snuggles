@@ -55,7 +55,7 @@ class CountingCommand {
                 .addOption("Consecutive counting", "consecutive-counting", "Allows for the same user to count multiple times in a row.")
                 .addOption("Allow speaking", "allow-speaking", "Allows for users to speak in the counting channel.")
 
-            if (count != null) {
+            if (count != null && !count.disabled) {
                 val channel = instance.getGuildChannelById(count.id)
                 settingsSelection
                     .setDefaultOptions(count.getSelectedOptions())

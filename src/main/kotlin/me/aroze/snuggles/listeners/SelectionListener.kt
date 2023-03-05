@@ -16,7 +16,11 @@ object SelectionListener : ListenerAdapter() {
         launch {
             if (event.componentId == "counting-channels") {
                 val options = event.mentions.channels
-                val count = if (options.isEmpty()) null else CountData.create(options.first().id, event.guild!!.id)
+                val count = if (options.isEmpty()) {
+                    val data = CountData.getByGuild(event.guild!!.id)
+                    data?.disabled = true
+                    null
+                } else CountData.create(options.first().id, event.guild!!.id)
 
                 val replyData = CountingCommand.getCountingUI(count)
                 event.interaction.editMessageEmbeds(replyData.embed.build())

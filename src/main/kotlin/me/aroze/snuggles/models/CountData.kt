@@ -15,6 +15,8 @@ data class CountData(
     var lastCounter: String = "",
     var count: Int = 0,
 
+    var disabled: Boolean = false,
+
     @BsonProperty("consecutive_users")
     var allowConsecutiveUsers: Boolean = false,
 
@@ -74,6 +76,7 @@ data class CountData(
         fun create(channel: String, guild: String): CountData {
             val data = getByGuild(guild) ?: CountData(channel, guild)
             data.id = channel
+            data.disabled = false
             instances.removeIf { it.guild == guild }
             instances.add(data)
             return data
