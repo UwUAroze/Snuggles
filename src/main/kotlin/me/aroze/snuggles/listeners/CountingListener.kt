@@ -43,9 +43,15 @@ object CountingListener: ListenerAdapter() {
             count.lastCounter = event.author.id
             val highScore = count.count > count.highScore
 
+            if (highScore) count.highScore = count.count
+
+            if (count.count.toString().contains("69")) {
+                event.message.addReaction(Emoji.fromFormatted("<:Hehe:953368285771104297>")).queue()
+                return@launch
+            }
+
             if (highScore) {
                 event.message.addReaction(Emoji.fromFormatted("<:tick_viola:1082002568005296279>")).queue()
-                count.highScore = count.count
                 return@launch
             }
 
