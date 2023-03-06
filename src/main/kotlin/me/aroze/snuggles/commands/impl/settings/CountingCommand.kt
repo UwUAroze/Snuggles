@@ -18,7 +18,7 @@ import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu
     "counting",
     "Settings for counting",
     silentToggle = false
-    )
+)
 class CountingCommand {
 
     @Command(
