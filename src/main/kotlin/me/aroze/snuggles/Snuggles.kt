@@ -21,6 +21,7 @@ import kotlin.concurrent.schedule
 lateinit var instance: JDA
 
 var stats: BotStats = BotStats()
+val startTime: Long = System.currentTimeMillis()
 
 fun main() = runBlocking {
 
