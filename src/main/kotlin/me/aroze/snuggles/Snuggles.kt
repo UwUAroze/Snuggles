@@ -9,6 +9,7 @@ import me.aroze.snuggles.database.Database
 import me.aroze.snuggles.initialisation.Login.login
 import me.aroze.snuggles.listeners.AutocompleteListener
 import me.aroze.snuggles.listeners.CountingListener
+import me.aroze.snuggles.listeners.LoggingListener
 import me.aroze.snuggles.listeners.SelectionListener
 import me.aroze.snuggles.models.BotStats
 import net.dv8tion.jda.api.JDA
@@ -31,12 +32,13 @@ fun main() = runBlocking {
     login()
     instance.awaitReady()
 
-    instance.addEventListener(CountingListener, AutocompleteListener, SelectionListener)
+    instance.addEventListener(CountingListener, AutocompleteListener, SelectionListener, LoggingListener)
 
     println(instance.selfUser.asTag)
 
     launch {
         Timer().schedule(300000, 300000) {
+            Database.invalidateOld()
             Database.save()
         }
     }
