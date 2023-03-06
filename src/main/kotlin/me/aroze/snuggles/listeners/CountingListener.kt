@@ -45,17 +45,12 @@ object CountingListener: ListenerAdapter() {
 
             if (highScore) count.highScore = count.count
 
-            if (count.count.toString().contains("69")) {
-                event.message.addReaction(Emoji.fromFormatted("<:Hehe:953368285771104297>")).queue()
-                return@launch
-            }
+            var reaction = Emoji.fromFormatted("<:tick_pink:1081999667287568384>")
+            if (highScore) reaction = Emoji.fromFormatted("<:tick_viola:1082002568005296279>")
+            if (count.count == 100) reaction = Emoji.fromFormatted(":100:")
+            if (count.count.toString().contains("69")) reaction = Emoji.fromFormatted("<:Hehe:953368285771104297>")
 
-            if (highScore) {
-                event.message.addReaction(Emoji.fromFormatted("<:tick_viola:1082002568005296279>")).queue()
-                return@launch
-            }
-
-            event.message.addReaction(Emoji.fromFormatted("<:tick_pink:1081999667287568384>")).queue()
+            event.message.addReaction(reaction).queue()
 
         }
     }
