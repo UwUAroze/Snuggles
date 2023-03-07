@@ -45,9 +45,9 @@ object CountingListener: ListenerAdapter() {
 
             if (highScore) count.highScore = count.count
 
-            var reaction = Emoji.fromFormatted("<:tick_pink:1081999667287568384>")
+            var reaction: Emoji = Emoji.fromFormatted("<:tick_pink:1081999667287568384>")
             if (highScore) reaction = Emoji.fromFormatted("<:tick_viola:1082002568005296279>")
-            if (count.count == 100) reaction = Emoji.fromFormatted(":100:")
+            if (count.count == 100) reaction = Emoji.fromUnicode("\uD83D\uDCAF")
             if (count.count.toString().contains("69")) reaction = Emoji.fromFormatted("<:Hehe:953368285771104297>")
 
             event.message.addReaction(reaction).queue()

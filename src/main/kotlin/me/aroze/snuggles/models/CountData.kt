@@ -3,7 +3,6 @@ package me.aroze.snuggles.models
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.mongodb.client.model.FindOneAndReplaceOptions
 import me.aroze.snuggles.database.database
-import net.dv8tion.jda.api.interactions.components.selections.SelectOption
 import org.bson.codecs.pojo.annotations.BsonProperty
 import org.litote.kmongo.eq
 import org.litote.kmongo.getCollection
@@ -50,10 +49,10 @@ data class CountData(
     }
 
     @JsonIgnore
-    fun getSelectedOptions() : List<SelectOption> {
-        val options = mutableListOf<SelectOption>()
-        if (allowConsecutiveUsers) options.add(SelectOption.of("Consecutive counting", "consecutive-counting"))
-        if (allowTalking) options.add(SelectOption.of("Allow speaking", "allow-speaking"))
+    fun getSelectedOptions() : List<String> {
+        val options = mutableListOf<String>()
+        if (allowConsecutiveUsers) options.add("Consecutive counting")
+        if (allowTalking) options.add("Allow speaking")
         return options
     }
 

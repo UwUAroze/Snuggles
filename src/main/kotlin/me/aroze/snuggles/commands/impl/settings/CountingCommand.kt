@@ -5,14 +5,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import me.aroze.snuggles.commands.handler.Command
 import me.aroze.snuggles.commands.handler.CommandEvent
-import me.aroze.snuggles.commands.handler.Ignore
+import me.aroze.snuggles.menu.ChannelMenu
+import me.aroze.snuggles.menu.MenuOption
 import me.aroze.snuggles.models.CountData
-import me.aroze.snuggles.utils.FancyEmbed
-import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.Permission
-import net.dv8tion.jda.api.entities.channel.ChannelType
-import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu
-import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel
 
 @Command(
     "counting",
