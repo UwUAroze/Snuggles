@@ -38,6 +38,7 @@ class ChannelMenu(
 
     fun addOption(option: MenuOption): ChannelMenu {
         options.add(option)
+        if (option.default) selectedOptions.add(option.id)
         return this
     }
 
@@ -71,8 +72,6 @@ class ChannelMenu(
             .setRequiredRange(0, 25)
             .setDisabled(textChannel == null)
 
-        if (textChannel != null) builder.placeholder = "Toggle settings for the ${topic.lowercase()} module."
-
         for (option in options) {
             builder.addOption(
                 option.name,
@@ -81,9 +80,11 @@ class ChannelMenu(
             )
         }
 
-        builder.setDefaultOptions(
-            options.filter { selectedOptions.contains(it.id) }.map { it.toSelectOption() }
-        )
+        if (textChannel != null) {
+            builder.placeholder = "Toggle settings for the ${topic.lowercase()} module."
+            builder.setDefaultOptions(options.filter { selectedOptions.contains(it.id) }.map { it.toSelectOption() })
+        }
+
 
         return builder.build()
     }
@@ -108,7 +109,7 @@ class ChannelMenu(
     override fun onEntitySelectInteraction(event: EntitySelectInteractionEvent) = runBlocking {
         launch {
             if (event.componentId == channelId) {
-                textChannel = event.mentions.channels.firstOrNull() as? TextChannel
+                textChannel = event.mentions.channels.firstOrNull() as TextChannel?
                 event.interaction.editMessageEmbeds(makeEmbed())
                     .setComponents(
                         ActionRow.of(makeChannelSelection()),

@@ -30,21 +30,16 @@ class CountingCommand {
 
             ChannelMenu("Counting") {
 
-                println(it.channel?.id)
-                println(it.channel?.name)
-                println(it.channel?.guild?.id)
-                println(it.settings)
+                count?.allowConsecutiveUsers = it.settings.contains("consecutive_counting")
+                count?.allowTalking = it.settings.contains("allow_speaking")
 
                 if (it.channel == null) {
                     count?.disabled = true
                 } else CountData.create(it.channel.id, event.message.guild!!.id)
 
-                count?.allowConsecutiveUsers = it.settings.contains("consecutive_counting")
-                count?.allowTalking = it.settings.contains("allow_speaking")
-
             }
                 .addOption(MenuOption("Consecutive counting", "Allow users to count consecutively."))
-                .addOption(MenuOption("Allow speaking", "Allow users to speak in the counting channel."))
+                .addOption(MenuOption("Allow speaking", "Allow users to speak in the counting channel.", true))
                 .setChannel(channel)
                 .setSelectedOptions(count?.getSelectedOptions())
                 .send(event.message)

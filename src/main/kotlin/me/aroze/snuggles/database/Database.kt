@@ -7,6 +7,7 @@ import kotlinx.coroutines.runBlocking
 import me.aroze.snuggles.config.ConfigLoader
 import me.aroze.snuggles.models.BotStats
 import me.aroze.snuggles.models.CountData
+import me.aroze.snuggles.models.LogData
 import me.aroze.snuggles.models.LoggedMessage
 import org.litote.kmongo.KMongo
 import org.litote.kmongo.getCollection
@@ -34,6 +35,7 @@ object Database {
         println("Starting database save...")
         botStats.save()
         for (countData in CountData.instances) countData.save()
+        for (logData in LogData.instances) logData.save()
         println("Database save complete")
     }
 
