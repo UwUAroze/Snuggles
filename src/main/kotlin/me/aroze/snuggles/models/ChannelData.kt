@@ -10,8 +10,8 @@ import org.litote.kmongo.getCollection
 data class ChannelData(
     val channel: String,
     val guild: String,
-    val counting: CountData? = null,
-    val logging: LogData? = null,
+    var counting: CountData? = null,
+    var logging: LogData? = null,
 ) {
 
     @JsonIgnore
@@ -31,19 +31,33 @@ data class ChannelData(
         ChannelData.instances.remove(this)
     }
 
+    @JsonIgnore
+    fun createCounting(): CountData {
+        if (counting != null) counting!!.disabled = false
+        else counting = CountData()
+        return counting!!
+    }
+
+    @JsonIgnore
+    fun createLogging(): LogData {
+        if (logging != null) logging!!.disabled = false
+        else logging = LogData()
+        return logging!!
+    }
+
     companion object {
         val instances: MutableList<ChannelData> = mutableListOf()
 
-        fun get(id: String, guild: String): ChannelData? {
-            return instances.firstOrNull { it.channel == id && it.guild == guild } ?: let {
+        fun get(id: String): ChannelData? {
+            return instances.firstOrNull { it.channel == id } ?: let {
                 val collection = database.getCollection<ChannelData>()
-                collection.findOne(ChannelData::channel eq id, UserData::guild eq guild)?.also { instances.add(it) }
+                collection.findOne(ChannelData::channel eq id)?.also { instances.add(it) }
             }
         }
 
         fun create(id: String, guild: String): ChannelData {
-            val data = get(id, guild) ?: ChannelData(id, guild)
-            instances.removeIf { it.channel == id && it.guild == guild }
+            val data = get(id) ?: ChannelData(id, guild)
+            instances.removeIf { it.channel == id }
             instances.add(data)
             return data
         }

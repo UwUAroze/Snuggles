@@ -3,9 +3,6 @@ package me.aroze.snuggles.models
 import com.fasterxml.jackson.annotation.JsonIgnore
 
 data class CountData(
-    var id: String,
-    val guild: String,
-
     var lastCounter: String = "",
     var count: Int = 0,
     var highScore: Int = 0,
@@ -15,8 +12,7 @@ data class CountData(
     var allowConsecutiveUsers: Boolean = false,
     var allowTalking: Boolean = true,
     var kinderMessages: Boolean = false,
-
-    ) {
+) {
 
     @JsonIgnore
     fun resetCurrentCount() {

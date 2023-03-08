@@ -17,7 +17,7 @@ object CountingListener: ListenerAdapter() {
         if (event.isWebhookMessage || event.message.author.isBot) return@runBlocking
 
         launch {
-            val count = ChannelData.get(event.channel.id, event.guild.id)?.counting ?: return@launch
+            val count = ChannelData.get(event.channel.id)?.counting ?: return@launch
 
             val number = try { Expressions().eval(event.message.contentDisplay) }
             catch (e: Exception) {

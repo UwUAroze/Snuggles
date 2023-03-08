@@ -48,7 +48,8 @@ object LoggingListener: ListenerAdapter() {
 
         launch {
 
-            val logData = ChannelData.get(event.messageId ,event.guild.id)?.logging ?: return@launch
+            val channelData = ChannelData.get(event.channel.id)
+            val logData = channelData?.logging ?: return@launch
             if (logData.disabled || !logData.logMessageChanges) return@launch
 
             val collection = database.getCollection<LoggedMessage>()
@@ -57,7 +58,7 @@ object LoggingListener: ListenerAdapter() {
             if (previousMessage.content == event.message.contentRaw) return@launch
             previousMessage.edit(event.message.contentRaw)
 
-            val loggingChannel = event.guild.getTextChannelById(logData.id) ?: return@launch
+            val loggingChannel = event.guild.getTextChannelById(channelData.channel) ?: return@launch
 
             val eb = FancyEmbed()
                 .setAuthor(
@@ -90,7 +91,8 @@ object LoggingListener: ListenerAdapter() {
         if (!event.isFromGuild) return@runBlocking
 
         launch {
-            val logData = ChannelData.get(event.messageId, event.guild.id)?.logging ?: return@launch
+            val channelData = ChannelData.get(event.channel.id)
+            val logData = channelData?.logging ?: return@launch
             if (logData.disabled || !logData.logMessageChanges) return@launch
 
             val collection = database.getCollection<LoggedMessage>()
@@ -101,7 +103,7 @@ object LoggingListener: ListenerAdapter() {
 
             message.delete()
 
-            val loggingChannel = event.guild.getTextChannelById(logData.id) ?: return@launch
+            val loggingChannel = event.guild.getTextChannelById(channelData.channel) ?: return@launch
 
             val eb = FancyEmbed()
                 .setAuthor(
