@@ -32,6 +32,7 @@ class CountingCommand {
 
                 count?.allowConsecutiveUsers = it.settings.contains("consecutive_counting")
                 count?.allowTalking = it.settings.contains("allow_speaking")
+                count?.kinderMessages = it.settings.contains("kinder_messages")
 
                 if (it.channel == null) {
                     count?.disabled = true
@@ -40,6 +41,7 @@ class CountingCommand {
             }
                 .addOption(MenuOption("Consecutive counting", "Allow users to count consecutively."))
                 .addOption(MenuOption("Allow speaking", "Allow users to speak in the counting channel.", true))
+                .addOption(MenuOption("Kinder messages", "Force Snuggles to remain respectful to users who mess up.", false))
                 .setChannel(channel)
                 .setSelectedOptions(count?.getSelectedOptions())
                 .send(event.message)

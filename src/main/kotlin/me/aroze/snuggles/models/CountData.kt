@@ -17,10 +17,10 @@ data class CountData(
     var disabled: Boolean = false,
 
     var allowConsecutiveUsers: Boolean = false,
+    var allowTalking: Boolean = true,
+    var kinderMessages: Boolean = false,
 
-    var allowTalking: Boolean = true
-
-) {
+    ) {
 
     @JsonIgnore
     fun save() {
