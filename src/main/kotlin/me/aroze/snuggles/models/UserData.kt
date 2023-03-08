@@ -42,6 +42,19 @@ data class UserData(
             return data
         }
 
+        fun getTotalCounts(id: String) : Number {
+            val collection = database.getCollection<UserData>()
+
+            return collection.aggregate<Result>(
+                match(UserData::id eq id),
+                unwind("\$totalCounts"),
+                group(
+                    UserData::id,
+                    UserData::totalCounts sum UserData::totalCounts
+                )
+            ).firstOrNull()?.totalCounts ?: 0
+        }
+
     }
 
 }
