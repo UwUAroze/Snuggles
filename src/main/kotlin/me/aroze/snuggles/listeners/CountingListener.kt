@@ -5,6 +5,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import me.aroze.snuggles.database.Database
 import me.aroze.snuggles.models.CountData
+import me.aroze.snuggles.models.UserData
 import net.dv8tion.jda.api.entities.emoji.Emoji
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
@@ -46,7 +47,10 @@ object CountingListener: ListenerAdapter() {
                 return@launch
             }
 
+            val userData = UserData.get(event.author.id, event.guild.id) ?: UserData.create(event.author.id, event.guild.id)
+
             Database.botStats.totalCounts++
+            userData.totalCounts++
             count.count++
             count.lastCounter = event.author.id
             val highScore = count.count > count.highScore
