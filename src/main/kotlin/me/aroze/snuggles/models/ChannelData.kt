@@ -2,8 +2,6 @@ package me.aroze.snuggles.models
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.mongodb.client.model.FindOneAndReplaceOptions
-import me.aroze.snuggles.config.ConfigLoader
-import me.aroze.snuggles.database.Database
 import me.aroze.snuggles.database.database
 import org.litote.kmongo.eq
 import org.litote.kmongo.findOne
@@ -48,30 +46,6 @@ data class ChannelData(
             instances.removeIf { it.channel == id && it.guild == guild }
             instances.add(data)
             return data
-        }
-
-        @JvmStatic
-        fun main(args: Array<String>) {
-            ConfigLoader.load()
-            Database.connect()
-            val logs = database.getCollection<LogData>().find().toList()
-            val counts = database.getCollection<CountData>().find().toList()
-
-            val channels = mutableListOf<ChannelData>()
-            val ids = logs.map { it.id } + counts.map { it.id }
-
-            for (id in ids.distinct()) {
-                val guild = logs.firstOrNull { it.id == id }?.guild ?: counts.firstOrNull { it.id == id }?.guild ?: let {
-                    println("No guild found for $id")
-                    return
-                }
-                channels.add(ChannelData(id, guild, counts.firstOrNull { it.id == id }, logs.firstOrNull { it.id == id }))
-            }
-
-            for (channel in channels) {
-                channel.save()
-            }
-
         }
 
     }
