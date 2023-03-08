@@ -29,7 +29,8 @@ object CountingListener: ListenerAdapter() {
             if (number.toInt() != count.count + 1) {
                 event.message.addReaction(Emoji.fromFormatted("<a:bonk:1081320319500955718>")).queue()
                 event.message.channel.sendMessage(
-                    if (beNice) "${event.author.asMention} ruined it at **${count.count}**, I authorize you all to yell at them, but be nice!"
+                    if (event.author.id = 1058554860821282977) "Everyone look, this pedo ${event.author.asMention} FUCKED IT UP at **${count.count}**. I would say go back to school, BUT YOU CANT GO WITHIN 100 FEET OF ONE."
+                    else if (beNice) "${event.author.asMention} ruined it at **${count.count}**, I authorize you all to yell at them, but be nice!"
                     else "Everyone look, this moron ${event.author.asMention} FUCKED IT UP at **${count.count}**. Go back to school you dumbass."
                 ).queue()
                 count.resetCurrentCount()
