@@ -25,7 +25,7 @@ class CountingCommand {
     )
     fun settings(event: CommandEvent) = runBlocking {
         launch {
-            val count = CountData.getByGuild(event.message.guild!!.id)
+            var count = CountData.getByGuild(event.message.guild!!.id)
             val channel = count?.id?.let { instance.getGuildChannelById(it) } as? TextChannel
 
             ChannelMenu("Counting") {
@@ -36,7 +36,7 @@ class CountingCommand {
 
                 if (it.channel == null) {
                     count?.disabled = true
-                } else CountData.create(it.channel.id, event.message.guild!!.id)
+                } else count = CountData.create(it.channel.id, event.message.guild!!.id)
 
             }
                 .addOption(MenuOption("Consecutive counting", "Allow users to count consecutively."))
