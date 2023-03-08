@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.entities.Guild
 import net.dv8tion.jda.api.entities.Member
 import net.dv8tion.jda.api.entities.User
+import net.dv8tion.jda.api.requests.restaction.MessageCreateAction
 import net.dv8tion.jda.api.requests.restaction.interactions.ReplyCallbackAction
 import net.dv8tion.jda.api.utils.FileUpload
 
@@ -17,6 +18,10 @@ fun User.toMember(guild: Guild, callback: (Member?) -> Unit) {
 }
 
 fun ReplyCallbackAction.bar(type: BarStyle): ReplyCallbackAction {
+    return this.addFiles(FileUpload.fromData(getResourceStream(type.img)!!, "bar.png"))
+}
+
+fun MessageCreateAction.bar(type: BarStyle): MessageCreateAction {
     return this.addFiles(FileUpload.fromData(getResourceStream(type.img)!!, "bar.png"))
 }
 
