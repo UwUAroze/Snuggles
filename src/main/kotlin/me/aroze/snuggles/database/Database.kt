@@ -5,7 +5,9 @@ import com.mongodb.client.MongoDatabase
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import me.aroze.snuggles.config.ConfigLoader
-import me.aroze.snuggles.models.*
+import me.aroze.snuggles.models.BotStats
+import me.aroze.snuggles.models.ChannelData
+import me.aroze.snuggles.models.LoggedMessage
 import org.litote.kmongo.KMongo
 import org.litote.kmongo.getCollection
 
@@ -31,9 +33,7 @@ object Database {
     fun save() {
         println("Starting database save...")
         botStats.save()
-        for (countData in CountData.instances) countData.save()
-        for (logData in LogData.instances) logData.save()
-        for (userData in UserData.instances) userData.save()
+        for (channelData in ChannelData.instances) channelData.save()
         println("Database save complete")
     }
 

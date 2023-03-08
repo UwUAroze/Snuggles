@@ -3,7 +3,7 @@ package me.aroze.snuggles.listeners
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import me.aroze.snuggles.database.database
-import me.aroze.snuggles.models.LogData
+import me.aroze.snuggles.models.ChannelData
 import me.aroze.snuggles.models.LoggedMessage
 import me.aroze.snuggles.utils.BarStyle
 import me.aroze.snuggles.utils.FancyEmbed
@@ -48,7 +48,7 @@ object LoggingListener: ListenerAdapter() {
 
         launch {
 
-            val logData = LogData.getByGuild(event.guild.id) ?: return@launch
+            val logData = ChannelData.get(event.messageId ,event.guild.id)?.logging ?: return@launch
             if (logData.disabled || !logData.logMessageChanges) return@launch
 
             val collection = database.getCollection<LoggedMessage>()
@@ -90,7 +90,7 @@ object LoggingListener: ListenerAdapter() {
         if (!event.isFromGuild) return@runBlocking
 
         launch {
-            val logData = LogData.getByGuild(event.guild.id) ?: return@launch
+            val logData = ChannelData.get(event.messageId, event.guild.id)?.logging ?: return@launch
             if (logData.disabled || !logData.logMessageChanges) return@launch
 
             val collection = database.getCollection<LoggedMessage>()

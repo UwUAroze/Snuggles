@@ -4,7 +4,7 @@ import com.github.keelar.exprk.Expressions
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import me.aroze.snuggles.database.Database
-import me.aroze.snuggles.models.CountData
+import me.aroze.snuggles.models.ChannelData
 import me.aroze.snuggles.models.UserData
 import net.dv8tion.jda.api.entities.emoji.Emoji
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
@@ -17,7 +17,7 @@ object CountingListener: ListenerAdapter() {
         if (event.isWebhookMessage || event.message.author.isBot) return@runBlocking
 
         launch {
-            val count = CountData.getByChannel(event.channel.id) ?: return@launch
+            val count = ChannelData.get(event.channel.id, event.guild.id)?.counting ?: return@launch
 
             val number = try { Expressions().eval(event.message.contentDisplay) }
             catch (e: Exception) {
