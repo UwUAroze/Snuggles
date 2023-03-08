@@ -24,16 +24,24 @@ object CountingListener: ListenerAdapter() {
                 return@launch
             }
 
+            val beNice = count.kinderMessages
+
             if (number.toInt() != count.count + 1) {
                 event.message.addReaction(Emoji.fromFormatted("<a:bonk:1081320319500955718>")).queue()
-                event.message.channel.sendMessage("You're so fucking stupid, ${event.author.asMention}. Go back to school.").queue()
+                event.message.channel.sendMessage(
+                    if (beNice) "${event.author.asMention} ruined it at **${count.count}**, I authorize you all to yell at them, but be nice!"
+                    else "Everyone look, this moron ${event.author.asMention} FUCKED IT UP at **${count.count}**. Go back to school you dumbass."
+                ).queue()
                 count.resetCurrentCount()
                 return@launch
             }
 
             if (!count.allowConsecutiveUsers && count.lastCounter == event.author.id) {
                 event.message.addReaction(Emoji.fromFormatted("<a:bonk:1081320319500955718>")).queue()
-                event.message.channel.sendMessage("You ruined it ${event.author.asMention}! You aren't allowed to type two numbers in a row.").queue()
+                event.message.channel.sendMessage(
+                    if (beNice) "You ruined it ${event.author.asMention}! You aren't allowed to type two numbers in a row."
+                    else "Jesus Christ ${event.author.asMention}, you're such a failure, you can't type two numbers in a row."
+                ).queue()
                 count.resetCurrentCount()
                 return@launch
             }
