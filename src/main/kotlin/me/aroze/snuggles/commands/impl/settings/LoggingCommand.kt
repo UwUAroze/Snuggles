@@ -25,7 +25,7 @@ class LoggingCommand {
     )
     fun settings(event: CommandEvent) = runBlocking {
         launch {
-            val channelData = ChannelData.getByChannel(event.message.channel.id)
+            val channelData = ChannelData.getByGuild(event.message.guild!!.id).firstOrNull { it.logging != null }
             var log = channelData?.logging
             val channel = channelData?.channel?.let { instance.getGuildChannelById(it) } as? TextChannel
 
