@@ -48,15 +48,22 @@ data class ChannelData(
     companion object {
         val instances: MutableList<ChannelData> = mutableListOf()
 
-        fun get(id: String): ChannelData? {
+        fun getByChannel(id: String): ChannelData? {
             return instances.firstOrNull { it.channel == id } ?: let {
                 val collection = database.getCollection<ChannelData>()
                 collection.findOne(ChannelData::channel eq id)?.also { instances.add(it) }
             }
         }
 
+        fun getByGuild(id: String): List<ChannelData> {
+            return instances.filter { it.guild == id } + let {
+                val collection = database.getCollection<ChannelData>()
+                collection.find(ChannelData::guild eq id).toList().also { instances.addAll(it) }
+            }
+        }
+
         fun create(id: String, guild: String): ChannelData {
-            val data = get(id) ?: ChannelData(id, guild)
+            val data = getByChannel(id) ?: ChannelData(id, guild)
             instances.removeIf { it.channel == id }
             instances.add(data)
             return data
