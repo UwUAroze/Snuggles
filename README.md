@@ -1,2 +1,47 @@
-# Snuggles
-snuggly wuggly woogly is an (unfinished) general purpose Discord bot. I'll write a better readme later
+<h1 align="center">
+    <br> Snuggles; a <u>modern</u> Discord bot<br>
+    <hr>
+</h1>
+
+<p align="center">
+  <a href="https://discord.com/api/oauth2/authorize?client_id=1071500899186389132&permissions=140123688001&scope=bot%20applications.commands">Invite</a>
+•
+  <a href="#overview">Overview</a>
+  •
+  <a href="#highlights">Highlights</a>
+</p>
+
+# Overview
+
+Welcome to Snuggles: a general purpose Discord bot with the goal of putting an end to outdated practices, half-assed features and having essentials locked behind a paywall. Unlike other bots, Snuggles remains not only feature rich, but also beautifully simple, creating the most refined, perfected and bloat-free experiences for you, along with your members.
+
+# Highlights
+* **Free & open source** - Protected by the mpl-2.0 license, we embrace the open source community; you guys. Feel free to contribute, make suggestions or even create your own sub-projects.
+* **Painless & idiot-proof** - When designing even the smallest interactions with Snuggles, we've made sure to look from the perspective of a user, not a developer. From settings UI's to command parameters, everything works just how you'd expect, and feels natural.
+* **Looks matter** - Functionality aside, we strive for and take pride in our attention to detail; an area I often notice severely lacking in even the most popular of Discord bots, and something I've taken upon myself to alleviate.
+
+# Bot modules
+
+* **Message logging** - a must-have feature for server moderation. Regardless of being resource intensive, with Snuggles, you can enjoy the piece of mind of being able to see any deletions or edits to messages/attachments, for upto 7 days after they were sent, free, forever.
+
+<br>**Message logging demo**:
+
+https://user-images.githubusercontent.com/68871455/223885577-3666acfb-73e4-4934-87cb-e8959ac92f22.mp4
+
+<hr><br>
+
+* **Counting** - ~~Dead server?~~ Snuggles has you covered with a counting feature. For those who don't know how these work, the count starts at 0 and users must count in order... that's kinda it. Counting channels are a really fun way to liven your community, and Snuggles makes it easy, also adding it's own unique twist on how it interacts with users.
+
+<br>**Counting demo**:
+
+https://user-images.githubusercontent.com/68871455/223885589-2aa2a434-6134-45b0-8358-5a5c500e5afe.mp4
+
+<hr><br>
+
+* **Feeling commands** - Want to express your love, appreciation, or frustration with your fellow Discord users? Snuggles provides a large range of feeling commands. Give your friends a hug, or let them know they're being a little too much with a good old fashioned slap ;) These commands have hundreds of unique messages, and even more unique responses under certain circumstances. They always feel genuine, unrepetitive and are super fun to mess around with.
+
+<br>
+
+## Let's Get Snuggly!
+
+Adding Snuggles to your Discord server is easy! Simply click [here](https://discord.com/api/oauth2/authorize?client_id=1071500899186389132&permissions=140123688001&scope=bot%20applications.commands) for an invite!
