@@ -25,7 +25,7 @@ class CountingCommand {
     )
     fun settings(event: CommandEvent) = runBlocking {
         launch {
-            val channelData = ChannelData.get(event.message.channel.id)
+            val channelData = ChannelData.getByChannel(event.message.channel.id)
             var count = channelData?.counting
             val channel = channelData?.channel?.let { instance.getGuildChannelById(it) } as? TextChannel
 
