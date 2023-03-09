@@ -16,7 +16,7 @@
 Welcome to Snuggles: a general purpose Discord bot with the goal of putting an end to outdated practices, half-assed features and having essentials locked behind a paywall. Unlike other bots, Snuggles remains not only feature rich, but also beautifully simple, creating the most refined, perfected and bloat-free experiences for you, along with your members.
 
 # Highlights
-* **Free & open source** - Protected by the [mpl-2.0 license](https://github.com/UwUAroze/Snuggles/blob/master/LICENSE), we embrace the open source community; you guys. Feel free to contribute, make suggestions or even create your own sub-projects.
+* **Free & open source** - Protected by the [GNU General Public License v3.0](https://github.com/UwUAroze/Snuggles/blob/master/LICENSE), we embrace the open source community; you guys. Feel free to contribute, make suggestions or even create your own sub-projects.
 * **Painless & idiot-proof** - When designing even the smallest interactions with Snuggles, we've made sure to look from the perspective of a user, not a developer. From settings UI's to command parameters, everything works just how you'd expect, and feels natural.
 * **Looks matter** - Functionality aside, we strive for and take pride in our attention to detail; an area I often notice severely lacking in even the most popular of Discord bots, and something I've taken upon myself to alleviate.
 
