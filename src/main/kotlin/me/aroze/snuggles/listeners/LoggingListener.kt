@@ -48,9 +48,10 @@ object LoggingListener: ListenerAdapter() {
 
         launch {
 
-            val channelData = ChannelData.get(event.channel.id)
+            val channelData = ChannelData.getByGuild(event.guild.id).firstOrNull { it.logging != null }
             val logData = channelData?.logging ?: return@launch
             if (logData.disabled || !logData.logMessageChanges) return@launch
+
 
             val collection = database.getCollection<LoggedMessage>()
             val previousMessage = collection.findOne(LoggedMessage::message eq event.messageId) ?: return@launch
@@ -91,7 +92,7 @@ object LoggingListener: ListenerAdapter() {
         if (!event.isFromGuild) return@runBlocking
 
         launch {
-            val channelData = ChannelData.get(event.channel.id)
+            val channelData = ChannelData.getByGuild(event.guild.id).firstOrNull { it.logging != null }
             val logData = channelData?.logging ?: return@launch
             if (logData.disabled || !logData.logMessageChanges) return@launch
 
