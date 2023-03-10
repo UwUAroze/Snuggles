@@ -1,5 +1,6 @@
 package me.aroze.snuggles.listeners
 
+import instance
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import me.aroze.snuggles.database.database
@@ -8,7 +9,8 @@ import me.aroze.snuggles.models.LoggedMessage
 import me.aroze.snuggles.utils.BarStyle
 import me.aroze.snuggles.utils.FancyEmbed
 import me.aroze.snuggles.utils.bar
-import net.dv8tion.jda.api.events.message.MessageDeleteEvent
+import net.dv8tion.jda.api.entities.Guild
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.events.message.MessageUpdateEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
@@ -87,60 +89,52 @@ object LoggingHandler: ListenerAdapter() {
 
     }
 
-    fun handleMessageDelete(event: MessageDeleteEvent) = runBlocking {
+    fun handleMessageDelete(guild: Guild, channel: TextChannel, message: LoggedMessage) {
 
-        if (!event.isFromGuild) return@runBlocking
+        val channelData = ChannelData.getByGuild(guild.id).firstOrNull { it.logging != null }
+        val logData = channelData?.logging ?: return
+        if (logData.disabled || !logData.logMessageChanges) return
 
-        launch {
-            val channelData = ChannelData.getByGuild(event.guild.id).firstOrNull { it.logging != null }
-            val logData = channelData?.logging ?: return@launch
-            if (logData.disabled || !logData.logMessageChanges) return@launch
+        val author = instance.retrieveUserById(message.author).complete()
 
-            val collection = database.getCollection<LoggedMessage>()
-            val message = collection.findOne(LoggedMessage::message eq event.messageId) ?: return@launch
-            val author = event.jda.retrieveUserById(message.author).complete()
+        val loggingChannel = guild.getTextChannelById(channelData.channel) ?: return
 
-            message.delete()
+        val eb = FancyEmbed()
+            .setAuthor(
+                "A message by ${author.asTag} was deleted in #${channel.name}",
+                null,
+                author.effectiveAvatarUrl
+            )
 
-            val loggingChannel = event.guild.getTextChannelById(channelData.channel) ?: return@launch
+        val streams = mutableListOf<InputStream>()
+        val fileUploads = mutableListOf<FileUpload>()
 
-            val eb = FancyEmbed()
-                .setAuthor(
-                    "A message by ${author.asTag} was deleted in #${event.channel.name}",
-                    null,
-                    author.effectiveAvatarUrl
-                )
-
-            val streams = mutableListOf<InputStream>()
-            val fileUploads = mutableListOf<FileUpload>()
-
-            var description =
-                "\n > Deleted content: " +
+        var description =
+            "\n > Deleted content: " +
                 (if (message.content.isEmpty()) "`(None; message had no text content)`" else "\n" + message.content + "\n") +
                 "\n" +
                 " > Perpetrator: ${author.asMention} `(${author.id})`\n" +
-                " > Channel: ${event.channel.asMention} `(${event.channel.id})`\n" +
+                " > Channel: ${channel.asMention} `(${channel.id})`\n" +
                 "\n"
 
-            if (message.attachments.isNotEmpty()) {
-                description += "\n > Attachments: ${message.attachments.size} (uploaded with this message) \n"
-                message.attachments.forEach {
-                    val stream = URL(it.url).openStream()
-                    streams.add(stream)
-                    fileUploads.add(FileUpload.fromData(stream, it.name))
-                }
+        if (message.attachments.isNotEmpty()) {
+            description += "\n > Attachments: ${message.attachments.size} (uploaded with this message) \n"
+            message.attachments.forEach {
+                val stream = URL(it.url).openStream()
+                streams.add(stream)
+                fileUploads.add(FileUpload.fromData(stream, it.name))
             }
-
-
-            eb.setDescription(description)
-                .build()
-
-            loggingChannel.sendMessageEmbeds(eb.build())
-                .bar(BarStyle.ERROR)
-                .addFiles(fileUploads)
-                .queue {
-                    streams.forEach { it.close() }
-                }
         }
+
+
+        eb.setDescription(description)
+            .build()
+
+        loggingChannel.sendMessageEmbeds(eb.build())
+            .bar(BarStyle.ERROR)
+            .addFiles(fileUploads)
+            .queue {
+                streams.forEach { it.close() }
+            }
     }
 }
