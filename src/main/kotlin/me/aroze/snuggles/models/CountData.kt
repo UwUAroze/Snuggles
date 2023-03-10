@@ -12,6 +12,8 @@ data class CountData(
     var allowConsecutiveUsers: Boolean = false,
     var allowTalking: Boolean = true,
     var kinderMessages: Boolean = false,
+    var alertDeletedCounts: Boolean = true,
+    var alertForEditedCounts: Boolean = true,
 ) {
 
     @JsonIgnore

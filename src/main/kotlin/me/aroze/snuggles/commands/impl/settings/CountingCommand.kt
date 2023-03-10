@@ -36,6 +36,8 @@ class CountingCommand {
                 count?.allowConsecutiveUsers = it.settings.contains("consecutive_counting")
                 count?.allowTalking = it.settings.contains("allow_speaking")
                 count?.kinderMessages = it.settings.contains("kinder_messages")
+                count?.alertDeletedCounts = it.settings.contains("alert_deletes")
+                count?.alertForEditedCounts = it.settings.contains("alert_edits")
                 if (it.channel == null) {
                     count?.disabled = true
                 } else count = ChannelData.create(it.channel.id, it.channel.guild.id).createCounting()
@@ -44,6 +46,8 @@ class CountingCommand {
                 .addOption(MenuOption("Consecutive counting", "Allow users to count consecutively."))
                 .addOption(MenuOption("Allow speaking", "Allow users to speak in the counting channel.", true))
                 .addOption(MenuOption("Kinder messages", "Force Snuggles to remain respectful to users who mess up.", false))
+                .addOption(MenuOption("Alert deletes", "Sends a warning for others if the latest counter deletes their count", true))
+                .addOption(MenuOption("Alert edits", "Sends a warning for others if the latest counter edits their count", true))
                 .setChannel(channel)
                 .setSelectedOptions(count?.getSelectedOptions())
                 .send(event.message)
