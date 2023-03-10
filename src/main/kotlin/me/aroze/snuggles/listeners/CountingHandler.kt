@@ -8,11 +8,10 @@ import me.aroze.snuggles.models.ChannelData
 import me.aroze.snuggles.models.UserData
 import net.dv8tion.jda.api.entities.emoji.Emoji
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
-import net.dv8tion.jda.api.hooks.ListenerAdapter
 
-object CountingListener: ListenerAdapter() {
+object CountingHandler {
 
-    override fun onMessageReceived(event: MessageReceivedEvent) = runBlocking {
+    fun handleMessageRecieve(event: MessageReceivedEvent) = runBlocking {
         if (!event.isFromGuild) return@runBlocking
         if (event.isWebhookMessage || event.message.author.isBot) return@runBlocking
 
@@ -65,6 +64,7 @@ object CountingListener: ListenerAdapter() {
             event.message.addReaction(reaction).queue()
 
         }
+
     }
 
 }

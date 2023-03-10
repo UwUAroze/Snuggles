@@ -19,9 +19,9 @@ import org.litote.kmongo.getCollection
 import java.io.InputStream
 import java.net.URL
 
-object LoggingListener: ListenerAdapter() {
+object LoggingHandler: ListenerAdapter() {
 
-    override fun onMessageReceived(event: MessageReceivedEvent) = runBlocking {
+    fun handleMessageRecieve(event: MessageReceivedEvent) = runBlocking {
 
         if (!event.isFromGuild) return@runBlocking
         if (event.message.author.isBot || event.isWebhookMessage || event.message.author.isSystem) return@runBlocking
@@ -41,7 +41,7 @@ object LoggingListener: ListenerAdapter() {
 
     }
 
-    override fun onMessageUpdate(event: MessageUpdateEvent) = runBlocking {
+    fun handleMessageUpdate(event: MessageUpdateEvent) = runBlocking {
 
         if (!event.isFromGuild) return@runBlocking
         if (event.message.author.isBot || event.message.author.isSystem) return@runBlocking
@@ -87,7 +87,7 @@ object LoggingListener: ListenerAdapter() {
 
     }
 
-    override fun onMessageDelete(event: MessageDeleteEvent) = runBlocking {
+    fun handleMessageDelete(event: MessageDeleteEvent) = runBlocking {
 
         if (!event.isFromGuild) return@runBlocking
 

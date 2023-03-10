@@ -7,9 +7,7 @@ import me.aroze.snuggles.commands.handler.CommandHandler
 import me.aroze.snuggles.config.ConfigLoader
 import me.aroze.snuggles.database.Database
 import me.aroze.snuggles.initialisation.Login.login
-import me.aroze.snuggles.listeners.AutocompleteListener
-import me.aroze.snuggles.listeners.CountingListener
-import me.aroze.snuggles.listeners.LoggingListener
+import me.aroze.snuggles.listeners.EventListener
 import me.aroze.snuggles.models.BotStats
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
@@ -31,7 +29,7 @@ fun main() = runBlocking {
     login()
     instance.awaitReady()
 
-    instance.addEventListener(CountingListener, AutocompleteListener, LoggingListener)
+    instance.addEventListener(EventListener)
 
     println(instance.selfUser.asTag)
 

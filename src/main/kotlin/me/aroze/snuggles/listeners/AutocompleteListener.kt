@@ -10,7 +10,7 @@ import java.lang.reflect.Method
 
 object AutocompleteListener : ListenerAdapter() {
 
-    override fun onCommandAutoCompleteInteraction(event: CommandAutoCompleteInteractionEvent) {
+    fun handleAutoComplete(event: CommandAutoCompleteInteractionEvent) {
 
         val command = CommandHandler.commands.find { it.build.name == event.name } ?: return
 
