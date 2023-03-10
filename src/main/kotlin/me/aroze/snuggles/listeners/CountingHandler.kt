@@ -5,7 +5,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import me.aroze.snuggles.database.Database
 import me.aroze.snuggles.models.ChannelData
+import me.aroze.snuggles.models.LoggedMessage
 import me.aroze.snuggles.models.UserData
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel
 import net.dv8tion.jda.api.entities.emoji.Emoji
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 
@@ -63,6 +65,32 @@ object CountingHandler {
 
             event.message.addReaction(reaction).queue()
 
+        }
+
+    }
+
+    fun handleMessageUpdate(channelData: ChannelData, channel: TextChannel, message: LoggedMessage) {
+        if (channelData.guild != "892579969329414155") return
+        val count = channelData.counting ?: return
+
+        val number = try { Expressions().eval(message.content) }
+        catch (e: Exception) { return }
+
+        if (count.count.toBigDecimal() == number ) {
+            channel.sendMessage("<@!${message.author}> thinks they're sneaky and edited their latest count, which was originally **${count.count}**").queue()
+        }
+    }
+
+    fun handleMessageDelete(channelData: ChannelData, channel: TextChannel, message: LoggedMessage) {
+
+        if (channelData.guild != "892579969329414155") return
+        val count = channelData.counting ?: return
+
+        val number = try { Expressions().eval(message.content) }
+        catch (e: Exception) { return }
+
+        if (count.count.toBigDecimal() == number ) {
+            channel.sendMessage("<@!${message.author}> thinks they're sneaky and deleted the latest count of **${count.count}**").queue()
         }
 
     }
