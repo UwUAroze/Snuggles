@@ -70,8 +70,8 @@ object CountingHandler {
     }
 
     fun handleMessageUpdate(channelData: ChannelData, channel: TextChannel, message: LoggedMessage) {
-        if (channelData.guild != "892579969329414155") return
         val count = channelData.counting ?: return
+        if (!count.warnForEditedCounts) return
 
         val number = try { Expressions().eval(message.content) }
         catch (e: Exception) { return }
@@ -82,9 +82,8 @@ object CountingHandler {
     }
 
     fun handleMessageDelete(channelData: ChannelData, channel: TextChannel, message: LoggedMessage) {
-
-        if (channelData.guild != "892579969329414155") return
         val count = channelData.counting ?: return
+        if (!count.warnForDeletedCounts) return
 
         val number = try { Expressions().eval(message.content) }
         catch (e: Exception) { return }
@@ -92,7 +91,6 @@ object CountingHandler {
         if (count.count.toBigDecimal() == number ) {
             channel.sendMessage("<@!${message.author}> thinks they're sneaky and deleted the latest count of **${count.count}**").queue()
         }
-
     }
 
 }

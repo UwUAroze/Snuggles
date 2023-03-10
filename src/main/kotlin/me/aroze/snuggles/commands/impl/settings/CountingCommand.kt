@@ -36,8 +36,8 @@ class CountingCommand {
                 count?.allowConsecutiveUsers = it.settings.contains("consecutive_counting")
                 count?.allowTalking = it.settings.contains("allow_speaking")
                 count?.kinderMessages = it.settings.contains("kinder_messages")
-                count?.alertDeletedCounts = it.settings.contains("alert_deletes")
-                count?.alertForEditedCounts = it.settings.contains("alert_edits")
+                count?.warnForDeletedCounts = it.settings.contains("alert_deletes")
+                count?.warnForEditedCounts = it.settings.contains("alert_edits")
                 if (it.channel == null) {
                     count?.disabled = true
                 } else count = ChannelData.create(it.channel.id, it.channel.guild.id).createCounting()
