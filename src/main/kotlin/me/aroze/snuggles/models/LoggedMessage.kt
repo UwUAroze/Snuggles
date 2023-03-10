@@ -47,6 +47,11 @@ data class LoggedMessage (
             collection.deleteMany(LoggedMessage::createdAt lt (now - 1000 * 60 * 60 * 24 * days))
         }
 
+        fun getByMessageId(id: String) : LoggedMessage? {
+            val collection = database.getCollection<LoggedMessage>()
+            return collection.findOne(LoggedMessage::message eq id)
+        }
+
     }
 
     data class AttachmentInfo(
