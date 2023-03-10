@@ -100,8 +100,6 @@ object LoggingListener: ListenerAdapter() {
             val message = collection.findOne(LoggedMessage::message eq event.messageId) ?: return@launch
             val author = event.jda.retrieveUserById(message.author).complete()
 
-            if (author.isBot || author.isSystem) return@launch
-
             message.delete()
 
             val loggingChannel = event.guild.getTextChannelById(channelData.channel) ?: return@launch
