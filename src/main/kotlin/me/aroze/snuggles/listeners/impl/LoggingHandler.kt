@@ -57,9 +57,6 @@ object LoggingHandler {
             val collection = database.getCollection<LoggedMessage>()
             val previousMessage = collection.findOne(LoggedMessage::message eq event.messageId) ?: return@launch
 
-            if (previousMessage.content == event.message.contentRaw) return@launch
-            previousMessage.edit(event.message.contentRaw)
-
             val loggingChannel = event.guild.getTextChannelById(channelData.channel) ?: return@launch
 
             val eb = FancyEmbed()

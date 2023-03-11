@@ -17,11 +17,15 @@ data class ChannelData(
     @JsonIgnore
     fun save() {
         val collection = database.getCollection<ChannelData>()
+        println("Saving channel data for $channel")
+        println(this)
         collection.findOneAndReplace(
             ::channel eq this.channel,
             this,
             FindOneAndReplaceOptions().upsert(true)
         )
+        println("done")
+        println(this)
     }
 
     @JsonIgnore
@@ -47,25 +51,36 @@ data class ChannelData(
 
     companion object {
         val instances: MutableList<ChannelData> = mutableListOf()
+        private val collection = database.getCollection<ChannelData>()
 
         fun getByChannel(id: String): ChannelData? {
-            return instances.firstOrNull { it.channel == id } ?: let {
-                val collection = database.getCollection<ChannelData>()
-                collection.findOne(ChannelData::channel eq id)?.also { instances.add(it) }
+            val toReturn = instances.firstOrNull { it.channel == id } ?: let {
+                println("not in cache")
+                collection.findOne(ChannelData::channel eq id)?.also {
+                    println("got from db $it")
+                    instances.add(it)
+                }
             }
+            println("got by channel $id $toReturn")
+            return toReturn
         }
 
         fun getByGuild(id: String): List<ChannelData> {
-            return instances.filter { it.guild == id } + let {
-                val collection = database.getCollection<ChannelData>()
-                collection.find(ChannelData::guild eq id).toList().also { instances.addAll(it) }
+            val toReturn = instances.filter { it.guild == id } + let {
+                collection.find(ChannelData::guild eq id).toList().also {
+                    for (data in it)
+                        if (!instances.contains(data)) instances.add(data)
+                }
             }
+            println("got by guild $toReturn")
+            return toReturn
         }
 
         fun create(id: String, guild: String): ChannelData {
             val data = getByChannel(id) ?: ChannelData(id, guild)
             instances.removeIf { it.channel == id }
             instances.add(data)
+            print("created: ${instances.size} $data")
             return data
         }
 

@@ -88,4 +88,26 @@ class DevCommand {
         }
     }
 
+    @Command(
+        description = "Gives statistics about database cache"
+    )
+    fun cache(event: CommandEvent) = runBlocking {
+        launch {
+            val eb = FancyEmbed()
+                .setTitle("Database Cache Statistics")
+                .setDescription("Here's some info about the database cache <:eyesZoom:953368332789252166>")
+                .addField(
+                    "Cached Channels",
+                    ChannelData.instances.size.toString(),
+                    true
+                )
+                .addField(
+                    "This Guild",
+                    "${ChannelData.instances.filter { it.guild == event.message.guild!!.id }.size} channels",
+                    true
+                )
+            event.message.replyEmbeds(eb.build()).setEphemeral(event.silent).queue()
+        }
+    }
+
 }

@@ -69,15 +69,18 @@ object CountingHandler {
 
     }
 
-    fun handleMessageUpdate(channelData: ChannelData, channel: TextChannel, message: LoggedMessage) {
+    fun handleMessageUpdate(channelData: ChannelData, channel: TextChannel, loggedMessage: LoggedMessage) {
         val count = channelData.counting ?: return
         if (!count.warnForEditedCounts) return
 
-        val number = try { Expressions().eval(message.content) }
+        val number = try { Expressions().eval(loggedMessage.content) }
         catch (e: Exception) { return }
 
-        if (count.count.toBigDecimal() == number ) {
-            channel.sendMessage("<@!${message.author}> thinks they're sneaky and edited their latest count, which was originally **${count.count}**").queue { warning ->
+        println(count.count.toBigDecimal())
+        println(number)
+
+        if (count.count.toBigDecimal() == number) {
+            channel.sendMessage("<@!${loggedMessage.author}> thinks they're sneaky and edited their latest count, which was originally **${count.count}**").queue { warning ->
                 warning.addReaction(Emoji.fromFormatted("<:warning:1084122198291271820>")).queue()
             }
         }

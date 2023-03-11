@@ -25,10 +25,12 @@ object EventListener : ListenerAdapter() {
         launch {
             val channel = event.channel as? TextChannel ?: return@launch
             val channelData = ChannelData.getByChannel(event.channel.id) ?: return@launch
-            val message = LoggedMessage.getByMessageId(event.messageId) ?: return@launch
+            val loggedMessage = LoggedMessage.getByMessageId(event.messageId) ?: return@launch
+
+            if (loggedMessage.content != event.message.contentRaw) loggedMessage.edit(event.message.contentRaw)
 
             LoggingHandler.handleMessageUpdate(event)
-            CountingHandler.handleMessageUpdate(channelData, channel, message)
+            CountingHandler.handleMessageUpdate(channelData, channel, loggedMessage)
         }
     }
 
