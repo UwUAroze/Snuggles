@@ -1,4 +1,4 @@
-package me.aroze.snuggles.listeners
+package me.aroze.snuggles.listeners.impl
 
 import com.github.keelar.exprk.Expressions
 import kotlinx.coroutines.launch

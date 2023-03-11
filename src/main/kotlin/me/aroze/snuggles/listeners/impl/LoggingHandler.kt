@@ -1,4 +1,4 @@
-package me.aroze.snuggles.listeners
+package me.aroze.snuggles.listeners.impl
 
 import instance
 import kotlinx.coroutines.launch

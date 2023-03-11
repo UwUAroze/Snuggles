@@ -1,4 +1,4 @@
-package me.aroze.snuggles.listeners
+package me.aroze.snuggles.listeners.impl
 
 import me.aroze.snuggles.commands.handler.Autocomplete
 import me.aroze.snuggles.commands.handler.Command
