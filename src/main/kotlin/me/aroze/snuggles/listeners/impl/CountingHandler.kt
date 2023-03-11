@@ -77,7 +77,9 @@ object CountingHandler {
         catch (e: Exception) { return }
 
         if (count.count.toBigDecimal() == number ) {
-            channel.sendMessage("<@!${message.author}> thinks they're sneaky and edited their latest count, which was originally **${count.count}**").queue()
+            channel.sendMessage("<@!${message.author}> thinks they're sneaky and edited their latest count, which was originally **${count.count}**").queue { warning ->
+                warning.addReaction(Emoji.fromFormatted("<:warning:1084122198291271820>")).queue()
+            }
         }
     }
 
@@ -89,7 +91,9 @@ object CountingHandler {
         catch (e: Exception) { return }
 
         if (count.count.toBigDecimal() == number ) {
-            channel.sendMessage("<@!${message.author}> thinks they're sneaky and deleted the latest count of **${count.count}**").queue()
+            channel.sendMessage("<@!${message.author}> thinks they're sneaky and deleted the latest count of **${count.count}**").queue { warning ->
+                warning.addReaction(Emoji.fromFormatted("<:warning:1084122198291271820>")).queue()
+            }
         }
     }
 
