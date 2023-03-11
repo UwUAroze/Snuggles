@@ -46,7 +46,7 @@ object EventListener : ListenerAdapter() {
     }
 
     override fun onCommandAutoCompleteInteraction(event: CommandAutoCompleteInteractionEvent) {
-        AutocompleteHandler.onCommandAutoCompleteInteraction(event)
+        AutocompleteHandler.handleAutoComplete(event)
     }
 
 
