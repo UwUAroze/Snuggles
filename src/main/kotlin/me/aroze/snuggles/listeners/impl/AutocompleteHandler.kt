@@ -5,10 +5,9 @@ import me.aroze.snuggles.commands.handler.Command
 import me.aroze.snuggles.commands.handler.CommandHandler
 import me.aroze.snuggles.utils.kotlinParameter
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent
-import net.dv8tion.jda.api.hooks.ListenerAdapter
 import java.lang.reflect.Method
 
-object AutocompleteHandler : ListenerAdapter() {
+object AutocompleteHandler {
 
     fun handleAutoComplete(event: CommandAutoCompleteInteractionEvent) {
 
