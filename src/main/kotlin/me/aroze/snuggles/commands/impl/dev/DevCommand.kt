@@ -6,6 +6,7 @@ import kotlinx.coroutines.runBlocking
 import me.aroze.snuggles.commands.handler.Command
 import me.aroze.snuggles.commands.handler.CommandEvent
 import me.aroze.snuggles.database.Database
+import me.aroze.snuggles.models.ChannelData
 import me.aroze.snuggles.utils.BarStyle
 import me.aroze.snuggles.utils.FancyEmbed
 import me.aroze.snuggles.utils.bar
@@ -61,4 +62,30 @@ class DevCommand {
             }
         }
     }
+
+    @Command(
+        description = "Runs the garbage collector"
+    )
+    fun gc(event: CommandEvent) = runBlocking {
+        launch {
+            event.message.deferReply().setEphemeral(event.silent).queue{
+                System.gc()
+                it.editOriginal("Ran the garbage collector!").queue()
+            }
+        }
+    }
+
+    @Command(
+        description = "Invalidates all cached data"
+    )
+    fun invalidate(event: CommandEvent) = runBlocking {
+        launch {
+            event.message.deferReply().setEphemeral(event.silent).queue{
+                Database.save()
+                ChannelData.instances.clear()
+                it.editOriginal("Invalidated all cached data!").queue()
+            }
+        }
+    }
+
 }
