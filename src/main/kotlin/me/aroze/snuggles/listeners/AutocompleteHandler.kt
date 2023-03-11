@@ -8,7 +8,7 @@ import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInterac
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import java.lang.reflect.Method
 
-object AutocompleteListener : ListenerAdapter() {
+object AutocompleteHandler : ListenerAdapter() {
 
     fun handleAutoComplete(event: CommandAutoCompleteInteractionEvent) {
 
