@@ -3,7 +3,6 @@ package me.aroze.snuggles.listeners.impl
 import instance
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import me.aroze.snuggles.database.database
 import me.aroze.snuggles.models.ChannelData
 import me.aroze.snuggles.models.LoggedMessage
 import me.aroze.snuggles.utils.BarStyle
@@ -14,9 +13,6 @@ import net.dv8tion.jda.api.entities.channel.concrete.TextChannel
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.events.message.MessageUpdateEvent
 import net.dv8tion.jda.api.utils.FileUpload
-import org.litote.kmongo.eq
-import org.litote.kmongo.findOne
-import org.litote.kmongo.getCollection
 import java.io.InputStream
 import java.net.URL
 
@@ -42,7 +38,7 @@ object LoggingHandler {
 
     }
 
-    fun handleMessageUpdate(event: MessageUpdateEvent) = runBlocking {
+    fun handleMessageUpdate(event: MessageUpdateEvent, loggedMessage: LoggedMessage) = runBlocking {
 
         if (!event.isFromGuild) return@runBlocking
         if (event.message.author.isBot || event.message.author.isSystem) return@runBlocking
@@ -52,10 +48,6 @@ object LoggingHandler {
             val channelData = ChannelData.getByGuild(event.guild.id).firstOrNull { it.logging != null }
             val logData = channelData?.logging ?: return@launch
             if (logData.disabled || !logData.logMessageChanges) return@launch
-
-
-            val collection = database.getCollection<LoggedMessage>()
-            val previousMessage = collection.findOne(LoggedMessage::message eq event.messageId) ?: return@launch
 
             val loggingChannel = event.guild.getTextChannelById(channelData.channel) ?: return@launch
 
@@ -67,7 +59,7 @@ object LoggingHandler {
                 )
                 .setDescription(
                     "\n > Message before edit: " +
-                        (if (previousMessage.content.isEmpty()) "`(None; message had no text content)`" else "\n" + previousMessage.content) + "\n" +
+                        (if (loggedMessage.content.isEmpty()) "`(None; message had no text content)`" else "\n" + loggedMessage.content) + "\n" +
                         "\n > Message after edit:\n" +
                         event.message.contentRaw + "\n" +
                         "\n" +

@@ -29,7 +29,7 @@ object EventListener : ListenerAdapter() {
 
             if (loggedMessage.content != event.message.contentRaw) loggedMessage.edit(event.message.contentRaw)
 
-            LoggingHandler.handleMessageUpdate(event)
+            LoggingHandler.handleMessageUpdate(event, loggedMessage)
             CountingHandler.handleMessageUpdate(channelData, channel, loggedMessage)
         }
     }
