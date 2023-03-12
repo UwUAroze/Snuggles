@@ -15,7 +15,7 @@ object CountingHandler {
 
     private val tracker = mutableMapOf<String, Int>()
 
-    fun handleMessageRecieve(event: MessageReceivedEvent) = runBlocking {
+    fun handleMessageReceive(event: MessageReceivedEvent) = runBlocking {
         if (!event.isFromGuild) return@runBlocking
 
         launch {
