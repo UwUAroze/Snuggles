@@ -17,15 +17,11 @@ data class ChannelData(
     @JsonIgnore
     fun save() {
         val collection = database.getCollection<ChannelData>()
-        println("Saving channel data for $channel")
-        println(this)
         collection.findOneAndReplace(
             ::channel eq this.channel,
             this,
             FindOneAndReplaceOptions().upsert(true)
         )
-        println("done")
-        println(this)
     }
 
     @JsonIgnore
@@ -55,13 +51,10 @@ data class ChannelData(
 
         fun getByChannel(id: String): ChannelData? {
             val toReturn = instances.firstOrNull { it.channel == id } ?: let {
-                println("not in cache")
                 collection.findOne(ChannelData::channel eq id)?.also {
-                    println("got from db $it")
                     instances.add(it)
                 }
             }
-            println("got by channel $id $toReturn")
             return toReturn
         }
 
@@ -72,7 +65,6 @@ data class ChannelData(
                         if (!instances.contains(data)) instances.add(data)
                 }
             }
-            println("got by guild $toReturn")
             return toReturn
         }
 

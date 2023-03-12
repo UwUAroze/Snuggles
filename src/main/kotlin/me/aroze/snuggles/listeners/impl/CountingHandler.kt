@@ -76,9 +76,6 @@ object CountingHandler {
         val number = try { Expressions().eval(loggedMessage.content) }
         catch (e: Exception) { return }
 
-        println(count.count.toBigDecimal())
-        println(number)
-
         if (count.count.toBigDecimal() == number) {
             channel.sendMessage("<@!${loggedMessage.author}> thinks they're sneaky and edited their latest count, which was originally **${count.count}**").queue { warning ->
                 warning.addReaction(Emoji.fromFormatted("<:warning:1084122198291271820>")).queue()
