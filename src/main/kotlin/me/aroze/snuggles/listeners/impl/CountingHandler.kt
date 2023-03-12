@@ -39,7 +39,7 @@ object CountingHandler {
 
             val beNice = count.kinderMessages
 
-            if (number.toInt() != count.count + 1) {
+            if (number != (count.count + 1).toBigDecimal()) {
                 event.message.addReaction(Emoji.fromFormatted("<a:bonk:1081320319500955718>")).queue()
                 event.message.channel.sendMessage(
                     if (beNice) "${event.author.asMention} ruined it at **${count.count}**, I authorize you all to yell at them, but be nice!"
