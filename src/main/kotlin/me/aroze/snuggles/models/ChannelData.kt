@@ -72,7 +72,6 @@ data class ChannelData(
             val data = getByChannel(id) ?: ChannelData(id, guild)
             instances.removeIf { it.channel == id }
             if (!instances.contains(data)) instances.add(data)
-            print("created: ${instances.size} $data")
             return data
         }
 
