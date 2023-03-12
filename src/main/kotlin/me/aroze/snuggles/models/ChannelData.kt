@@ -52,7 +52,7 @@ data class ChannelData(
         fun getByChannel(id: String): ChannelData? {
             val toReturn = instances.firstOrNull { it.channel == id } ?: let {
                 collection.findOne(ChannelData::channel eq id)?.also {
-                    instances.add(it)
+                    if (!instances.contains(it)) instances.add(it)
                 }
             }
             return toReturn
@@ -71,7 +71,7 @@ data class ChannelData(
         fun create(id: String, guild: String): ChannelData {
             val data = getByChannel(id) ?: ChannelData(id, guild)
             instances.removeIf { it.channel == id }
-            instances.add(data)
+            if (!instances.contains(data)) instances.add(data)
             print("created: ${instances.size} $data")
             return data
         }
