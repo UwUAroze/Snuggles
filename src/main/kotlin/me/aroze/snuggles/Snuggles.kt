@@ -34,8 +34,7 @@ fun main() = runBlocking {
     println(instance.selfUser.asTag)
 
     launch {
-//        Timer().schedule(300000, 300000) {
-        Timer().schedule(30000, 30000) {
+        Timer().schedule(300000, 300000) {
             Database.invalidateOld()
             Database.save()
         }
