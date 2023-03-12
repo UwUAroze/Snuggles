@@ -18,7 +18,7 @@ import java.net.URL
 
 object LoggingHandler {
 
-    fun handleMessageRecieve(event: MessageReceivedEvent) = runBlocking {
+    fun handleMessageReceive(event: MessageReceivedEvent) = runBlocking {
 
         if (!event.isFromGuild) return@runBlocking
         if (event.message.author.isBot || event.isWebhookMessage || event.message.author.isSystem) return@runBlocking

@@ -17,8 +17,8 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter
 object EventListener : ListenerAdapter() {
 
     override fun onMessageReceived(event: MessageReceivedEvent) {
-        LoggingHandler.handleMessageRecieve(event)
-        CountingHandler.handleMessageRecieve(event)
+        LoggingHandler.handleMessageReceive(event)
+        CountingHandler.handleMessageReceive(event)
     }
 
     override fun onMessageUpdate(event: MessageUpdateEvent): Unit = runBlocking {
