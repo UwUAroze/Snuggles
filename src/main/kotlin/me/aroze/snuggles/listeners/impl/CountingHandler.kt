@@ -13,6 +13,8 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 
 object CountingHandler {
 
+    private val tracker = mutableMapOf<String, Int>()
+
     fun handleMessageRecieve(event: MessageReceivedEvent) = runBlocking {
         if (!event.isFromGuild) return@runBlocking
 
@@ -23,6 +25,10 @@ object CountingHandler {
                 if (event.author.id != event.jda.selfUser.id) return@launch
                 count.lastBotMessage = event.messageId
                 return@launch
+            }
+
+            if (tracker[event.guild.id] != null && tracker[event.guild.id]!! == count.count && count.count != 0) {
+                count.count = tracker[event.guild.id]!!
             }
 
             val number = try { Expressions().eval(event.message.contentDisplay) }
@@ -58,6 +64,7 @@ object CountingHandler {
             Database.botStats.totalCounts++
             userData.totalCounts++
             count.count++
+            tracker[event.guild.id] = count.count
             count.lastCounter = event.author.id
             val highScore = count.count > count.highScore
 

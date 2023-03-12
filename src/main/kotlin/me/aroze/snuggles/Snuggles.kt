@@ -35,7 +35,7 @@ fun main() = runBlocking {
 
     launch {
         Timer().schedule(300000, 300000) {
-            Database.invalidateOld()
+            Database.invalidateCache()
             Database.save()
         }
     }
