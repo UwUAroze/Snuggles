@@ -3,9 +3,11 @@ package me.aroze.snuggles.models
 import com.fasterxml.jackson.annotation.JsonIgnore
 
 data class CountData(
-    var lastCounter: String = "",
     var count: Int = 0,
     var highScore: Int = 0,
+
+    var lastCounter: String = "",
+    var lastBotMessage: String = "",
 
     var disabled: Boolean = false,
 

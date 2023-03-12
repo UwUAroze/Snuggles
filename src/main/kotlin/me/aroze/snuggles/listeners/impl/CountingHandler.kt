@@ -15,10 +15,15 @@ object CountingHandler {
 
     fun handleMessageRecieve(event: MessageReceivedEvent) = runBlocking {
         if (!event.isFromGuild) return@runBlocking
-        if (event.isWebhookMessage || event.message.author.isBot) return@runBlocking
 
         launch {
             val count = ChannelData.getByChannel(event.channel.id)?.counting ?: return@launch
+
+            if (event.isWebhookMessage || event.message.author.isBot) {
+                if (event.author.id != event.jda.selfUser.id) return@launch
+                count.lastBotMessage = event.messageId
+                return@launch
+            }
 
             val number = try { Expressions().eval(event.message.contentDisplay) }
             catch (e: Exception) {
