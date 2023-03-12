@@ -24,12 +24,12 @@ object EventListener : ListenerAdapter() {
     override fun onMessageUpdate(event: MessageUpdateEvent): Unit = runBlocking {
         launch {
             val channel = event.channel as? TextChannel ?: return@launch
-            val channelData = ChannelData.getByChannel(event.channel.id) ?: return@launch
             val loggedMessage = LoggedMessage.getByMessageId(event.messageId) ?: return@launch
 
             if (loggedMessage.content != event.message.contentRaw) loggedMessage.edit(event.message.contentRaw)
-
             LoggingHandler.handleMessageUpdate(event, loggedMessage)
+
+            val channelData = ChannelData.getByChannel(event.channel.id) ?: return@launch
             CountingHandler.handleMessageUpdate(channelData, channel, loggedMessage)
         }
     }
@@ -37,10 +37,11 @@ object EventListener : ListenerAdapter() {
     override fun onMessageDelete(event: MessageDeleteEvent): Unit = runBlocking {
         launch {
             val channel = event.channel as? TextChannel ?: return@launch
-            val channelData = ChannelData.getByChannel(event.channel.id) ?: return@launch
             val message = LoggedMessage.getByMessageId(event.messageId) ?: return@launch
 
             LoggingHandler.handleMessageDelete(event.guild, channel, message)
+
+            val channelData = ChannelData.getByChannel(event.channel.id) ?: return@launch
             CountingHandler.handleMessageDelete(channelData, channel, message)
 
             message.delete()
