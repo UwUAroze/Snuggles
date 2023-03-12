@@ -31,14 +31,14 @@ object Database {
     }
 
     fun save() {
-        println("Starting database save...")
         botStats.save()
         for (channelData in ChannelData.instances) channelData.save()
-        println("Database save complete")
     }
 
-    fun invalidateOld() {
+    fun invalidateCache() {
         LoggedMessage.invalidateOld()
+        for (channelData in ChannelData.instances) channelData.save()
+        ChannelData.instances.clear()
     }
 
     fun disconnect() {
