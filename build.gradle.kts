@@ -25,7 +25,7 @@ dependencies {
     implementation("org.reflections:reflections:0.10.2")
     implementation("com.moandjiezana.toml:toml4j:0.7.2")
     implementation("com.github.Keelar:ExprK:180baa2d38")
-    implementation("com.konghq.unirest:unirest-java:3.13.13")
+    implementation("com.konghq:unirest-java:3.14.1")
 }
 
 tasks.test {
