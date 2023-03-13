@@ -16,7 +16,7 @@ repositories {
 }
 
 dependencies {
-    implementation("net.dv8tion:JDA:5.0.0-beta.4")
+    implementation("net.dv8tion:JDA:5.0.0-beta.5")
     implementation("commons-io:commons-io:2.11.0")
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("com.github.UwUAroze:ArozeUtils:65674c9e06")
