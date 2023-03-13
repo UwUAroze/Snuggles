@@ -1,6 +1,7 @@
 package me.aroze.snuggles.commands.impl.generic
 
 import instance
+import me.aroze.arozeutils.kotlin.extension.Number.formatCommas
 import me.aroze.snuggles.commands.handler.Command
 import me.aroze.snuggles.commands.handler.CommandEvent
 import me.aroze.snuggles.database.Database
@@ -29,9 +30,9 @@ class SnugglyStatsCommand {
             .setDescription(
                 "\n" +
                 " > ...is maintained by ${ownerString}\n" +
-                " > ...is in **${instance.guilds.size}** servers, watching over **${instance.getAllUsers()}** users\n" +
-                " > ...has been used to execute **${Database.botStats.totalExecutions}** commands\n" +
-                " > ...has accepted **${Database.botStats.totalCounts}** instances of counting\n" +
+                " > ...is in **${instance.guilds.size.formatCommas(false)}** servers, watching over **${instance.getAllUsers().formatCommas(false)}** users\n" +
+                " > ...has been used to execute **${Database.botStats.totalExecutions.formatCommas(false)}** commands\n" +
+                " > ...has accepted **${Database.botStats.totalCounts.formatCommas(false)}** instances of counting\n" +
                 " > ...was last started <t:${(startTime / 1000)}:R>\n"
             )
 
