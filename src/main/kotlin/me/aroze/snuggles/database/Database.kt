@@ -37,8 +37,6 @@ object Database {
 
     fun invalidateCache() {
         LoggedMessage.invalidateOld()
-        for (channelData in ChannelData.instances) channelData.save()
-        ChannelData.instances.clear()
     }
 
     fun disconnect() {
