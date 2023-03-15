@@ -1,4 +1,4 @@
-package me.aroze.snuggles.commands.impl.settings
+package me.aroze.snuggles.commands.impl.channel
 
 import instance
 import kotlinx.coroutines.launch
