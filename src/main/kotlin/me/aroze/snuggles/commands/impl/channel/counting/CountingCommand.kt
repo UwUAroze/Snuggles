@@ -1,4 +1,4 @@
-package me.aroze.snuggles.commands.impl.channel
+package me.aroze.snuggles.commands.impl.channel.counting
 
 import instance
 import kotlinx.coroutines.launch
@@ -53,4 +53,16 @@ class CountingCommand {
                 .send(event.message)
         }
     }
+
+    @Command(
+        description = "Displays the leaderboards for counting",
+    )
+    fun leaderboard(event: CommandEvent) {
+        CountingUI.createGuildUI(event.message.guild!!.id).thenAccept { response ->
+            event.message.replyEmbeds(response.first.build())
+                .addActionRow(response.second)
+                .queue()
+        }
+    }
+
 }

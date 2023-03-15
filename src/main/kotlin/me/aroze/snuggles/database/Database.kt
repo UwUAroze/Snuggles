@@ -8,6 +8,7 @@ import me.aroze.snuggles.config.ConfigLoader
 import me.aroze.snuggles.models.BotStats
 import me.aroze.snuggles.models.ChannelData
 import me.aroze.snuggles.models.LoggedMessage
+import me.aroze.snuggles.models.UserData
 import org.litote.kmongo.KMongo
 import org.litote.kmongo.getCollection
 
@@ -34,6 +35,7 @@ object Database {
         println("Saving database...")
         botStats.save()
         for (channelData in ChannelData.instances) channelData.save()
+        for (userData in UserData.instances) userData.save()
         println("Database saved")
     }
 

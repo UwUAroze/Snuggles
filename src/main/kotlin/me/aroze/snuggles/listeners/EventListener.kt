@@ -3,12 +3,14 @@ package me.aroze.snuggles.listeners
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import me.aroze.snuggles.listeners.impl.AutocompleteHandler
-import me.aroze.snuggles.listeners.impl.counting.CountingHandler
 import me.aroze.snuggles.listeners.impl.LoggingHandler
+import me.aroze.snuggles.listeners.impl.counting.CountingHandler
+import me.aroze.snuggles.listeners.impl.counting.CountingLeaderboard
 import me.aroze.snuggles.models.ChannelData
 import me.aroze.snuggles.models.LoggedMessage
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent
 import net.dv8tion.jda.api.events.message.MessageDeleteEvent
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.events.message.MessageUpdateEvent
@@ -50,6 +52,14 @@ object EventListener : ListenerAdapter() {
 
     override fun onCommandAutoCompleteInteraction(event: CommandAutoCompleteInteractionEvent) {
         AutocompleteHandler.handleAutoComplete(event)
+    }
+
+    override fun onButtonInteraction(event: ButtonInteractionEvent): Unit = runBlocking {
+        launch {
+            val button = event.componentId
+            val message = event.message ?: return@launch
+            CountingLeaderboard.handleButtonPress(event, button)
+        }
     }
 
 
