@@ -31,8 +31,10 @@ object Database {
     }
 
     fun save() {
+        println("Saving database...")
         botStats.save()
         for (channelData in ChannelData.instances) channelData.save()
+        println("Database saved")
     }
 
     fun invalidateCache() {

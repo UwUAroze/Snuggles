@@ -3,7 +3,7 @@ package me.aroze.snuggles.listeners
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import me.aroze.snuggles.listeners.impl.AutocompleteHandler
-import me.aroze.snuggles.listeners.impl.CountingHandler
+import me.aroze.snuggles.listeners.impl.counting.CountingHandler
 import me.aroze.snuggles.listeners.impl.LoggingHandler
 import me.aroze.snuggles.models.ChannelData
 import me.aroze.snuggles.models.LoggedMessage
