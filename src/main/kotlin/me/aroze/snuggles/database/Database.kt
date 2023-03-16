@@ -36,6 +36,7 @@ object Database {
         botStats.save()
         for (channelData in ChannelData.instances) channelData.save()
         for (userData in UserData.instances) userData.save()
+        Thread.sleep(2000)
         println("Database saved")
     }
 
