@@ -247,10 +247,11 @@ object CommandHandler {
     @OptIn(ExperimentalStdlibApi::class)
     private fun Parameter.toOption(method: Method, verb: String): OptionData {
         val data: Description? = getAnnotation(Description::class.java)
+        val constraints: Constraint? = getAnnotation(Constraint::class.java)
         val description = data?.description ?: generateDescription(this.kotlinParameter(method), verb)
         val kParameter = this.kotlinParameter(method)
 
-        return OptionData(
+        val option = OptionData(
             when (kParameter.type.javaType) {
                 String::class.java -> OptionType.STRING
                 Int::class.java -> OptionType.INTEGER
@@ -265,6 +266,13 @@ object CommandHandler {
             description,
             !kParameter.type.isMarkedNullable
         )
+
+        if (kParameter.type.javaType == Int::class.java) {
+            constraints?.min?.toLong()?.let { option.setMinValue(it) }
+            constraints?.max?.toLong()?.let { option.setMaxValue(it) }
+        }
+
+        return option
     }
 
     private fun Command.getName(def: String): String {
