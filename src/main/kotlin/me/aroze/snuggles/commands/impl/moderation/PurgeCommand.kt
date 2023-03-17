@@ -4,6 +4,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import me.aroze.snuggles.commands.handler.Command
 import me.aroze.snuggles.commands.handler.CommandEvent
+import me.aroze.snuggles.commands.handler.Constraint
 import me.aroze.snuggles.commands.handler.Description
 import me.aroze.snuggles.utils.FancyEmbed
 import net.dv8tion.jda.api.Permission
@@ -16,7 +17,7 @@ import net.dv8tion.jda.api.entities.Member
 class PurgeCommand {
     fun main(
         event: CommandEvent,
-        @Description("The amount of messages to check through and potentially delete") amount: Int,
+        @Description("The amount of messages to check through and potentially delete") @Constraint(5, 100) amount: Int,
         @Description("Option to only purge messages from a specified user") user: Member?,
         @Description("Only purges messages containing this") filter: String?
     ) = runBlocking {
