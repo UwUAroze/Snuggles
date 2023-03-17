@@ -3,6 +3,7 @@ package me.aroze.snuggles.models
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.mongodb.client.model.FindOneAndReplaceOptions
 import me.aroze.snuggles.database.database
+import org.bson.types.ObjectId
 import org.litote.kmongo.eq
 import org.litote.kmongo.findOne
 import org.litote.kmongo.getCollection
@@ -10,6 +11,8 @@ import org.litote.kmongo.getCollection
 data class ChannelData(
     val channel: String,
     val guild: String,
+    @Suppress("PropertyName")
+    val _id: ObjectId = ObjectId(),
     var counting: CountData? = null,
     var logging: LogData? = null,
 ) {
@@ -18,7 +21,7 @@ data class ChannelData(
     fun save() {
         val collection = database.getCollection<ChannelData>()
         collection.findOneAndReplace(
-            ::channel eq this.channel,
+            ::_id eq this._id,
             this,
             FindOneAndReplaceOptions().upsert(true)
         )
@@ -27,7 +30,7 @@ data class ChannelData(
     @JsonIgnore
     fun delete() {
         val collection = database.getCollection<ChannelData>()
-        collection.deleteOne(::channel eq this.channel)
+        collection.deleteOne(::_id eq this._id)
         ChannelData.instances.remove(this)
     }
 
@@ -70,7 +73,7 @@ data class ChannelData(
 
         fun create(id: String, guild: String): ChannelData {
             val data = getByChannel(id) ?: ChannelData(id, guild)
-            instances.removeIf { it.channel == id }
+            instances.removeIf { it._id == data._id }
             if (!instances.contains(data)) instances.add(data)
             return data
         }
