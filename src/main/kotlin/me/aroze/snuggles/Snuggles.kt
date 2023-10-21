@@ -12,6 +12,8 @@ import me.aroze.snuggles.models.BotStats
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
+import org.apache.logging.log4j.Level
+import org.apache.logging.log4j.core.config.Configurator
 import org.reflections.Reflections
 import java.util.*
 import kotlin.concurrent.schedule
@@ -25,6 +27,8 @@ fun main() = runBlocking {
 
     ConfigLoader.load()
     Database.connect()
+
+    Configurator.setLevel("org.mongodb", Level.ALL)
 
     login()
     instance.awaitReady()

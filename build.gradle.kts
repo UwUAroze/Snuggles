@@ -26,6 +26,7 @@ dependencies {
     implementation("com.moandjiezana.toml:toml4j:0.7.2")
     implementation("com.github.Keelar:ExprK:180baa2d38")
     implementation("com.konghq:unirest-java:3.14.1")
+    implementation("org.apache.logging.log4j:log4j-core:2.20.0")
 }
 
 tasks.test {

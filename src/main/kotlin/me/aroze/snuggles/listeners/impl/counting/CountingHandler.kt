@@ -83,6 +83,7 @@ object CountingHandler {
     fun handleMessageUpdate(channelData: ChannelData, channel: TextChannel, loggedMessage: LoggedMessage) {
         val count = channelData.counting ?: return
         if (!count.warnForEditedCounts) return
+        if (count.lastCounter != loggedMessage.author) return
 
         val number = try { Expressions().eval(loggedMessage.content) }
         catch (e: Exception) { return }
@@ -97,6 +98,7 @@ object CountingHandler {
     fun handleMessageDelete(channelData: ChannelData, channel: TextChannel, message: LoggedMessage) {
         val count = channelData.counting ?: return
         if (!count.warnForDeletedCounts) return
+        if (count.lastCounter != message.author) return
 
         val number = try { Expressions().eval(message.content) }
         catch (e: Exception) { return }
