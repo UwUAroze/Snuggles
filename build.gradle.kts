@@ -16,6 +16,8 @@ dependencies {
     implementation("net.dv8tion:JDA:5.0.0-beta.15")
     implementation("com.akuleshov7:ktoml-core-jvm:0.5.0")
     implementation("com.github.SantioMC.Coffee:jda:23a8cdcb69")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 }
 
 tasks.test {

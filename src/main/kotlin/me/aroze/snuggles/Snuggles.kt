@@ -10,9 +10,6 @@ import me.santio.coffee.jda.CoffeeJDA
 
 fun main(args: Array<String>) {
 
-    println(toBoxed(Boolean::class.java))
-    println(toBoxed(Boolean::class.javaPrimitiveType!!))
-
     ConfigLoader.load()
     BotLoader.initialise()
 
