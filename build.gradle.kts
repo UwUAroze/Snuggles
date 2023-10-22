@@ -25,5 +25,5 @@ kotlin {
 }
 
 application {
-    mainClass.set("me.aroze.SnugglesKt")
+    mainClass.set("me.aroze.snuggles.SnugglesKt")
 }

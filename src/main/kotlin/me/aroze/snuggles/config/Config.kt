@@ -1,4 +1,4 @@
-package me.aroze.config
+package me.aroze.snuggles.config
 
 import kotlinx.serialization.Serializable
 
