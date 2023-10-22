@@ -33,7 +33,6 @@ object BotLoader {
     private fun registerCommands() {
         snuggles.updateCommands().complete()
 
-        Coffee.verbose()
         Coffee.import(CoffeeJDA(snuggles))
         Coffee.brew("me.aroze.snuggles.command")
     }
