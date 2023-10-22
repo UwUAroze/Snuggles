@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "1.9.0"
+    kotlin("plugin.serialization") version "1.9.0"
     application
 }
 
@@ -11,7 +12,8 @@ repositories {
 }
 
 dependencies {
-    testImplementation(kotlin("test"))
+    implementation("net.dv8tion:JDA:5.0.0-beta.15")
+    implementation("com.akuleshov7:ktoml-core-jvm:0.5.0")
 }
 
 tasks.test {
@@ -23,5 +25,5 @@ kotlin {
 }
 
 application {
-    mainClass.set("MainKt")
+    mainClass.set("me.aroze.SnugglesKt")
 }

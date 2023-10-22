@@ -1,0 +1,9 @@
+# Snuggles config!
+# This is not a config for servers, but for the bot itself; you should only worry about this if you're self-hosting.
+#
+# Incase you mess up bad, you can find the original config for reference here:
+# https://github.com/UwUAroze/Snuggles/tree/v2/src/main/resources/config.toml
+# Alternatively you can just delete this file and restart the bot, generating a new one for you.
+
+[authentication]
+token = "Discord bot token"
