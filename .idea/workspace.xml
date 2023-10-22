@@ -4,20 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ac9be3ea-2f27-4a07-b1f9-3989c98496e9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/config/ConfigLoader.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/initialisation/BotLoader.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/discord.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/discord.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="ac9be3ea-2f27-4a07-b1f9-3989c98496e9" name="Changes" comment="basic bot login">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/command/PingCommand.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/me/aroze/Snuggles.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/Snuggles.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/me/aroze/config/Config.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/config/Config.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/me/aroze/config/ConfigLoader.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/Snuggles.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/Snuggles.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/initialisation/BotLoader.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/initialisation/BotLoader.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +25,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Kotlin Object" />
+        <option value="Kotlin Class" />
+        <option value="Kotlin Data Class" />
       </list>
     </option>
   </component>
@@ -62,6 +56,12 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="me.aroze.snuggles.command.impl" />
+      <recent name="me.aroze.snuggles.command.context" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="SnugglesKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="me.aroze.snuggles.SnugglesKt" />
@@ -85,11 +85,24 @@
       <option name="presentableId" value="Default" />
       <updated>1697941450209</updated>
       <workItem from="1697941451266" duration="906000" />
-      <workItem from="1697942486124" duration="956000" />
+      <workItem from="1697942486124" duration="4975000" />
     </task>
+    <task id="LOCAL-00001" summary="basic bot login">
+      <option name="closed" value="true" />
+      <created>1697943722762</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1697943722762</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="basic bot login" />
+    <option name="LAST_COMMIT_MESSAGE" value="basic bot login" />
   </component>
 </project>
