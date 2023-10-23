@@ -21,7 +21,7 @@ class SnugglyStatsCommand {
 
     fun snugglyStats(
         event: SlashCommandInteractionEvent,
-        @Optional @Description("Should this only show to you?") silent: Boolean?
+        @Optional @Description("Should this only show to you? (it won't by default!)") silent: Boolean?
     ) {
 
         val ownerString = if (owner.mutualGuilds.intersect(event.user.mutualGuilds.toSet()).isNotEmpty())
