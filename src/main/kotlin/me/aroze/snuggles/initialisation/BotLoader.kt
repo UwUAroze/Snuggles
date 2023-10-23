@@ -27,7 +27,7 @@ object BotLoader {
         login()
         registerCommands()
 
-        owner = snuggles.retrieveUserById("273524398483308549").complete()!!
+        owner = snuggles.retrieveUserById(config.developers.owner).complete()!!
     }
 
     private fun login() {
