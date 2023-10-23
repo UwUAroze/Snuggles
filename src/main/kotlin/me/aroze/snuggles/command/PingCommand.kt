@@ -2,6 +2,7 @@ package me.aroze.snuggles.command
 
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import me.aroze.snuggles.Constants.SILENT_DESCRIPTION
 import me.aroze.snuggles.initialisation.BotLoader.snuggles
 import me.aroze.snuggles.util.BarStyle
 import me.aroze.snuggles.util.bar
@@ -19,7 +20,7 @@ class PingCommand {
 
     fun ping(
         event: SlashCommandInteractionEvent,
-        @Optional @Description("Should this only show to you?") silent: Boolean?
+        @Optional @Description(SILENT_DESCRIPTION) silent: Boolean?
     ) {
 
         val started = System.currentTimeMillis()

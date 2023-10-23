@@ -1,6 +1,7 @@
 package me.aroze.snuggles.command
 
 import me.aroze.arozeutils.kotlin.extension.Number.formatCommas
+import me.aroze.snuggles.Constants.SILENT_DESCRIPTION
 import me.aroze.snuggles.config.ConfigLoader.config
 import me.aroze.snuggles.database.Database
 import me.aroze.snuggles.initialisation.BotLoader.owner
@@ -21,7 +22,7 @@ class SnugglyStatsCommand {
 
     fun snugglyStats(
         event: SlashCommandInteractionEvent,
-        @Optional @Description("Should this only show to you? (it won't by default!)") silent: Boolean?
+        @Optional @Description(SILENT_DESCRIPTION) silent: Boolean?
     ) {
 
         val ownerString = if (owner.mutualGuilds.intersect(event.user.mutualGuilds.toSet()).isNotEmpty())

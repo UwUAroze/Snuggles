@@ -1,6 +1,7 @@
 package me.aroze.snuggles.command
 
 import me.aroze.arozeutils.minecraft.generic.text.uwuify
+import me.aroze.snuggles.Constants.SILENT_DESCRIPTION
 import me.santio.coffee.common.annotations.Command
 import me.santio.coffee.common.annotations.Optional
 import me.santio.coffee.jda.annotations.Description
@@ -12,7 +13,7 @@ class UwUifyCommand {
 
     fun uwuify(
         event: SlashCommandInteractionEvent,
-        @Description("The message to UwUify") message: String,
+        @Description(SILENT_DESCRIPTION) message: String,
         @Optional @Description("Should this only show to you? (it won't by default!)") silent: Boolean?
     ) {
         // uwu ;3 -santio
