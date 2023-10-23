@@ -7,7 +7,9 @@ import org.bson.codecs.pojo.annotations.BsonIgnore
 
 data class SnugglyStats(
     var totalExecutions: Int = 0,
-    var totalCounts: Int = 0
+    var totalCounts: Int = 0,
+    var totalTrackedMessages: Int = 0,
+    var totalLoggedMessages: Int = 0
 ) {
 
     @BsonIgnore

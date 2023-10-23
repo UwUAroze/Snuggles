@@ -1,11 +1,8 @@
 package me.aroze.snuggles.command
 
-import jdk.jfr.Name
 import me.aroze.arozeutils.kotlin.extension.Number.formatCommas
 import me.aroze.snuggles.config.ConfigLoader.config
 import me.aroze.snuggles.database.Database
-import me.aroze.snuggles.database.Database.database
-import me.aroze.snuggles.database.models.SnugglyStats
 import me.aroze.snuggles.initialisation.BotLoader.owner
 import me.aroze.snuggles.initialisation.BotLoader.snuggles
 import me.aroze.snuggles.initialisation.BotLoader.startTime
@@ -33,12 +30,13 @@ class SnugglyStatsCommand {
         val eb = FancyEmbed()
             .setTitle("Snuggles...")
             .setDescription("""
-                > ...is maintained by $ownerString
-                > ...is in **${snuggles.guilds.size.formatCommas(false)}** servers, watching over **${snuggles.getAllUsers().formatCommas(false)}** users
-                > ...has been used to execute **${Database.snugglyStats.totalExecutions.formatCommas(false)}** commands
-                > ...has accepted **${Database.snugglyStats.totalCounts.formatCommas(false)}** instances of counting
-                > ...was last started <t:${(startTime / 1000)}:R>
-            """.trimIndent())
+                is maintained by $ownerString
+                is in **${snuggles.guilds.size.formatCommas(false)}** servers, watching over **${snuggles.getAllUsers().formatCommas(false)}** users
+                has been used to execute **${Database.snugglyStats.totalExecutions.formatCommas(false)}** commands
+                has accepted **${Database.snugglyStats.totalCounts.formatCommas(false)}** instances of counting
+                has logged **${Database.snugglyStats.totalLoggedMessages.formatCommas(false)}** out of **${Database.snugglyStats.totalTrackedMessages.formatCommas(false)}** tracked messages
+                was last started <t:${(startTime / 1000)}:R>
+            """.trimIndent().lines().joinToString("\n") { "> ...$it" })
 
         event.replyEmbeds(eb.build())
             .setEphemeral(silent ?: false)

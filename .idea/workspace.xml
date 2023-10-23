@@ -5,11 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac9be3ea-2f27-4a07-b1f9-3989c98496e9" name="Changes" comment="basic bot login">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/command/PingCommand.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/Snuggles.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/Snuggles.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/initialisation/BotLoader.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/initialisation/BotLoader.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/command/SnugglyStatsCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/command/SnugglyStatsCommand.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,6 +43,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "v2",
+    "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "C:/Users/admin/OneDrive/Desktop/Projects/Kotlin/Snuggles/OldSnuggles",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -86,6 +83,7 @@
       <updated>1697941450209</updated>
       <workItem from="1697941451266" duration="906000" />
       <workItem from="1697942486124" duration="4975000" />
+      <workItem from="1698070187150" duration="2501000" />
     </task>
     <task id="LOCAL-00001" summary="basic bot login">
       <option name="closed" value="true" />
