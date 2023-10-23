@@ -7,3 +7,7 @@
 
 [authentication]
 token = "Discord bot token"
+mongo = "mongodb://localhost:27017"
+
+[bot]
+invite_link = "https://discord.com/api/oauth2/authorize?client_id=0000000000000000000&permissions=140123688001&scope=bot%20applications.commands"
