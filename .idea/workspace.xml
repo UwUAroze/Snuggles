@@ -4,9 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ac9be3ea-2f27-4a07-b1f9-3989c98496e9" name="Changes" comment="basic bot login">
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/command/SnugglyStatsCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/command/SnugglyStatsCommand.kt" afterDir="false" />
+    <list default="true" id="ac9be3ea-2f27-4a07-b1f9-3989c98496e9" name="Changes" comment="dedicated constants">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/command/SetupCommand.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/setup/GenericSetup.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/util/type/Option.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
+    <list id="b25bbaf6-875a-4f52-8a83-330a51ff4a9b" name="Changes by santio" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,9 +24,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Kotlin Object" />
-        <option value="Kotlin Class" />
         <option value="Kotlin Data Class" />
+        <option value="Kotlin Class" />
+        <option value="Kotlin Object" />
       </list>
     </option>
   </component>
@@ -42,6 +46,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
     "git-widget-placeholder": "v2",
     "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "C:/Users/admin/OneDrive/Desktop/Projects/Kotlin/Snuggles/OldSnuggles",
@@ -49,7 +54,7 @@
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "settings.editor.selected.configurable": "CodeWithMe",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -84,6 +89,7 @@
       <workItem from="1697941451266" duration="906000" />
       <workItem from="1697942486124" duration="4975000" />
       <workItem from="1698070187150" duration="2501000" />
+      <workItem from="1698073076972" duration="15186000" />
     </task>
     <task id="LOCAL-00001" summary="basic bot login">
       <option name="closed" value="true" />
@@ -93,7 +99,47 @@
       <option name="project" value="LOCAL" />
       <updated>1697943722762</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="more snuggly stats + cleaner code">
+      <option name="closed" value="true" />
+      <created>1698074093363</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1698074093363</updated>
+    </task>
+    <task id="LOCAL-00003" summary="moved owner id to config and added dev ids">
+      <option name="closed" value="true" />
+      <created>1698099539626</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1698099539626</updated>
+    </task>
+    <task id="LOCAL-00004" summary="clarified silent arg description">
+      <option name="closed" value="true" />
+      <created>1698100505005</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1698100505005</updated>
+    </task>
+    <task id="LOCAL-00005" summary="feat: /uwuify">
+      <option name="closed" value="true" />
+      <created>1698101370565</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1698101370565</updated>
+    </task>
+    <task id="LOCAL-00006" summary="dedicated constants">
+      <option name="closed" value="true" />
+      <created>1698102960015</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1698102960015</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -101,6 +147,15 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="basic bot login" />
-    <option name="LAST_COMMIT_MESSAGE" value="basic bot login" />
+    <MESSAGE value="more snuggly stats + cleaner code" />
+    <MESSAGE value="moved owner id to config and added dev ids" />
+    <MESSAGE value="clarified silent arg description" />
+    <MESSAGE value="feat: /uwuify" />
+    <MESSAGE value="dedicated constants" />
+    <option name="LAST_COMMIT_MESSAGE" value="dedicated constants" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
