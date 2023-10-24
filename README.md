@@ -26,7 +26,7 @@ Welcome to Snuggles: a general purpose Discord bot with the goal of putting an e
 
 <br>**Message logging demo**:
 
-https://user-images.githubusercontent.com/68871455/223885577-3666acfb-73e4-4934-87cb-e8959ac92f22.mp4
+https://github.com/UwUAroze/Snuggles/assets/68871455/9c50bbb5-3bc5-4dfd-9d34-7817a1c08a24
 
 <hr><br>
 
@@ -34,7 +34,7 @@ https://user-images.githubusercontent.com/68871455/223885577-3666acfb-73e4-4934-
 
 <br>**Counting demo**:
 
-https://user-images.githubusercontent.com/68871455/223885589-2aa2a434-6134-45b0-8358-5a5c500e5afe.mp4
+https://github.com/UwUAroze/Snuggles/assets/68871455/233aa523-a677-4c8b-808a-68d6a898f0bf
 
 <hr><br>
 
