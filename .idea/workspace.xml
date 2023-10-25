@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ac9be3ea-2f27-4a07-b1f9-3989c98496e9" name="Changes" comment="dedicated constants">
+    <list default="true" id="ac9be3ea-2f27-4a07-b1f9-3989c98496e9" name="Changes" comment="feat: GenericSetup">
       <change afterPath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/command/SetupCommand.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/setup/GenericSetup.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/util/type/Option.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/database/models/features/ChannelData.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/database/models/features/generic/GenericFeature.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/database/models/features/generic/impl/LoggingData.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <list id="b25bbaf6-875a-4f52-8a83-330a51ff4a9b" name="Changes by santio" comment="" />
@@ -24,9 +26,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Kotlin Data Class" />
-        <option value="Kotlin Class" />
         <option value="Kotlin Object" />
+        <option value="Kotlin Class" />
+        <option value="Kotlin Data Class" />
       </list>
     </option>
   </component>
@@ -49,7 +51,7 @@
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "git-widget-placeholder": "v2",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/admin/OneDrive/Desktop/Projects/Kotlin/Snuggles/OldSnuggles",
+    "last_opened_file_path": "C:/Users/admin/OneDrive/Desktop/Projects/Kotlin/Snuggles/Snuggles",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -60,6 +62,8 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="me.aroze.snuggles.database.models.features" />
+      <recent name="me.aroze.snuggles.database.models.features.generic.impl" />
       <recent name="me.aroze.snuggles.command.impl" />
       <recent name="me.aroze.snuggles.command.context" />
     </key>
@@ -89,7 +93,8 @@
       <workItem from="1697941451266" duration="906000" />
       <workItem from="1697942486124" duration="4975000" />
       <workItem from="1698070187150" duration="2501000" />
-      <workItem from="1698073076972" duration="15186000" />
+      <workItem from="1698073076972" duration="15803000" />
+      <workItem from="1698182018173" duration="9037000" />
     </task>
     <task id="LOCAL-00001" summary="basic bot login">
       <option name="closed" value="true" />
@@ -139,7 +144,15 @@
       <option name="project" value="LOCAL" />
       <updated>1698102960015</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="feat: GenericSetup">
+      <option name="closed" value="true" />
+      <created>1698106100063</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1698106100063</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -152,7 +165,8 @@
     <MESSAGE value="clarified silent arg description" />
     <MESSAGE value="feat: /uwuify" />
     <MESSAGE value="dedicated constants" />
-    <option name="LAST_COMMIT_MESSAGE" value="dedicated constants" />
+    <MESSAGE value="feat: GenericSetup" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: GenericSetup" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
