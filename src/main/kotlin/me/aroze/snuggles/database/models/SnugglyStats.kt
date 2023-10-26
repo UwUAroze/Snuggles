@@ -12,7 +12,6 @@ data class SnugglyStats(
     var totalLoggedMessages: Int = 0
 ) {
 
-    @BsonIgnore
     fun save() {
         val collection = database.getCollection<SnugglyStats>("SnugglyStats")
         collection.findOneAndReplace(

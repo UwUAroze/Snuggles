@@ -1,5 +1,9 @@
 package me.aroze.snuggles.database.models.features.generic
 
+import com.mongodb.client.model.Filters
+import com.mongodb.client.model.FindOneAndReplaceOptions
+import me.aroze.snuggles.database.Database
+import me.aroze.snuggles.database.models.SnugglyStats
 import org.bson.codecs.pojo.annotations.BsonIgnore
 
 open class GenericFeature(

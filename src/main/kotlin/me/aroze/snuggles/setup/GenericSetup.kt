@@ -25,12 +25,23 @@ class GenericSetup(
     private val title: String = "$topic setup <:flushed_cool:1081364373295087686>",
 ): ListenerAdapter() {
 
-    private var textChannel: TextChannel? = null
+    private var textChannel: String? = null
     private val options = mutableListOf<Option>()
     private val id = UUID.randomUUID().toString().substring(0, 12)
+    private var channelCallback: ((String?) -> Unit)? = null
 
     fun addOption(name: String, description: String, enabled: Boolean = false, emoji: Emoji? = null, callback: (Boolean) -> Unit): GenericSetup {
         options.add(Option(name, description, enabled, emoji, callback))
+        return this
+    }
+
+    fun onFinish(callback: (String?) -> Unit): GenericSetup {
+        channelCallback = callback
+        return this
+    }
+
+    fun setChannel(channel: String?): GenericSetup {
+        textChannel = channel
         return this
     }
 
@@ -42,17 +53,19 @@ class GenericSetup(
     }
 
     private fun createChannelSelection(): EntitySelectMenu {
-        val builder = EntitySelectMenu.create("setup:$id", EntitySelectMenu.SelectTarget.CHANNEL)
+        val builder = EntitySelectMenu.create("setup:channel:$id", EntitySelectMenu.SelectTarget.CHANNEL)
             .setChannelTypes(ChannelType.TEXT)
             .setPlaceholder("Select a channel for ${topic.lowercase()} to take place in.")
             .setRequiredRange(0, 1)
 
-        builder.placeholder = "Select a channel. Current: #${textChannel?.name ?: "deleted channel"}"
+        val channel = textChannel?.let { snuggles.getTextChannelById(it) }
+        if (channel != null) builder.setDefaultValues(EntitySelectMenu.DefaultValue.channel(channel.id))
+
         return builder.build()
     }
 
     private fun createOptionsMenu(): StringSelectMenu {
-        return StringSelectMenu.create("setup:$id")
+        return StringSelectMenu.create("setup:settings:$id")
             .setRequiredRange(0, options.size)
             .setDisabled(textChannel == null)
             .setPlaceholder("Select an option")
@@ -84,7 +97,7 @@ class GenericSetup(
 
         if (!event.componentId.startsWith("setup:")) return
 
-        if (event is EntitySelectInteractionEvent) textChannel = event.mentions.channels.firstOrNull() as TextChannel?
+        if (event is EntitySelectInteractionEvent) textChannel = (event.mentions.channels.firstOrNull() as TextChannel?)?.id
         else if (event is StringSelectInteractionEvent) {
             options.forEach {
                 val previous = it.enabled
@@ -92,6 +105,8 @@ class GenericSetup(
                 if (it.enabled != previous) it.callback(it.enabled)
             }
         }
+
+        channelCallback?.invoke(textChannel)
 
         event.interaction.editMessageEmbeds(build())
             .setComponents(
