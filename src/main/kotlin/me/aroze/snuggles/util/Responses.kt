@@ -5,7 +5,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 
 object Responses {
 
-    fun errorGuildOnly(event: SlashCommandInteractionEvent) {
+    fun SlashCommandInteractionEvent.errorGuildOnly() {
         val eb = FancyEmbed()
             .addField("Awwwwhh.",
                 """
@@ -13,10 +13,11 @@ object Responses {
                 ~~Then again, we probably won't care.~~ Love you <3
                 """.trimIndent(), false)
 
-        event.replyEmbeds(eb.build())
+        this.replyEmbeds(eb.build())
             .bar(BarStyle.ERROR)
             .setEphemeral(true)
             .queue()
+
     }
 
 }
