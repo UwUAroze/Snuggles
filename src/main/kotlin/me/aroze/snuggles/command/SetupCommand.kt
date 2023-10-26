@@ -25,10 +25,10 @@ class SetupCommand {
         val logging = getLoggingData(event.guild!!.id) ?: LoggingData()
         var channelData = ChannelData.getByGuild(event.guild!!.id).firstOrNull { it.logging != null }
 
-        GenericSetup("Logging")
+        GenericSetup("Logging", logging.enabled)
             .setChannel(channelData?.channel)
             .addOption("Log message changes", "Sends a log whenever a message is edited or deleted.", logging.logMessageChanges) { logging.logMessageChanges = it }
-            .onFinish { channelData = updateChannelData(it, channelData, logging = logging) }
+            .onFinish { id, enabled -> channelData = updateChannelData(id, enabled, channelData, logging = logging) }
             .send(event)
             .queue()
 
@@ -39,13 +39,16 @@ class SetupCommand {
         event.reply("b").queue()
     }
 
-    private fun updateChannelData(id: String?, channelData: ChannelData?, logging: LoggingData? = null): ChannelData? {
+    private fun updateChannelData(id: String?, enabled: Boolean, channelData: ChannelData?, logging: LoggingData? = null): ChannelData? {
         var data = channelData
+        logging?.enabled = enabled
+
         if (id != data?.channel) {
             data?.delete()
             data = id?.let { ChannelData(it, logging) }
         }
-        data?.save()
+
+//        data?.save()
         return data
     }
 

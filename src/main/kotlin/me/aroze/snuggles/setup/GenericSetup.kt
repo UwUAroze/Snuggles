@@ -2,9 +2,12 @@ package me.aroze.snuggles.setup
 
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import me.aroze.arozeutils.kotlin.extension.addAll
 import me.aroze.snuggles.initialisation.BotLoader.snuggles
 import me.aroze.snuggles.util.type.FancyEmbed
 import me.aroze.snuggles.util.type.Option
+import me.santio.coffee.jda.gui.addActionRow
+import me.santio.coffee.jda.gui.button.Button
 import net.dv8tion.jda.api.entities.MessageEmbed
 import net.dv8tion.jda.api.entities.channel.ChannelType
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel
@@ -15,27 +18,30 @@ import net.dv8tion.jda.api.events.interaction.component.GenericSelectMenuInterac
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import net.dv8tion.jda.api.interactions.components.ActionRow
+import net.dv8tion.jda.api.interactions.components.LayoutComponent
+import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu
 import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu
 import net.dv8tion.jda.api.requests.restaction.interactions.ReplyCallbackAction
 import java.util.*
 
 class GenericSetup(
-    private val topic: String,
-    private val title: String = "$topic setup <:flushed_cool:1081364373295087686>",
+    private val feature: String,
+    private var enabled: Boolean,
+    private val title: String = "$feature setup <:flushed_cool:1081364373295087686>",
 ): ListenerAdapter() {
 
     private var textChannel: String? = null
     private val options = mutableListOf<Option>()
     private val id = UUID.randomUUID().toString().substring(0, 12)
-    private var channelCallback: ((String?) -> Unit)? = null
+    private var channelCallback: ((String?, Boolean) -> Unit)? = null
 
     fun addOption(name: String, description: String, enabled: Boolean = false, emoji: Emoji? = null, callback: (Boolean) -> Unit): GenericSetup {
         options.add(Option(name, description, enabled, emoji, callback))
         return this
     }
 
-    fun onFinish(callback: (String?) -> Unit): GenericSetup {
+    fun onFinish(callback: (String?, Boolean) -> Unit): GenericSetup {
         channelCallback = callback
         return this
     }
@@ -55,7 +61,7 @@ class GenericSetup(
     private fun createChannelSelection(): EntitySelectMenu {
         val builder = EntitySelectMenu.create("setup:channel:$id", EntitySelectMenu.SelectTarget.CHANNEL)
             .setChannelTypes(ChannelType.TEXT)
-            .setPlaceholder("Select a channel for ${topic.lowercase()} to take place in.")
+            .setPlaceholder("Select a channel for ${feature.lowercase()} to take place in.")
             .setRequiredRange(0, 1)
 
         val channel = textChannel?.let { snuggles.getTextChannelById(it) }
@@ -74,12 +80,32 @@ class GenericSetup(
             .build()
     }
 
+    private fun createToggleButton(): Button {
+        return Button.create(
+            (if (enabled) "Disable " else "Enable ") + feature,
+            if (enabled) ButtonStyle.DANGER else ButtonStyle.SUCCESS,
+        ) {
+            enabled = !enabled
+            it.event.editComponents(createActionRows()).queue()
+        }
+
+    }
+
+    private fun createActionRows(): List<LayoutComponent> {
+        val actionRows = mutableListOf<ActionRow>()
+        if (enabled) actionRows.addAll(
+            ActionRow.of(createChannelSelection()),
+            ActionRow.of(createOptionsMenu())
+        )
+        actionRows.add(ActionRow.of(createToggleButton().build()))
+        return actionRows
+    }
+
     fun send(message: SlashCommandInteractionEvent): ReplyCallbackAction {
         snuggles.addEventListener(this)
 
         return message.replyEmbeds(build())
-            .addActionRow(createChannelSelection())
-            .addActionRow(createOptionsMenu())
+            .addComponents(createActionRows())
             .setEphemeral(true)
     }
 
@@ -106,13 +132,10 @@ class GenericSetup(
             }
         }
 
-        channelCallback?.invoke(textChannel)
+        channelCallback?.invoke(textChannel, enabled)
 
         event.interaction.editMessageEmbeds(build())
-            .setComponents(
-                ActionRow.of(createChannelSelection()),
-                ActionRow.of(createOptionsMenu())
-            ).queue()
+            .setComponents(createActionRows()).queue()
     }
 
 }

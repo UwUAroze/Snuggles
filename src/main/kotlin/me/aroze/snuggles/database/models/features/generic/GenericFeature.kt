@@ -6,10 +6,7 @@ import me.aroze.snuggles.database.Database
 import me.aroze.snuggles.database.models.SnugglyStats
 import org.bson.codecs.pojo.annotations.BsonIgnore
 
-open class GenericFeature(
-    @BsonIgnore private vararg val _settings: Pair<String, Boolean>,
-    var enabled: Boolean = false
-) {
+open class GenericFeature(@BsonIgnore private vararg val _settings: Pair<String, Boolean>) {
 
     @BsonIgnore private val settings = _settings.toMap()
 
