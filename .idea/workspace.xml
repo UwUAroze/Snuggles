@@ -5,11 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac9be3ea-2f27-4a07-b1f9-3989c98496e9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/setup/ChannelSetup.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/database/models/features/generic/GenericFeature.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/database/models/features/generic/GenericFeature.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/database/models/features/ChannelData.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/database/models/features/ChannelData.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/database/models/features/generic/impl/LoggingData.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/database/models/features/generic/impl/LoggingData.kt" afterDir="false" />
     </list>
-    <list id="b25bbaf6-875a-4f52-8a83-330a51ff4a9b" name="Changes by santio" comment="" />
+    <list id="b25bbaf6-875a-4f52-8a83-330a51ff4a9b" name="Changes by santio" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/command/SetupCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/command/SetupCommand.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/database/models/features/generic/GenericFeature.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/database/models/features/generic/GenericFeature.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/database/models/features/generic/impl/LoggingData.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/database/models/features/generic/impl/LoggingData.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/setup/GenericSetup.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/setup/GenericSetup.kt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -24,14 +31,26 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Kotlin Object" />
-        <option value="Kotlin Class" />
         <option value="Kotlin Data Class" />
         <option value="Kotlin File" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="KotlinCodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/src/main/kotlin/me/aroze/snuggles/database/models/features/generic/impl/LoggingData.kt">
+      <ranges>
+        <range start1="3" end1="3" start2="3" end2="5" changelist="b25bbaf6-875a-4f52-8a83-330a51ff4a9b" />
+        <range start1="4" end1="6" start2="6" end2="11" changelist="ac9be3ea-2f27-4a07-b1f9-3989c98496e9" />
+        <range start1="7" end1="10" start2="12" end2="13" changelist="b25bbaf6-875a-4f52-8a83-330a51ff4a9b" />
+      </ranges>
+    </file>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -44,23 +63,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "v2",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/admin/OneDrive/Desktop/Projects/Kotlin/Snuggles/Snuggles",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "discord-application",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;v2&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/admin/OneDrive/Desktop/Projects/Kotlin/Snuggles/Snuggles&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;discord-application&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
       <recent name="me.aroze.snuggles.database.models.features" />
@@ -98,6 +117,9 @@
       <workItem from="1698182018173" duration="9037000" />
       <workItem from="1698267438345" duration="3786000" />
       <workItem from="1698349413313" duration="1388000" />
+      <workItem from="1698364918126" duration="524000" />
+      <workItem from="1698365479572" duration="27000" />
+      <workItem from="1698365534510" duration="4462000" />
     </task>
     <task id="LOCAL-00001" summary="basic bot login">
       <option name="closed" value="true" />

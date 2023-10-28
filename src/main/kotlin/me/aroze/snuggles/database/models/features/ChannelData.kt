@@ -10,7 +10,7 @@ import org.bson.codecs.pojo.annotations.BsonIgnore
 
 data class ChannelData(
     val channel: String,
-    val logging: LoggingData? = null,
+    var logging: LoggingData? = null,
 ) {
 
     fun save() {

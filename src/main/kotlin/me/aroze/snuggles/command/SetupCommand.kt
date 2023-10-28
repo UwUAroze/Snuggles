@@ -3,7 +3,7 @@ package me.aroze.snuggles.command
 import me.aroze.snuggles.database.models.features.ChannelData
 import me.aroze.snuggles.database.models.features.ChannelData.Companion.getLoggingData
 import me.aroze.snuggles.database.models.features.generic.impl.LoggingData
-import me.aroze.snuggles.setup.GenericSetup
+import me.aroze.snuggles.setup.ChannelSetup
 import me.aroze.snuggles.util.Responses.errorGuildOnly
 import me.santio.coffee.common.annotations.Command
 import me.santio.coffee.jda.annotations.Description
@@ -25,12 +25,24 @@ class SetupCommand {
         val logging = getLoggingData(event.guild!!.id) ?: LoggingData()
         var channelData = ChannelData.getByGuild(event.guild!!.id).firstOrNull { it.logging != null }
 
-        GenericSetup("Logging", logging.enabled)
-            .setChannel(channelData?.channel)
-            .addOption("Log message changes", "Sends a log whenever a message is edited or deleted.", logging.logMessageChanges) { logging.logMessageChanges = it }
-            .onFinish { id, enabled -> channelData = updateChannelData(id, enabled, channelData, logging = logging) }
-            .send(event)
-            .queue()
+        val setup = ChannelSetup("logging", LoggingData::class.java)
+            .isEnabled(logging.enabled)
+            .onUpdate { log, enabled ->
+                if (log != null) channelData?.logging = log
+                channelData?.logging?.enabled = enabled
+
+                channelData?.save()
+            }
+            .onChannelChanged {
+                val logging = channelData?.logging
+
+                if (it == null) channelData?.delete()
+                else channelData = ChannelData(it, logging)
+
+                channelData?.save()
+            }
+
+        setup.send(event).queue()
 
     }
 
@@ -38,18 +50,18 @@ class SetupCommand {
     fun counting(event: SlashCommandInteractionEvent) {
         event.reply("b").queue()
     }
-
-    private fun updateChannelData(id: String?, enabled: Boolean, channelData: ChannelData?, logging: LoggingData? = null): ChannelData? {
-        var data = channelData
-        logging?.enabled = enabled
-
-        if (id != data?.channel) {
-            data?.delete()
-            data = id?.let { ChannelData(it, logging) }
-        }
-
-//        data?.save()
-        return data
-    }
+//
+//    private fun updateChannelData(id: String?, enabled: Boolean, channelData: ChannelData?, logging: LoggingData? = null): ChannelData? {
+//        var data = channelData
+//        logging?.enabled = enabled
+//
+//        if (id != data?.channel) {
+//            data?.delete()
+//            data = id?.let { ChannelData(it, logging) }
+//        }
+//
+////        data?.save()
+//        return data
+//    }
 
 }

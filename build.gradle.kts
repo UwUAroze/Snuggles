@@ -14,9 +14,9 @@ repositories {
 
 dependencies {
     implementation("net.dv8tion:JDA:5.0.0-beta.15")
-    implementation("com.github.SantioMC.Coffee:jda:23a8cdcb69")
+    implementation("me.santio.Coffee:jda:e1235393f8")
 
-    implementation("com.github.uwuaroze:arozeutils:3b3a312dc4")
+    implementation("me.aroze:arozeutils:3b3a312dc4")
 
     implementation("com.akuleshov7:ktoml-core-jvm:0.5.0")
     implementation("org.mongodb:mongodb-driver-kotlin-sync:4.11.0")
