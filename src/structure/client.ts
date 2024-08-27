@@ -1,23 +1,19 @@
-import {Client, ClientOptions} from "discord.js";
-import {logger} from "../index";
+import { Client, ClientOptions } from "discord.js";
+import { logger } from "../index";
 import PingCommand from "../command/impl/pingCommand";
-import config from "../config/config";
-import {handleCommands} from "../util/commandUtils";
-import {deployCommands} from "../util/restUtils";
+import initalizeConfig from "../config/config";
+import { handleCommands } from "../util/commandUtils";
+import { deployCommands } from "../util/restUtils";
 import Command from "../command/command";
 
-const commands: Command[] = [
-  new PingCommand()
-];
+const commands: Command[] = [new PingCommand()];
 
-const listeners = [
-
-];
+const listeners = [];
 
 export class Snuggles extends Client {
   constructor(options: ClientOptions) {
     super(options);
-    this.init().catch(err => logger.error(err));
+    this.init().catch((err) => logger.error(err));
   }
 
   private async init() {
@@ -34,14 +30,27 @@ export class Snuggles extends Client {
     const startTime = new Date();
 
     // Register our commands with discord if enabled
-    if (config().commands.deploy || config().commands.global) {
-      await deployCommands(this, commands, config().commands.global ? undefined : config().commands.guild_id);
+    if (
+      initalizeConfig().commands.deploy ||
+      initalizeConfig().commands.global
+    ) {
+      await deployCommands(
+        this,
+        commands,
+        initalizeConfig().commands.global
+          ? undefined
+          : initalizeConfig().commands.guild_id
+      );
     }
 
     // Handle command execution with an event listener
     await handleCommands(this, commands);
 
-    logger.info(`Registered ${commands.length} command(s) in ${new Date().getTime() - startTime.getTime()}ms`);
+    logger.info(
+      `Registered ${commands.length} command(s) in ${
+        new Date().getTime() - startTime.getTime()
+      }ms`
+    );
   }
 
   private async registerListeners() {
@@ -49,7 +58,11 @@ export class Snuggles extends Client {
 
     // TODO: Implement listeners and listener registration
 
-    logger.info(`Registered ${listeners.length} listener(s) in ${new Date().getTime() - startTime.getTime()}ms`);
+    logger.info(
+      `Registered ${listeners.length} listener(s) in ${
+        new Date().getTime() - startTime.getTime()
+      }ms`
+    );
   }
 
   override login(token?: string) {
