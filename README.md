@@ -17,8 +17,8 @@ Welcome to Snuggles: a general purpose Discord bot with the goal of putting an e
 
 # Highlights
 * **Free & open source** - Protected by the [GNU General Public License v3.0](https://github.com/UwUAroze/Snuggles/blob/master/LICENSE), we embrace the open source community; you guys. Feel free to contribute, make suggestions or even create your own sub-projects.
-* **Painless & idiot-proof** - When designing even the smallest interactions with Snuggles, we've made sure to look from the perspective of a user, not a developer. From settings UI's to command parameters, everything works just how you'd expect, and feels natural.
-* **Looks matter** - Functionality aside, we strive for and take pride in our attention to detail; an area I often notice severely lacking in even the most popular of Discord bots, and something I've taken upon myself to alleviate.
+* **Painless & idiot-proof** - When designing even the smallest interactions with Snuggles, we"ve made sure to look from the perspective of a user, not a developer. From settings UI"s to command parameters, everything works just how you"d expect, and feels natural.
+* **Looks matter** - Functionality aside, we strive for and take pride in our attention to detail; an area I often notice severely lacking in even the most popular of Discord bots, and something I"ve taken upon myself to alleviate.
 
 # Bot modules
 
@@ -30,7 +30,7 @@ https://github.com/UwUAroze/Snuggles/assets/68871455/9c50bbb5-3bc5-4dfd-9d34-781
 
 <hr><br>
 
-* **Counting** - ~~Dead server?~~ Snuggles has you covered with a counting feature. For those who don't know how these work, the count starts at 0 and users must count in order... that's kinda it. Counting channels are a really fun way to liven your community, and Snuggles makes it easy, also adding it's own unique twist on how it interacts with users.
+* **Counting** - ~~Dead server?~~ Snuggles has you covered with a counting feature. For those who don"t know how these work, the count starts at 0 and users must count in order... that"s kinda it. Counting channels are a really fun way to liven your community, and Snuggles makes it easy, also adding it"s own unique twist on how it interacts with users.
 
 <br>**Counting demo**:
 
@@ -38,10 +38,10 @@ https://github.com/UwUAroze/Snuggles/assets/68871455/233aa523-a677-4c8b-808a-68d
 
 <hr><br>
 
-* **Feeling commands** - Want to express your love, appreciation, or frustration with your fellow Discord users? Snuggles provides a large range of feeling commands. Give your friends a hug, or let them know they're being a little too much with a good old fashioned slap ;) These commands have hundreds of unique messages, and even more unique responses under certain circumstances. They always feel genuine, unrepetitive and are super fun to mess around with.
+* **Feeling commands** - Want to express your love, appreciation, or frustration with your fellow Discord users? Snuggles provides a large range of feeling commands. Give your friends a hug, or let them know they"re being a little too much with a good old fashioned slap ;) These commands have hundreds of unique messages, and even more unique responses under certain circumstances. They always feel genuine, unrepetitive and are super fun to mess around with.
 
 <br>
 
-## Let's Get Snuggly!
+## Let"s Get Snuggly!
 
 Adding Snuggles to your Discord server is easy! Simply click [here](https://discord.com/api/oauth2/authorize?client_id=1071500899186389132&permissions=140123688001&scope=bot%20applications.commands) for an invite!

@@ -1,6 +1,6 @@
 import {Client, Routes} from "discord.js";
 import {logger} from "../index";
-import Command from "../command/command";
+import type ICommand from "../commands/ICommand.ts";
 
 export async function getRestPing(client: Client) {
     if (client.user === null) {
@@ -8,7 +8,7 @@ export async function getRestPing(client: Client) {
     }
 
     const start = Date.now();
-    const data = await client.rest.get(
+    await client.rest.get(
         Routes.user("@me"),
     );
     return Date.now() - start;
@@ -22,10 +22,10 @@ export async function getRestPing(client: Client) {
  */
 export async function deployCommands(
   client: Client,
-  commands: Command[],
+  commands: ICommand[],
   guildId?: number | string
 ) {
-    let commandsData = commands.map(command => command.getParsedCommand().toJSON());
+    let commandsData = commands.map(command => command.getCommand().toJSON());
 
     let responseData
     if (guildId) {
@@ -34,15 +34,15 @@ export async function deployCommands(
           { body: commandsData }
         );
 
-        logger.debug(`Deployed ${commandsData.length} commands to guild ${guildId}`);
+        logger.debug(`Deployed %s commands to guild %s`, commandsData.length, guildId);
     } else {
         responseData = await client.rest.put(
           Routes.applicationCommands(client.user!.id),
           { body: commandsData }
         );
 
-        logger.debug(`Deployed ${commandsData.length} commands globally`);
+        logger.debug(`Deployed %s commands globally`, commandsData.length);
     }
 
-    logger.debug("API Res:", JSON.stringify(responseData));
+    logger.debug("API Res: %s", JSON.stringify(responseData));
 }

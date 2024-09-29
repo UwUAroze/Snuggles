@@ -1,14 +1,14 @@
-import type ICommand from "../ICommand.ts";
+import type ICommand from "../../ICommand.ts";
 import {ChatInputCommandInteraction, CommandInteraction} from "discord.js";
-import {FancyEmbed} from "../../util/fancyEmbed";
-import {getRestPing} from "../../util/restUtils";
+import {FancyEmbed} from "../../../utils/fancyEmbed.ts";
+import {getRestPing} from "../../../utils/restUtils.ts";
 // import {databaseLatency} from "../../database/database";
-import ExtendedSlashCommandBuilder from "../ExtendedSlashCommandBuilder.ts";
+import ExtendedSlashCommandBuilder from "../../ExtendedSlashCommandBuilder.ts";
 
 
 export default class PingCommand implements ICommand {
-    description: string = "Measures Snuggle's snuggling speed";
     name: string = "ping";
+    description: string = "Measures Snuggle's snuggling speed";
 
     getCommand() {
         return new ExtendedSlashCommandBuilder()

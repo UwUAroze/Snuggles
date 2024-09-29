@@ -1,7 +1,7 @@
 import {Events, type ClientEvents} from "discord.js";
 import {Logger, type ILogObj} from "tslog";
 import type IEvent from "../IEvent.ts";
-import {deployCommands} from "../../util/restUtils.ts";
+import {deployCommands} from "../../utils/restUtils.ts";
 import SnugglesClient from "../../structure/client.ts";
 
 export const logger: Logger<ILogObj> = new Logger();

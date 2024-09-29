@@ -19,11 +19,11 @@ export class InteractionCreateEventHandler implements IEvent {
   async handle(interaction: Interaction<CacheType>) {
     if (!interaction.isCommand()) return;
 
-    // Get the command name from the interaction
+    // Get the commands name from the interaction
     const { commandName } = interaction;
     const command = this.client.commands.find(command => command.name === commandName);
 
-    // Check if the command exists
+    // Check if the commands exists
     if (!command) {
       logger.warn(`Command ${interaction.commandName} not found`);
       return;
@@ -33,12 +33,12 @@ export class InteractionCreateEventHandler implements IEvent {
     let interactionInstance = interaction as ChatInputCommandInteraction;
     interactionInstance.silent = interactionInstance.options.getBoolean("silent", interactionInstance.silent) ?? interactionInstance.silent;
 
-    // Execute the command using the specified handler
+    // Execute the commands using the specified handler
     command.handle(interactionInstance)
       .then(() => logger.debug(`Executed command ${interaction.commandName}`))
       .catch((err: Error) => {
         logger.error(`Error executing command ${interaction.commandName}`, err);
-        interaction.reply({ content: "An error occurred while executing this command", ephemeral: true });
+        interaction.reply({ content: "An error occurred while executing this commands", ephemeral: true });
       });
   }
 }
