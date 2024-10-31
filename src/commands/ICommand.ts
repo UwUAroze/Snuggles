@@ -1,4 +1,8 @@
-import {ChatInputCommandInteraction, type SlashCommandOptionsOnlyBuilder} from "discord.js";
+import {
+    ChatInputCommandInteraction,
+    type SlashCommandOptionsOnlyBuilder,
+    type SlashCommandSubcommandsOnlyBuilder
+} from "discord.js";
 
 /**
  * Represents a commands that can be executed by the bot
@@ -11,6 +15,6 @@ import {ChatInputCommandInteraction, type SlashCommandOptionsOnlyBuilder} from "
 export default interface ICommand {
     name: string;
     description: string;
-    getCommand(): SlashCommandOptionsOnlyBuilder;
+    getCommand(): SlashCommandOptionsOnlyBuilder | SlashCommandSubcommandsOnlyBuilder;
     handle(interaction: ChatInputCommandInteraction): Promise<void>;
 }

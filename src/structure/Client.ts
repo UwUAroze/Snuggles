@@ -8,6 +8,7 @@ import Lick from "../commands/implementations/fun/lick.ts";
 import Poke from "../commands/implementations/fun/poke.ts";
 import Slap from "../commands/implementations/fun/slap.ts";
 import Yell from "../commands/implementations/fun/yell.ts";
+import Ship from "../commands/implementations/fun/ship.ts";
 
 export default class SnugglesClient extends Client {
   public events: (new (client: SnugglesClient) => IEvent)[] = [
@@ -25,6 +26,7 @@ export default class SnugglesClient extends Client {
       new Poke(),
       new Slap(),
       new Yell(),
+      new Ship(),
   ];
 
   constructor(options: ClientOptions) {
