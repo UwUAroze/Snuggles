@@ -1,14 +1,15 @@
 import type ICommand from "../../ICommand.ts";
 import CommandBuilder from "../../CommandBuilder.ts";
-import {ChatInputCommandInteraction} from "discord.js";
+import {ChatInputCommandInteraction, Guild} from "discord.js";
+import Randomiser from "../../../utils/Randomiser.ts";
 
 export default abstract class FeelingsCommand implements ICommand {
     name: string;
     description: string;
 
-    messages = this.getMessages();
-    selfMessages = this.getSelfMessages();
-    botMessages = this.getBotMessages();
+    messages: Map<string, Randomiser<string>> = new Map();
+    selfMessages: Map<string, Randomiser<string>> = new Map();
+    botMessages: Map<string, Randomiser<string>> = new Map();
 
     constructor(name: string, description: string) {
         this.name = name
@@ -32,14 +33,22 @@ export default abstract class FeelingsCommand implements ICommand {
         if (!target) return;
 
         // Determine the group based on the target user
-        const group = target.id === interaction.client.user?.id
-            ? this.botMessages
-            : target.id === interaction.user.id
-                ? this.selfMessages
-                : this.messages;
+        let group;
+        let defaultList;
+
+        if (target.id === interaction.client.user?.id) {
+            group = this.botMessages;
+            defaultList = this.getBotMessages();
+        } else if (target.id === interaction.user.id) {
+            group = this.selfMessages;
+            defaultList = this.getSelfMessages();
+        } else {
+            group = this.messages;
+            defaultList = this.getMessages();
+        }
 
         // Get a random feeling message based on the determined group
-        const message = this.randomFeeling(group)
+        const message = this.randomFeeling(interaction.guildId ?? "0", group, defaultList)
             .replace("{user}", interaction.user.toString())
             .replace("{target}", target.toString());
 
@@ -50,12 +59,12 @@ export default abstract class FeelingsCommand implements ICommand {
     abstract getSelfMessages(): string[];
     abstract getBotMessages(): string[];
 
-    randomFeeling(group: string[]): string {
-        if (!group || group.length === 0) {
-            throw new Error(`No data found for group: ${group} for feeling: ${this.name}`);
+    randomFeeling(guild: string, group: Map<string, Randomiser<string>>, defaultList: string[]): string {
+        if (!group.has(guild)) {
+            group.set(guild, new Randomiser(defaultList));
         }
 
-        return group[Math.floor(Math.random() * group.length)];
+        return <string>group.get(guild)?.next();
     }
 
 }
