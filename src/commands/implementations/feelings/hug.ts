@@ -1,7 +1,7 @@
 import FeelingsCommand from "./FeelingsCommand.ts";
 import type ICommand from "../../ICommand.ts";
 
-export default class Hug extends FeelingsCommand implements ICommand {
+export default class Hug extends FeelingsCommand {
     constructor() {
         super("hug", "Give someone a big fat cuddly wuddly");
     }
