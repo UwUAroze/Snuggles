@@ -3,15 +3,15 @@ import {ChatInputCommandInteraction, CommandInteraction} from "discord.js";
 import {FancyEmbed} from "../../../utils/fancyEmbed.ts";
 import {getRestPing} from "../../../utils/restUtils.ts";
 // import {databaseLatency} from "../../database/database";
-import ExtendedSlashCommandBuilder from "../../ExtendedSlashCommandBuilder.ts";
+import CommandBuilder from "../../CommandBuilder.ts";
 
 
-export default class PingCommand implements ICommand {
+export default class Ping implements ICommand {
     name: string = "ping";
     description: string = "Measures Snuggle's snuggling speed";
 
     getCommand() {
-        return new ExtendedSlashCommandBuilder()
+        return new CommandBuilder()
             .setName(this.name)
             .setDescription(this.description)
             .hasSilentToggle(true);

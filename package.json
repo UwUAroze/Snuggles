@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@iarna/toml": "^2.2.5",
+    "bson": "^6.9.0",
     "discord.js": "^14.16.2",
     "tslog": "^4.9.3"
   }

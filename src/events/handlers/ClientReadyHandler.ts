@@ -2,13 +2,13 @@ import {Events, type ClientEvents} from "discord.js";
 import {Logger, type ILogObj} from "tslog";
 import type IEvent from "../IEvent.ts";
 import {deployCommands} from "../../utils/restUtils.ts";
-import SnugglesClient from "../../structure/client.ts";
+import SnugglesClient from "../../structure/Client.ts";
 
 export const logger: Logger<ILogObj> = new Logger();
 
-export class ClientReadyEventHandler implements IEvent {
+export class ClientReadyHandler implements IEvent {
   public event: keyof ClientEvents = Events.ClientReady
-  public once: boolean = true;
+  public once = true;
 
   constructor(private client: SnugglesClient) {}
 

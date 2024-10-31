@@ -1,19 +1,19 @@
 import type ICommand from "../../ICommand.ts";
-import ExtendedSlashCommandBuilder from "../../ExtendedSlashCommandBuilder.ts";
+import CommandBuilder from "../../CommandBuilder.ts";
 import {ChatInputCommandInteraction} from "discord.js";
 import {randomFeeling} from "../../../utils/feelings.ts";
 
-export default class HugCommand implements ICommand {
-    name: string = "hug";
-    description: string = "Give someone a big fat cuddly wuddly";
+export default class Poke implements ICommand {
+    name: string = "poke";
+    description: string = "Pokes your victim";
 
     getCommand() {
-        return new ExtendedSlashCommandBuilder()
+        return new CommandBuilder()
             .setName(this.name)
             .setDescription(this.description)
             .addUserOption(option => option
                 .setName("target")
-                .setDescription("The user to hug")
+                .setDescription("The user to poke")
                 .setRequired(true)
             );
     }
@@ -30,7 +30,7 @@ export default class HugCommand implements ICommand {
                 : "messages";
 
         // Get a random feeling message based on the determined group
-        const message = randomFeeling("HUG", group)
+        const message = randomFeeling("POKE", group)
             .replace("{user}", interaction.user.toString())
             .replace("{target}", target.toString());
 
