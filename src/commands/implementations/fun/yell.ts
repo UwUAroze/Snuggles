@@ -1,14 +1,14 @@
 import type ICommand from "../../ICommand.ts";
-import ExtendedSlashCommandBuilder from "../../ExtendedSlashCommandBuilder.ts";
+import CommandBuilder from "../../CommandBuilder.ts";
 import {ChatInputCommandInteraction} from "discord.js";
 import {randomFeeling} from "../../../utils/feelings.ts";
 
-export default class YellCommand implements ICommand {
+export default class Yell implements ICommand {
     name: string = "yell";
     description: string = "Yell at a meanie weanie";
 
     getCommand() {
-        return new ExtendedSlashCommandBuilder()
+        return new CommandBuilder()
             .setName(this.name)
             .setDescription(this.description)
             .addUserOption(option => option

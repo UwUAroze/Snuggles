@@ -6,11 +6,11 @@ import {
 } from "discord.js";
 import {Logger, type ILogObj} from "tslog";
 import type IEvent from "../IEvent.ts";
-import SnugglesClient from "../../structure/client.ts";
+import SnugglesClient from "../../structure/Client.ts";
 
 export const logger: Logger<ILogObj> = new Logger();
 
-export class InteractionCreateEventHandler implements IEvent {
+export class InteractionCreateHandler implements IEvent {
   public event: keyof ClientEvents = Events.InteractionCreate;
   public once: boolean = false;
 

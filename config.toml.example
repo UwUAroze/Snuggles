@@ -1,0 +1,11 @@
+[authorization]
+discord_token = ""
+
+[commands]
+global = false
+deploy = true
+guild_id = "123456789012345678"
+
+[database]
+mongo_uri = "mongodb://localhost:27017"
+database_name = "production"

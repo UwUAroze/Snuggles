@@ -1,6 +1,6 @@
 import {SlashCommandBuilder} from '@discordjs/builders';
 
-export default class ExtendedSlashCommandBuilder extends SlashCommandBuilder {
+export default class CommandBuilder extends SlashCommandBuilder {
     private silentToggle: boolean = false;
 
     /**

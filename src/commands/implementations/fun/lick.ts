@@ -1,14 +1,14 @@
 import type ICommand from "../../ICommand.ts";
-import ExtendedSlashCommandBuilder from "../../ExtendedSlashCommandBuilder.ts";
+import CommandBuilder from "../../CommandBuilder.ts";
 import {ChatInputCommandInteraction} from "discord.js";
 import {randomFeeling} from "../../../utils/feelings.ts";
 
-export default class LickCommand implements ICommand {
+export default class Lick implements ICommand {
     name: string = "lick";
     description: string = "Use this to lick your prey ;)";
 
     getCommand() {
-        return new ExtendedSlashCommandBuilder()
+        return new CommandBuilder()
             .setName(this.name)
             .setDescription(this.description)
             .addUserOption(option => option

@@ -3,7 +3,7 @@ import {Logger, type ILogObj} from "tslog";
 import config from "./config/config";
 // import {databaseConnect} from "./database/database";
 // import UserMessageService from "./database/services/userMessageService";
-import SnugglesClient from "./structure/client";
+import SnugglesClient from "./structure/Client.ts";
 
 export const logger: Logger<ILogObj> = new Logger();
 // export const userMessageService = new UserMessageService();
