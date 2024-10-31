@@ -1,58 +1,51 @@
-import {Client, ClientOptions} from "discord.js";
-import {logger} from "../index";
-import PingCommand from "../command/impl/pingCommand";
-import config from "../config/config";
-import {handleCommands} from "../util/commandUtils";
-import {deployCommands} from "../util/restUtils";
-import Command from "../command/command";
+import {Client, type ClientOptions} from "discord.js";
+import {ClientReadyEventHandler} from "../events/implementation/clientReadyEventHandler.ts";
+import {InteractionCreateEventHandler} from "../events/implementation/interactionCreateEventHandler.ts";
+import PingCommand from "../commands/implementation/utility/pingCommand.ts";
+import type IEvent from "../events/IEvent.ts";
+import HugCommand from "../commands/implementation/fun/hugCommand.ts";
+import LickCommand from "../commands/implementation/fun/lickCommand.ts";
+import PokeCommand from "../commands/implementation/fun/pokeCommand.ts";
+import SlapCommand from "../commands/implementation/fun/slapCommand.ts";
+import YellCommand from "../commands/implementation/fun/yellCommand.ts";
 
-const commands: Command[] = [
-  new PingCommand()
-];
+export default class SnugglesClient extends Client {
+  public events: (new (client: SnugglesClient) => IEvent)[] = [
+    ClientReadyEventHandler,
+    InteractionCreateEventHandler
+  ];
 
-const listeners = [
+  public commands = [
+      // Utility commands
+      new PingCommand(),
 
-];
+      // Fun commands
+      new HugCommand(),
+      new LickCommand(),
+      new PokeCommand(),
+      new SlapCommand(),
+      new YellCommand(),
+  ];
 
-export class Snuggles extends Client {
   constructor(options: ClientOptions) {
     super(options);
-    this.init().catch(err => logger.error(err));
   }
 
-  private async init() {
-    this.once("ready", this.onReady);
-  }
-
-  private async onReady() {
-    logger.info(`Logged in as ${this.user!.tag} (${this.user!.id})`);
-    await this.registerCommands();
-    await this.registerListeners();
-  }
-
-  private async registerCommands() {
-    const startTime = new Date();
-
-    // Register our commands with discord if enabled
-    if (config().commands.deploy || config().commands.global) {
-      await deployCommands(this, commands, config().commands.global ? undefined : config().commands.guild_id);
-    }
-
-    // Handle command execution with an event listener
-    await handleCommands(this, commands);
-
-    logger.info(`Registered ${commands.length} command(s) in ${new Date().getTime() - startTime.getTime()}ms`);
-  }
-
-  private async registerListeners() {
-    const startTime = new Date();
-
-    // TODO: Implement listeners and listener registration
-
-    logger.info(`Registered ${listeners.length} listener(s) in ${new Date().getTime() - startTime.getTime()}ms`);
-  }
-
-  override login(token?: string) {
+  override async login(token?: string) {
+    await this.registerEvents();
     return super.login(token);
+  }
+
+  private async registerEvents() {
+    for (const Event of this.events) {
+      const eventInstance = new Event(this);
+      const eventName = eventInstance.event;
+      const handler = eventInstance.handle.bind(eventInstance);
+      if (eventInstance.once) {
+        this.once(eventName, handler);
+      } else {
+        this.on(eventName, handler);
+      }
+    }
   }
 }

@@ -1,21 +1,23 @@
-import Command from "../command";
-import {ChatInputCommandInteraction, CommandInteraction, SlashCommandBuilder} from "discord.js";
-import {FancyEmbed} from "../../util/fancyEmbed";
-import {getRestPing} from "../../util/restUtils";
-import {databaseLatency} from "../../database/database";
+import type ICommand from "../../ICommand.ts";
+import {ChatInputCommandInteraction, CommandInteraction} from "discord.js";
+import {FancyEmbed} from "../../../utils/fancyEmbed.ts";
+import {getRestPing} from "../../../utils/restUtils.ts";
+// import {databaseLatency} from "../../database/database";
+import ExtendedSlashCommandBuilder from "../../ExtendedSlashCommandBuilder.ts";
 
-export default class PingCommand extends Command {
-    constructor() {
-        super("ping", "Measure's Snuggle's snuggling speed");
-    }
 
-    override getCommand() {
-        return new SlashCommandBuilder()
+export default class PingCommand implements ICommand {
+    name: string = "ping";
+    description: string = "Measures Snuggle's snuggling speed";
+
+    getCommand() {
+        return new ExtendedSlashCommandBuilder()
             .setName(this.name)
-            .setDescription(this.description);
+            .setDescription(this.description)
+            .hasSilentToggle(true);
     }
 
-    override async execute(interaction: ChatInputCommandInteraction) {
+    async handle(interaction: ChatInputCommandInteraction) {
         const now = Date.now();
         const timeSent = interaction.createdTimestamp;
         const gatewayPing = interaction.client.ws.ping;
@@ -39,7 +41,7 @@ export default class PingCommand extends Command {
         const reply = await interaction.reply({
             embeds: [embed],
             fetchReply: true,
-            ephemeral: this.getSilent(interaction)
+            ephemeral: interaction.silent
         });
 
         const responseLatency = reply.createdTimestamp - timeSent
@@ -51,7 +53,8 @@ export default class PingCommand extends Command {
         description[3] = ` - **Misc Rest Latency** ${restPing}ms`
         await this.updateEmbed(interaction, embed, description);
 
-        const dbPing = await databaseLatency();
+        // const dbPing = await databaseLatency();
+        const dbPing = 0;
         description[6] = ` - **Database Latency** ${dbPing}ms`
         await this.updateEmbed(interaction, embed, description, "<:ping:1255273004292771931>  Pong!");
     }
@@ -63,5 +66,4 @@ export default class PingCommand extends Command {
             embeds: [embed]
         });
     }
-
 }
