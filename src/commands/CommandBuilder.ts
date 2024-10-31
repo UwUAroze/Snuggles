@@ -14,6 +14,7 @@ export default class CommandBuilder extends SlashCommandBuilder {
     }
 
     override toJSON() {
+        // TODO: Implement default silent
         if (this.silentToggle) {
             super.addBooleanOption(option => option
                 .setName("silent")
