@@ -1,0 +1,25 @@
+{
+  "name": "snuggles",
+  "module": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "start": "bun run src/index.ts",
+    "build": "bun build src/index.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/pg": "^8.11.10",
+    "drizzle-kit": "^0.27.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@iarna/toml": "^2.2.5",
+    "bson": "^6.9.0",
+    "discord.js": "^14.16.2",
+    "drizzle-orm": "^0.36.0",
+    "pg": "^8.13.1",
+    "tslog": "^4.9.3"
+  }
+}
