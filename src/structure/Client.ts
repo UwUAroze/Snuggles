@@ -9,11 +9,13 @@ import Poke from "../commands/implementations/feelings/poke.ts";
 import Slap from "../commands/implementations/feelings/slap.ts";
 import Yell from "../commands/implementations/feelings/yell.ts";
 import Ship from "../commands/implementations/fun/ship.ts";
+import {CountingHandler} from "../events/handlers/CountingHandler.ts";
 
 export default class SnugglesClient extends Client {
   public events: (new (client: SnugglesClient) => IEvent)[] = [
     ClientReadyHandler,
-    InteractionCreateHandler
+    InteractionCreateHandler,
+    CountingHandler
   ];
 
   public commands = [
