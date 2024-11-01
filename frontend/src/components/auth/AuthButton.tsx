@@ -23,10 +23,13 @@ export default function AuthButton() {
     }
 
     return (
-        <Button
-            onClick={() => signIn("discord")}
-        >
-            Login with Discord
-        </Button>
+        <div>
+            <p>Login</p>
+            <Button
+                onClick={() => signIn("discord")}
+            >
+                Login with Discord
+            </Button>
+        </div>
     );
 }
