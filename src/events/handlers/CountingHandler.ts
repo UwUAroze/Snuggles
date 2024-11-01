@@ -77,7 +77,7 @@ export class CountingHandler implements IEvent {
       emoji = "💯"
     }
 
-    if (String(countData).includes("69")) {
+    if (String(countData.count).includes("69")) {
       emoji = this.client.emojis.cache.get("1302010438367707196")
     }
 
