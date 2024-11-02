@@ -4,6 +4,9 @@ import config from "./config/config";
 // import {databaseConnect} from "./database/database";
 // import UserMessageService from "./database/services/userMessageService";
 import SnugglesClient from "./structure/Client.ts";
+import {PrismaClient} from "@prisma/client";
+
+export const prisma = new PrismaClient()
 
 export const logger: Logger<ILogObj> = new Logger();
 // export const userMessageService = new UserMessageService();

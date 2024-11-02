@@ -1,0 +1,28 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgres://postgres:kms@localhost:5432"
+}
+
+model GuildCounting {
+  guildId                        String  @id
+  channelId                      String  @unique
+  enabled                        Boolean @default(false)
+  count                          Int     @default(0)
+  highScore                      Int     @default(0)
+  lastCounterId                  String?
+  allowConsecutiveCounts         Boolean @default(false)
+  allowTalkingUsers              Boolean @default(true)
+  warnForDeletes                 Boolean @default(true)
+  warnForEdits                   Boolean @default(true)
+  consecutiveCountingFailMessage String  @default("Jesus christ {authorPing}, you're such a failure, you can't type two numbers in a row")
+  wrongNumberFailMessage         String  @default("Everyone look, this moron {authorPing} FUCKED IT UP at **{count}**. Go back to school you dumbass.")
+  caughtEditMessage              String  @default("{authorPing} thinks they're sneaky and edited their latest count, which was originally **{count}**")
+  caughtDeleteMessage            String  @default("{authorPing} thinks they're sneaky and deleted the latest count of **{count}**")
+}
