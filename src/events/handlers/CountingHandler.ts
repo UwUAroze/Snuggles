@@ -3,13 +3,13 @@ import {
   type ClientEvents,
   Message,
   type OmitPartialGroupDMChannel,
-  type EmojiIdentifierResolvable, Emoji, GuildEmoji, ReactionEmoji
+  type EmojiIdentifierResolvable, Emoji, GuildEmoji, ReactionEmoji, type User, type Interaction
 } from "discord.js";
 import {Logger, type ILogObj} from "tslog";
 import type IEvent from "../IEvent.ts";
 import type SnugglesClient from "../../structure/Client.ts";
 import GuildCountingService from "../../database/services/GuildCountingService.ts";
-import {count, evaluate, number, re} from 'mathjs'
+import {column, count, evaluate, number, re} from 'mathjs'
 import type {GuildCounting} from "@prisma/client";
 
 
@@ -44,19 +44,24 @@ export class CountingHandler implements IEvent {
       return;
     }
 
+    const lastCounter = countData.lastCounterId
     countData.lastCounterId = message.author.id
 
     const isCorrect = number === countData.count + 1
+    let currentCount = countData.count
 
     if (!isCorrect) {
-      let oldCount = countData.count
       countData.count = 0
       await GuildCountingService.updateCountData(countData)
-      await message.reply(
-          countData.wrongNumberFailMessage
-              .replace("{authorPing}", "<@" + message.author.id + ">")
-              .replace("{count}", oldCount.toString())
-      )
+      await message.reply(this.parseCountingMessage(countData.wrongNumberFailMessage, message.author, currentCount))
+      await message.react(this.getReaction(countData, isCorrect))
+      return
+    }
+
+    if (currentCount != 0 && !countData.allowConsecutiveCounts && lastCounter === message.author.id) {
+      countData.count = 0
+      await GuildCountingService.updateCountData(countData)
+      await message.reply(this.parseCountingMessage(countData.consecutiveCountingFailMessage, message.author, currentCount))
       await message.react(this.getReaction(countData, isCorrect))
       return
     }
@@ -90,7 +95,12 @@ export class CountingHandler implements IEvent {
     }
 
     return emoji ?? "✅" // Last resort/fallback
+  }
 
+  private parseCountingMessage(message: string, author: User, count: number): string {
+    return message
+        .replace("{authorPing}", "<@" + author.id + ">")
+        .replace("{count}", count.toString())
   }
 
 }
