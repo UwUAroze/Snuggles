@@ -49,18 +49,20 @@ export class CountingHandler implements IEvent {
     const isCorrect = number === countData.count + 1
     let currentCount = countData.count
 
-    if (!isCorrect) {
-      countData.count = 0
-      await GuildCountingService.updateCountData(countData)
-      await message.reply(this.parseCountingMessage(countData.wrongNumberFailMessage, message.author, currentCount))
-      await message.react(this.getReaction(countData, isCorrect))
-      return
-    }
+    let failMessage: string | null = null
 
     if (currentCount != 0 && !countData.allowConsecutiveCounts && lastCounter === message.author.id) {
+      failMessage = countData.consecutiveCountingFailMessage
+    }
+
+    if (!isCorrect) {
+      failMessage = countData.wrongNumberFailMessage
+    }
+
+    if (failMessage) {
       countData.count = 0
       await GuildCountingService.updateCountData(countData)
-      await message.reply(this.parseCountingMessage(countData.consecutiveCountingFailMessage, message.author, currentCount))
+      await message.reply(this.parseCountingMessage(failMessage, message.author, currentCount))
       await message.react(this.getReaction(countData, isCorrect))
       return
     }
@@ -70,8 +72,8 @@ export class CountingHandler implements IEvent {
     await message.react(this.getReaction(countData, isCorrect))
   }
 
-  private getReaction(countData: GuildCounting, isCorrect: boolean): GuildEmoji|string {
-    let emoji: GuildEmoji|string|undefined = undefined
+  private getReaction(countData: GuildCounting, isCorrect: boolean): GuildEmoji | string {
+    let emoji: GuildEmoji | string | undefined = undefined
 
     if (countData.count == countData.highScore) {
       emoji = this.client.emojis.cache.get("1302005422043172864")
