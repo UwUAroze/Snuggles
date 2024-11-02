@@ -24,7 +24,6 @@ export class CountingHandler implements IEvent {
   async handle(message: OmitPartialGroupDMChannel<Message<boolean>>) {
     const countData = await GuildCountingService.getCountingDataForChannel(message.channelId);
     if (!countData) return;
-    logger.debug(`message: ${message.content} | count: ${countData.count}`)
 
     // Ignore bot messages and webhooks
     if (message.webhookId != null) return
