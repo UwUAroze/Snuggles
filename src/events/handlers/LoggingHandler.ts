@@ -3,7 +3,7 @@ import {
     type ClientEvents,
     Message,
     type OmitPartialGroupDMChannel,
-    TextChannel, AttachmentBuilder,
+    TextChannel, AttachmentBuilder, type User,
 } from "discord.js";
 import {Logger, type ILogObj} from "tslog";
 import type IEvent from "../IEvent.ts";
@@ -20,12 +20,13 @@ export class LoggingMessageCreateHandler implements IEvent {
     public event: keyof ClientEvents = Events.MessageCreate;
     public once = false;
 
-    constructor(private client: SnugglesClient) {
-    }
+    constructor(private client: SnugglesClient) {}
 
     async handle(message: OmitPartialGroupDMChannel<Message<boolean>>) {
         const guild = message.guild
         if (!guild) return;
+
+        if (message.author.id == this.client.user?.id) return
 
         await GuildLoggingService.saveMessage(message);
     }
@@ -36,23 +37,23 @@ export class LoggingMessageDeleteHandler implements IEvent {
     public event: keyof ClientEvents = Events.MessageDelete;
     public once = false;
 
-    constructor(private client: SnugglesClient) {}
+    constructor(private client: SnugglesClient) {
+    }
 
     async handle(deletedMessage: OmitPartialGroupDMChannel<Message<boolean>>) {
-        logger.debug("deleted message")
-
         const guildId = deletedMessage.guildId
         if (!guildId) return
 
         const logSettings = await GuildLoggingService.fetchGuildLoggingSettings(guildId);
         if (!logSettings || !logSettings.enabled || !logSettings.logDeletes) return
 
+        let loggingChannel = this.client.channels.cache.get(logSettings.channelId) as TextChannel | undefined
+        if (!loggingChannel) return // TODO: maybe some handling to reset the logging channel if it's deleted, (disable the feature)?
+
         const loggedMessage = await GuildLoggingService.fetchSavedMessage(deletedMessage.id);
         if (!loggedMessage) return
 
-        let deletedMessageChannelName = "Unknown Channel"
-        const deletedMessageChannel = this.client.channels.cache.get(deletedMessage.channelId)
-        if (deletedMessageChannel) deletedMessageChannelName = (deletedMessageChannel as TextChannel).name
+        const deletedMessageChannelName = await getChannelName(this.client, deletedMessage.channelId)
 
         let description =
             `\n > Deleted content: ` +
@@ -63,21 +64,16 @@ export class LoggingMessageDeleteHandler implements IEvent {
             ` > Channel: ${deletedMessage.channel} (\`${deletedMessage.channelId}\`)\n` +
             `\n`;
 
-        const author = await this.client.users.fetch(loggedMessage.authorId)
-
-        const eb = new FancyEmbed()
-            .setAuthor({name: `A message by ${author.username} was deleted in #${deletedMessageChannelName}`})
-
         if (loggedMessage.attachments.length > 0) {
             description += `\n > Attachments: ${loggedMessage.attachments.length} (uploaded with this message) \n`;
         }
 
-        eb.setDescription(description)
+        const author = await getUser(this.client, loggedMessage.authorId)
 
-        let loggingChannel = this.client.channels.cache.get(logSettings.channelId)
-        if (!loggingChannel) return // TODO: maybe some handling to reset the logging channel if it's deleted, (disable the feature)?
+        const eb = new FancyEmbed("error")
+            .setAuthor({name: `A message by @${author.username} was deleted in #${deletedMessageChannelName}`, iconURL: author.displayAvatarURL()})
+            .setDescription(description)
 
-        loggingChannel = loggingChannel as TextChannel
         await loggingChannel.send({embeds: [eb], files: await collectFiles(loggedMessage)})
     }
 
@@ -90,12 +86,44 @@ export class LoggingMessageUpdateHandler implements IEvent {
     constructor(private client: SnugglesClient) {
     }
 
-    async handle(message: Message, newMessage: Message) {
-        logger.debug(`Message updated ${message.content} -> ${newMessage.content}`)
+    async handle(partialOldMessage: OmitPartialGroupDMChannel<Message<boolean>>, partialNewMessage: OmitPartialGroupDMChannel<Message<boolean>>) {
+        const guildId = partialOldMessage.guildId
+        if (!guildId) return
+
+        const logSettings = await GuildLoggingService.fetchGuildLoggingSettings(guildId);
+        if (!logSettings) return
+
+        const oldMessage = await GuildLoggingService.fetchSavedMessage(partialOldMessage.id);
+        if (!oldMessage) return
+
+        await GuildLoggingService.saveMessage(partialNewMessage)
+        if (!logSettings.enabled || !logSettings.logEdits) return
+
+        let loggingChannel = this.client.channels.cache.get(logSettings.channelId) as TextChannel | undefined
+        if (!loggingChannel) return // TODO: maybe some handling to reset the logging channel if it's deleted, (disable the feature)?
+
+        const updatedMessageChannelName = await getChannelName(this.client, partialOldMessage.channelId)
+        const author = await getUser(this.client, oldMessage.authorId)
+
+        const eb = new FancyEmbed()
+            .setAuthor({name: `A message by @${author.username} was edited in #${updatedMessageChannelName}`, iconURL: author.displayAvatarURL()})
+            .setDescription(
+                `\n > Message before edit:
+                ${!oldMessage.textContent ? '`(None; message had no text content)`' : `${oldMessage.textContent}`}
+                \n > Message after edit:
+                ${partialNewMessage.content}
+                \n > Perpetrator: ${partialNewMessage.author} \`(${partialNewMessage.author.id})\`
+                  > Channel: ${partialNewMessage.channel} \`(${partialNewMessage.channel.id})\`
+                  > Message: https://discord.com/channels/${guildId}/${partialNewMessage.channelId}/${partialNewMessage.id} \`(${partialNewMessage.id})\``
+            )
+
+        await loggingChannel.send({embeds: [eb]})
     }
 }
 
-async function collectFiles(loggedMessage: Prisma.LoggedMessageGetPayload<{ include: { attachments: true }}>): Promise<AttachmentBuilder[]> {
+async function collectFiles(loggedMessage: Prisma.LoggedMessageGetPayload<{
+    include: { attachments: true }
+}>): Promise<AttachmentBuilder[]> {
     const files: AttachmentBuilder[] = []
 
     for (const attachment of loggedMessage.attachments.values()) {
@@ -115,4 +143,17 @@ async function collectFiles(loggedMessage: Prisma.LoggedMessageGetPayload<{ incl
     }
 
     return files
+}
+
+async function getChannelName(client: SnugglesClient, channelId: string): Promise<string> {
+    const channel = client.channels.cache.get(channelId) as TextChannel | undefined
+        ?? await client.channels.fetch(channelId) as TextChannel | undefined
+
+    if (!channel) return "Unknown Channel" // Um this shouldn't happen I think?
+    return channel.name
+}
+
+async function getUser(client: SnugglesClient, userId: string): Promise<User> {
+    return client.users.cache.get(userId)
+        ?? await client.users.fetch(userId)
 }

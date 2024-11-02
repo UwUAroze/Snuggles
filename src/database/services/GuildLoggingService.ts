@@ -7,6 +7,11 @@ export const logger: Logger<ILogObj> = new Logger();
 
 export default class GuildLoggingService {
 
+    /**
+     * Save a message to the database, or update it if it already exists (based on message ID)
+     *
+     * @param message The message to save
+     */
     public static async saveMessage(message: Message) {
         const guildId = message.guildId
         if (!guildId) return
@@ -20,8 +25,8 @@ export default class GuildLoggingService {
             }
         })
 
-        await prisma.loggedMessage.create({
-            data: {
+        await prisma.loggedMessage.upsert({
+            create: {
                 messageId: message.id,
                 guildId: guildId,
                 authorId: message.author.id,
@@ -29,7 +34,16 @@ export default class GuildLoggingService {
                 attachments: {
                     create: attachments
                 }
-            }
+            },
+            update: {
+                textContent: message.content,
+                attachments: {
+                    create: attachments
+                }
+            },
+            where: {
+                messageId: message.id
+            },
         })
     }
 
