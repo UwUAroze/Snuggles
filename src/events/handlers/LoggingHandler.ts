@@ -60,8 +60,8 @@ export class LoggingMessageDeleteHandler implements IEvent {
             (loggedMessage.textContent.length === 0
                 ? "`None; message had no text content`"
                 : `\n${loggedMessage.textContent}\n`) +
-            `\n > Perpetrator: <@${loggedMessage.authorId}> (\`${loggedMessage.authorId}\`)\n` +
-            ` > Channel: ${deletedMessage.channel} (\`${deletedMessage.channelId}\`)\n` +
+            `\n > Perpetrator: <@${loggedMessage.authorId}> \`(${loggedMessage.authorId})\`\n` +
+            ` > Channel: ${deletedMessage.channel} \`(${deletedMessage.channelId})\`\n` +
             `\n`;
 
         if (loggedMessage.attachments.length > 0) {
