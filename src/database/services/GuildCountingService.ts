@@ -11,7 +11,7 @@ export default class GuildCountingService {
    * @returns The counting data for the guild or null if not found
    */
   public static async getCountingDataForGuild(guildId: string): Promise<GuildCounting|null> {
-    return prisma.guildCounting.findFirst({
+    return prisma.guildCounting.findUnique({
       where: {
         guildId: guildId
       }
@@ -25,7 +25,7 @@ export default class GuildCountingService {
    * @returns The counting data for the channel or null if not found
    */
   public static async getCountingDataForChannel(channelId: string): Promise<GuildCounting|null> {
-    return prisma.guildCounting.findFirst({
+    return prisma.guildCounting.findUnique({
       where: {
         channelId: channelId
       }

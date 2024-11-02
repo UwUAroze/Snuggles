@@ -26,3 +26,26 @@ model GuildCounting {
   caughtEditMessage              String  @default("{authorPing} thinks they're sneaky and edited their latest count, which was originally **{count}**")
   caughtDeleteMessage            String  @default("{authorPing} thinks they're sneaky and deleted the latest count of **{count}**")
 }
+
+model GuildLogging {
+  guildId    String  @id
+  channelId  String  @unique
+  enabled    Boolean @default(false)
+  logEdits   Boolean @default(true)
+  logDeletes Boolean @default(true)
+}
+
+model LoggedMessage {
+  messageId   String             @id
+  guildId     String
+  authorId    String
+  textContent String
+  attachments LoggedAttachment[]
+}
+
+model LoggedAttachment {
+  id        Int           @id @default(autoincrement())
+  message   LoggedMessage @relation(fields: [messageId], references: [messageId])
+  messageId String
+  url       String
+}
