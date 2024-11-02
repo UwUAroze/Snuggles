@@ -38,6 +38,9 @@ export default class GuildLoggingService {
             update: {
                 textContent: message.content,
                 attachments: {
+                    deleteMany: {
+                        messageId: message.id
+                    },
                     create: attachments
                 }
             },

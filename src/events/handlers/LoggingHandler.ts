@@ -3,13 +3,13 @@ import {
     type ClientEvents,
     Message,
     type OmitPartialGroupDMChannel,
-    TextChannel, AttachmentBuilder, type User,
+    TextChannel, AttachmentBuilder, type User, Attachment,
 } from "discord.js";
 import {Logger, type ILogObj} from "tslog";
 import type IEvent from "../IEvent.ts";
 import type SnugglesClient from "../../structure/Client.ts";
 import GuildLoggingService from "../../database/services/GuildLoggingService.ts";
-import {FancyEmbed} from "../../utils/fancyEmbed.ts";
+import {type BarStyle, FancyEmbed} from "../../utils/fancyEmbed.ts";
 import {re} from "mathjs";
 import {type LoggedMessage, Prisma} from "@prisma/client";
 
@@ -20,7 +20,8 @@ export class LoggingMessageCreateHandler implements IEvent {
     public event: keyof ClientEvents = Events.MessageCreate;
     public once = false;
 
-    constructor(private client: SnugglesClient) {}
+    constructor(private client: SnugglesClient) {
+    }
 
     async handle(message: OmitPartialGroupDMChannel<Message<boolean>>) {
         const guild = message.guild
@@ -71,10 +72,13 @@ export class LoggingMessageDeleteHandler implements IEvent {
         const author = await getUser(this.client, loggedMessage.authorId)
 
         const eb = new FancyEmbed("error")
-            .setAuthor({name: `A message by @${author.username} was deleted in #${deletedMessageChannelName}`, iconURL: author.displayAvatarURL()})
+            .setAuthor({
+                name: `A message by @${author.username} was deleted in #${deletedMessageChannelName}`,
+                iconURL: author.displayAvatarURL()
+            })
             .setDescription(description)
 
-        await loggingChannel.send({embeds: [eb], files: await collectFiles(loggedMessage)})
+        await loggingChannel.send({embeds: [eb], files: await collectFiles(loggedMessage.attachments.values())})
     }
 
 }
@@ -105,28 +109,41 @@ export class LoggingMessageUpdateHandler implements IEvent {
         const updatedMessageChannelName = await getChannelName(this.client, partialOldMessage.channelId)
         const author = await getUser(this.client, oldMessage.authorId)
 
+        const removedAttachments = oldMessage.attachments.filter(oldAttachment =>
+            !partialNewMessage.attachments.some(newAttachment => newAttachment.url === oldAttachment.url)
+        )
+
+        let changedText = oldMessage.textContent === partialNewMessage.content ?
+            `\n> Text content was not changed`
+            : `\n > Message before edit:
+            ${!oldMessage.textContent ? '`(None; message had no text content)`' : `${oldMessage.textContent}`}
+            \n > Message after edit:
+            ${partialNewMessage.content}`
+
+        if (removedAttachments.length > 0) {
+            changedText += `\n > Attachments removed: ${removedAttachments.length} (uploaded)`
+        }
+
         const eb = new FancyEmbed()
-            .setAuthor({name: `A message by @${author.username} was edited in #${updatedMessageChannelName}`, iconURL: author.displayAvatarURL()})
+            .setAuthor({
+                name: `A message by @${author.username} was edited in #${updatedMessageChannelName}`,
+                iconURL: author.displayAvatarURL()
+            })
             .setDescription(
-                `\n > Message before edit:
-                ${!oldMessage.textContent ? '`(None; message had no text content)`' : `${oldMessage.textContent}`}
-                \n > Message after edit:
-                ${partialNewMessage.content}
+                `${changedText}
                 \n > Perpetrator: ${partialNewMessage.author} \`(${partialNewMessage.author.id})\`
                   > Channel: ${partialNewMessage.channel} \`(${partialNewMessage.channel.id})\`
                   > Message: https://discord.com/channels/${guildId}/${partialNewMessage.channelId}/${partialNewMessage.id} \`(${partialNewMessage.id})\``
             )
 
-        await loggingChannel.send({embeds: [eb]})
+        await loggingChannel.send({embeds: [eb], files: await collectFiles(removedAttachments)})
     }
 }
 
-async function collectFiles(loggedMessage: Prisma.LoggedMessageGetPayload<{
-    include: { attachments: true }
-}>): Promise<AttachmentBuilder[]> {
+async function collectFiles(attachments: any): Promise<AttachmentBuilder[]> {
     const files: AttachmentBuilder[] = []
 
-    for (const attachment of loggedMessage.attachments.values()) {
+    for (const attachment of attachments) {
         try {
             const response = await fetch(attachment.url);
             const buffer = await response.arrayBuffer()

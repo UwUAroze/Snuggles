@@ -6,7 +6,7 @@ const BarStyle = {
     error: "https://github.com/UwUAroze/Snuggles/blob/v3/assets/img/bar_error.png?raw=true"
 } as const;
 
-type BarStyle = keyof typeof BarStyle;
+export type BarStyle = keyof typeof BarStyle;
 
 export class FancyEmbed extends EmbedBuilder {
     constructor(bar: BarStyle = "pink") {
