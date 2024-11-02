@@ -1,4 +1,4 @@
-import {GatewayIntentBits} from "discord.js";
+import {GatewayIntentBits, Partials} from "discord.js";
 import {Logger, type ILogObj} from "tslog";
 import config from "./config/config";
 // import {databaseConnect} from "./database/database";
@@ -22,6 +22,10 @@ export const logger: Logger<ILogObj> = new Logger();
             GatewayIntentBits.Guilds,
             GatewayIntentBits.GuildMessages,
             GatewayIntentBits.MessageContent
+        ],
+        partials: [
+            Partials.Message,
+            Partials.Channel
         ]
     });
 

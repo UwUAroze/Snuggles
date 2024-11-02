@@ -44,8 +44,11 @@ model LoggedMessage {
 }
 
 model LoggedAttachment {
-  id        Int           @id @default(autoincrement())
-  message   LoggedMessage @relation(fields: [messageId], references: [messageId])
-  messageId String
-  url       String
+  id          Int           @id @default(autoincrement())
+  message     LoggedMessage @relation(fields: [messageId], references: [messageId])
+  messageId   String
+  url         String
+  name        String
+  description String
+  spoiler     Boolean
 }

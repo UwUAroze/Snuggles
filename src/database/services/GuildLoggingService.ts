@@ -1,7 +1,7 @@
 import {prisma} from "../../index.ts";
 import type {Message} from "discord.js";
 import {type ILogObj, Logger} from "tslog";
-import type {GuildLogging, LoggedMessage} from "@prisma/client";
+import {type GuildLogging, type LoggedMessage, Prisma} from "@prisma/client";
 
 export const logger: Logger<ILogObj> = new Logger();
 
@@ -13,7 +13,10 @@ export default class GuildLoggingService {
 
         const attachments = message.attachments.map(attachment => {
             return {
-                url: attachment.url
+                url: attachment.url,
+                name: attachment.name,
+                spoiler: attachment.spoiler,
+                description: attachment.description ?? ""
             }
         })
 
@@ -36,12 +39,15 @@ export default class GuildLoggingService {
      * @param messageId The ID of the message to fetch
      * @returns The saved message (at state of last edited) or null if not found
      */
-    public static async fetchSavedMessage(messageId: string): Promise<LoggedMessage|null> {
+    public static async fetchSavedMessage(messageId: string): Promise<Prisma.LoggedMessageGetPayload<{ include: { attachments: true }}> | null> {
         return prisma.loggedMessage.findFirst({
             where: {
                 messageId: messageId
+            },
+            include: {
+                attachments: true
             }
-        });
+        })!!;
     }
 
     /**
