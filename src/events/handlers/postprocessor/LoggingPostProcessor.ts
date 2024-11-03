@@ -6,56 +6,23 @@ import {
     TextChannel, AttachmentBuilder, type User, Attachment,
 } from "discord.js";
 import {Logger, type ILogObj} from "tslog";
-import type IEvent from "../IEvent.ts";
-import type SnugglesClient from "../../structure/Client.ts";
-import GuildLoggingService from "../../database/services/GuildLoggingService.ts";
-import {type BarStyle, FancyEmbed} from "../../utils/fancyEmbed.ts";
-import {re} from "mathjs";
-import {type LoggedMessage, Prisma} from "@prisma/client";
-
+import type IEvent from "../../IEvent.ts";
+import type SnugglesClient from "../../../structure/Client.ts";
+import GuildLoggingService from "../../../database/services/GuildLoggingService.ts";
+import {type BarStyle, FancyEmbed} from "../../../utils/fancyEmbed.ts";
+import {type GuildLogging, type LoggedMessage, Prisma} from "@prisma/client";
+import {client} from "../../../index";
 
 export const logger: Logger<ILogObj> = new Logger();
 
-export class LoggingMessageCreateHandler implements IEvent {
-    public event: keyof ClientEvents = Events.MessageCreate;
-    public once = false;
-
-    constructor(private client: SnugglesClient) {
-    }
-
-    async handle(message: OmitPartialGroupDMChannel<Message<boolean>>) {
-        const guild = message.guild
-        if (!guild) return;
-
-        if (message.author.id == this.client.user?.id) return
-
-        await GuildLoggingService.saveMessage(message);
-    }
-
-}
-
-export class LoggingMessageDeleteHandler implements IEvent {
-    public event: keyof ClientEvents = Events.MessageDelete;
-    public once = false;
-
-    constructor(private client: SnugglesClient) {
-    }
-
-    async handle(deletedMessage: OmitPartialGroupDMChannel<Message<boolean>>) {
-        const guildId = deletedMessage.guildId
-        if (!guildId) return
-
-        const logSettings = await GuildLoggingService.fetchGuildLoggingSettings(guildId);
-        if (!logSettings || !logSettings.enabled || !logSettings.logDeletes) return
-
-        let loggingChannel = this.client.channels.cache.get(logSettings.channelId) as TextChannel | undefined
-        if (!loggingChannel) return // TODO: maybe some handling to reset the logging channel if it's deleted, (disable the feature)?
-
-        const loggedMessage = await GuildLoggingService.fetchSavedMessage(deletedMessage.id);
-        if (!loggedMessage) return
-
-        const deletedMessageChannelName = await getChannelName(this.client, deletedMessage.channelId)
-
+export class LoggingMessageDeletePostProcessor {
+    static async handle(
+        deletedMessage: Message,
+        author: User,
+        loggedMessage: Prisma.LoggedMessageGetPayload<{ include: { attachments: true }}>,
+        loggingChannel: TextChannel,
+        deletedMessageChannelName: string
+    ) {
         let description =
             `\n > Deleted content: ` +
             (loggedMessage.textContent.length === 0
@@ -69,8 +36,6 @@ export class LoggingMessageDeleteHandler implements IEvent {
             description += `\n > Attachments: ${loggedMessage.attachments.length} (uploaded with this message) \n`;
         }
 
-        const author = await getUser(this.client, loggedMessage.authorId)
-
         const eb = new FancyEmbed("error")
             .setAuthor({
                 name: `A message by @${author.username} was deleted in #${deletedMessageChannelName}`,
@@ -80,35 +45,16 @@ export class LoggingMessageDeleteHandler implements IEvent {
 
         await loggingChannel.send({embeds: [eb], files: await collectFiles(loggedMessage.attachments.values())})
     }
-
 }
 
-export class LoggingMessageUpdateHandler implements IEvent {
-    public event: keyof ClientEvents = Events.MessageUpdate;
-    public once = false;
-
-    constructor(private client: SnugglesClient) {
-    }
-
-    async handle(partialOldMessage: OmitPartialGroupDMChannel<Message<boolean>>, partialNewMessage: OmitPartialGroupDMChannel<Message<boolean>>) {
-        const guildId = partialOldMessage.guildId
-        if (!guildId) return
-
-        const logSettings = await GuildLoggingService.fetchGuildLoggingSettings(guildId);
-        if (!logSettings) return
-
-        const oldMessage = await GuildLoggingService.fetchSavedMessage(partialOldMessage.id);
-        if (!oldMessage) return
-
-        await GuildLoggingService.saveMessage(partialNewMessage)
-        if (!logSettings.enabled || !logSettings.logEdits) return
-
-        let loggingChannel = this.client.channels.cache.get(logSettings.channelId) as TextChannel | undefined
-        if (!loggingChannel) return // TODO: maybe some handling to reset the logging channel if it's deleted, (disable the feature)?
-
-        const updatedMessageChannelName = await getChannelName(this.client, partialOldMessage.channelId)
-        const author = await getUser(this.client, oldMessage.authorId)
-
+export class LoggingMessageUpdatePostProcessor {
+    static async handle(
+        partialNewMessage: Message,
+        author: User,
+        oldMessage: Prisma.LoggedMessageGetPayload<{ include: { attachments: true }}>,
+        loggingChannel: TextChannel,
+        updatedMessageChannelName: string
+    ) {
         const removedAttachments = oldMessage.attachments.filter(oldAttachment =>
             !partialNewMessage.attachments.some(newAttachment => newAttachment.url === oldAttachment.url)
         )
@@ -133,7 +79,7 @@ export class LoggingMessageUpdateHandler implements IEvent {
                 `${changedText}
                 \n > Perpetrator: ${partialNewMessage.author} \`(${partialNewMessage.author.id})\`
                   > Channel: ${partialNewMessage.channel} \`(${partialNewMessage.channel.id})\`
-                  > Message: https://discord.com/channels/${guildId}/${partialNewMessage.channelId}/${partialNewMessage.id} \`(${partialNewMessage.id})\``
+                  > Message: https://discord.com/channels/${partialNewMessage.guildId}/${partialNewMessage.channelId}/${partialNewMessage.id} \`(${partialNewMessage.id})\``
             )
 
         await loggingChannel.send({embeds: [eb], files: await collectFiles(removedAttachments)})

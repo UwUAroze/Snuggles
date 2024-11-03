@@ -11,19 +11,19 @@ import Yell from "../commands/implementations/feelings/yell.ts";
 import Ship from "../commands/implementations/fun/ship.ts";
 import {CountingHandler} from "../events/handlers/CountingHandler.ts";
 import {
-    LoggingMessageCreateHandler,
-    LoggingMessageDeleteHandler,
-    LoggingMessageUpdateHandler
-} from "../events/handlers/LoggingHandler.ts";
+    MessageCreatePreProcessor,
+    MessageDeletePreProcessor, MessageUpdatePreProcessor
+} from "../events/handlers/preprocessor/MessagePreProcessor";
 
 export default class SnugglesClient extends Client {
     public events: (new (client: SnugglesClient) => IEvent)[] = [
         ClientReadyHandler,
         InteractionCreateHandler,
         CountingHandler,
-        LoggingMessageCreateHandler,
-        LoggingMessageDeleteHandler,
-        LoggingMessageUpdateHandler
+
+        MessageCreatePreProcessor,
+        MessageDeletePreProcessor,
+        MessageUpdatePreProcessor
     ];
 
     public commands = [
