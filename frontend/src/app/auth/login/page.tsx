@@ -1,9 +1,9 @@
-import AuthButton from "@/components/auth/AuthButton";
+import LoginButton from "@/components/auth/LoginButton";
 
 export default function LoginPage() {
     return (
         <div className="min-h-screen flex items-center justify-center">
-            <AuthButton />
+            <LoginButton />
         </div>
     );
 }
