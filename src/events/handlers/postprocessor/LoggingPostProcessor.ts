@@ -1,17 +1,11 @@
 import {
-    Events,
-    type ClientEvents,
     Message,
-    type OmitPartialGroupDMChannel,
     TextChannel, AttachmentBuilder, type User, Attachment,
 } from "discord.js";
 import {Logger, type ILogObj} from "tslog";
-import type IEvent from "../../IEvent.ts";
 import type SnugglesClient from "../../../structure/Client.ts";
-import GuildLoggingService from "../../../database/services/GuildLoggingService.ts";
-import {type BarStyle, FancyEmbed} from "../../../utils/fancyEmbed.ts";
-import {type GuildLogging, type LoggedMessage, Prisma} from "@prisma/client";
-import {client} from "../../../index";
+import {FancyEmbed} from "../../../utils/fancyEmbed.ts";
+import {Prisma} from "@prisma/client";
 
 export const logger: Logger<ILogObj> = new Logger();
 
@@ -21,7 +15,7 @@ export class LoggingMessageDeletePostProcessor {
         author: User,
         loggedMessage: Prisma.LoggedMessageGetPayload<{ include: { attachments: true }}>,
         loggingChannel: TextChannel,
-        deletedMessageChannelName: string
+        channelName: string
     ) {
         let description =
             `\n > Deleted content: ` +
@@ -38,7 +32,7 @@ export class LoggingMessageDeletePostProcessor {
 
         const eb = new FancyEmbed("error")
             .setAuthor({
-                name: `A message by @${author.username} was deleted in #${deletedMessageChannelName}`,
+                name: `A message by @${author.username} was deleted in #${channelName}`,
                 iconURL: author.displayAvatarURL()
             })
             .setDescription(description)
@@ -53,7 +47,7 @@ export class LoggingMessageUpdatePostProcessor {
         author: User,
         oldMessage: Prisma.LoggedMessageGetPayload<{ include: { attachments: true }}>,
         loggingChannel: TextChannel,
-        updatedMessageChannelName: string
+        channelName: string
     ) {
         const removedAttachments = oldMessage.attachments.filter(oldAttachment =>
             !partialNewMessage.attachments.some(newAttachment => newAttachment.url === oldAttachment.url)
@@ -72,7 +66,7 @@ export class LoggingMessageUpdatePostProcessor {
 
         const eb = new FancyEmbed()
             .setAuthor({
-                name: `A message by @${author.username} was edited in #${updatedMessageChannelName}`,
+                name: `A message by @${author.username} was edited in #${channelName}`,
                 iconURL: author.displayAvatarURL()
             })
             .setDescription(
@@ -106,17 +100,4 @@ async function collectFiles(attachments: any): Promise<AttachmentBuilder[]> {
     }
 
     return files
-}
-
-async function getChannelName(client: SnugglesClient, channelId: string): Promise<string> {
-    const channel = client.channels.cache.get(channelId) as TextChannel | undefined
-        ?? await client.channels.fetch(channelId) as TextChannel | undefined
-
-    if (!channel) return "Unknown Channel" // Um this shouldn't happen I think?
-    return channel.name
-}
-
-async function getUser(client: SnugglesClient, userId: string): Promise<User> {
-    return client.users.cache.get(userId)
-        ?? await client.users.fetch(userId)
 }

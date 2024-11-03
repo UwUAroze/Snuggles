@@ -37,6 +37,7 @@ model GuildLogging {
 
 model LoggedMessage {
   messageId   String             @id
+  editedAt    DateTime?
   guildId     String
   authorId    String
   textContent String

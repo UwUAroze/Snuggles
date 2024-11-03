@@ -28,6 +28,7 @@ export default class GuildLoggingService {
         await prisma.loggedMessage.upsert({
             create: {
                 messageId: message.id,
+                editedAt: message.editedAt,
                 guildId: guildId,
                 authorId: message.author.id,
                 textContent: message.content,
@@ -37,6 +38,7 @@ export default class GuildLoggingService {
             },
             update: {
                 textContent: message.content,
+                editedAt: message.editedAt,
                 attachments: {
                     deleteMany: {
                         messageId: message.id

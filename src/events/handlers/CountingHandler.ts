@@ -22,7 +22,7 @@ export class CountingHandler implements IEvent {
   constructor(private client: SnugglesClient) {}
 
   async handle(message: OmitPartialGroupDMChannel<Message<boolean>>) {
-    const countData = await GuildCountingService.getCountingDataForChannel(message.channelId);
+    const countData = await GuildCountingService.fetchChannelCountingData(message.channelId);
     if (!countData) return;
 
     // Ignore bot messages and webhooks
@@ -62,7 +62,7 @@ export class CountingHandler implements IEvent {
     if (failMessage) {
       countData.count = 0
       await GuildCountingService.updateCountData(countData)
-      await message.reply(this.parseCountingMessage(failMessage, message.author, currentCount))
+      await message.reply(CountingHandler.parseCountingMessage(failMessage, message.author, currentCount))
       await message.react(this.getReaction(countData, true))
       return
     }
@@ -98,7 +98,7 @@ export class CountingHandler implements IEvent {
     return emoji ?? "✅" // Last resort/fallback
   }
 
-  private parseCountingMessage(message: string, author: User, count: number): string {
+  static parseCountingMessage(message: string, author: User, count: number): string {
     return message
         .replace("{authorPing}", "<@" + author.id + ">")
         .replace("{count}", count.toString())
