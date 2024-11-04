@@ -4,6 +4,7 @@ import {FancyEmbed} from "../../../utils/fancyEmbed.ts";
 import {getRestPing} from "../../../utils/restUtils.ts";
 // import {databaseLatency} from "../../database/database";
 import CommandBuilder from "../../CommandBuilder.ts";
+import {getDatabasePing} from "../../../utils/databaseUtils.ts";
 
 
 export default class Ping implements ICommand {
@@ -53,8 +54,7 @@ export default class Ping implements ICommand {
         description[3] = ` - **Misc Rest Latency** ${restPing}ms`
         await this.updateEmbed(interaction, embed, description);
 
-        // const dbPing = await databaseLatency();
-        const dbPing = 0;
+        const dbPing = await getDatabasePing()
         description[6] = ` - **Database Latency** ${dbPing}ms`
         await this.updateEmbed(interaction, embed, description, "<:ping:1255273004292771931>  Pong!");
     }
