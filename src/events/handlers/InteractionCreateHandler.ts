@@ -7,6 +7,7 @@ import {
 import {Logger, type ILogObj} from "tslog";
 import type IEvent from "../IEvent.ts";
 import SnugglesClient from "../../structure/Client.ts";
+import {client} from "../../index.ts";
 
 export const logger: Logger<ILogObj> = new Logger();
 
@@ -18,6 +19,7 @@ export class InteractionCreateHandler implements IEvent {
 
   async handle(interaction: Interaction<CacheType>) {
     if (!interaction.isCommand()) return;
+    client.snugglyStats.totalExecutions++;
 
     // Get the commands name from the interaction
     const { commandName } = interaction;

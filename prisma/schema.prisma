@@ -10,6 +10,12 @@ datasource db {
   url      = "postgres://postgres:kms@localhost:5432"
 }
 
+model SnugglyStats {
+  id              Int @id @default(autoincrement())
+  totalExecutions Int @default(0)
+  totalCounts     Int @default(0)
+}
+
 model GuildCounting {
   guildId                        String  @id
   channelId                      String  @unique

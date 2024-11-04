@@ -43,6 +43,8 @@ export class CountingHandler implements IEvent {
       return;
     }
 
+    this.client.snugglyStats.totalCounts++;
+
     const lastCounter = countData.lastCounterId
     countData.lastCounterId = message.author.id
 

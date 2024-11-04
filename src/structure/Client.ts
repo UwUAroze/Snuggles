@@ -14,8 +14,12 @@ import {
     MessageCreatePreProcessor,
     MessageDeletePreProcessor, MessageUpdatePreProcessor
 } from "../events/handlers/preprocessor/MessagePreProcessor";
+import type {SnugglyStats} from "@prisma/client";
+import SnugglyStatsService from "../database/services/SnugglyStatsService.ts";
 
 export default class SnugglesClient extends Client {
+    public snugglyStats!: SnugglyStats
+
     public events: (new (client: SnugglesClient) => IEvent)[] = [
         ClientReadyHandler,
         InteractionCreateHandler,
@@ -47,7 +51,17 @@ export default class SnugglesClient extends Client {
 
     override async login(token?: string) {
         await this.registerEvents();
+        await this.setupDataCache();
         return super.login(token);
+    }
+
+    public async saveCache() {
+        await SnugglyStatsService.updateSnugglyStats(this.snugglyStats);
+    }
+
+    private async setupDataCache() {
+        this.snugglyStats = await SnugglyStatsService.findOrCreateSnugglyStats();
+        setInterval(() => this.saveCache(), 1000 * 30); // Save every 30 seconds
     }
 
     private async registerEvents() {
