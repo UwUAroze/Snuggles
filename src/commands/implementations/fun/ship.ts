@@ -1,6 +1,6 @@
-import type ICommand from "../../ICommand.ts";
-import CommandBuilder from "../../CommandBuilder.ts";
 import {ChatInputCommandInteraction} from "discord.js";
+import CommandBuilder from "../../CommandBuilder.ts";
+import type ICommand from "../../ICommand.ts";
 
 type NameParts = {
     start: string;

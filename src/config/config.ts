@@ -1,5 +1,5 @@
-import fs from "node:fs";
 import toml from "@iarna/toml";
+import fs from "node:fs";
 import {logger} from "../index";
 
 interface Config {

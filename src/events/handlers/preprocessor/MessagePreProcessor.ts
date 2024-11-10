@@ -1,15 +1,18 @@
-import type IEvent from "../../IEvent";
-import type SnugglesClient from "../../../structure/Client";
-import GuildLoggingService from "../../../database/services/GuildLoggingService";
 import {type ClientEvents, Events, Message, TextChannel, type User} from "discord.js";
-import {LoggingMessageDeletePostProcessor, LoggingMessageUpdatePostProcessor} from "../postprocessor/LoggingPostProcessor";
 import {type ILogObj, Logger} from "tslog";
+import GuildCountingService from "../../../database/services/GuildCountingService";
+import GuildLoggingService from "../../../database/services/GuildLoggingService";
 import {client} from "../../../index";
+import type SnugglesClient from "../../../structure/Client";
+import type IEvent from "../../IEvent";
 import {
     CountingMessageDeletePostProcessor,
     CountingMessageUpdatePostProcessor
 } from "../postprocessor/CountingPostProcessor";
-import GuildCountingService from "../../../database/services/GuildCountingService";
+import {
+    LoggingMessageDeletePostProcessor,
+    LoggingMessageUpdatePostProcessor
+} from "../postprocessor/LoggingPostProcessor";
 
 const logger: Logger<ILogObj> = new Logger();
 

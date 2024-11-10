@@ -1,7 +1,7 @@
-import type ICommand from "../../ICommand.ts";
-import CommandBuilder from "../../CommandBuilder.ts";
-import {ChatInputCommandInteraction, Guild} from "discord.js";
+import {ChatInputCommandInteraction} from "discord.js";
 import Randomiser from "../../../utils/Randomiser.ts";
+import CommandBuilder from "../../CommandBuilder.ts";
+import type ICommand from "../../ICommand.ts";
 
 export default abstract class FeelingsCommand implements ICommand {
     name: string;

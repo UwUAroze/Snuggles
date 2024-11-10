@@ -1,9 +1,9 @@
-import type ICommand from "../../ICommand.ts";
 import {ChatInputCommandInteraction, CommandInteraction} from "discord.js";
+import {getDatabasePing} from "../../../utils/databaseUtils.ts";
 import {FancyEmbed} from "../../../utils/fancyEmbed.ts";
 import {getRestPing} from "../../../utils/restUtils.ts";
 import CommandBuilder from "../../CommandBuilder.ts";
-import {getDatabasePing} from "../../../utils/databaseUtils.ts";
+import type ICommand from "../../ICommand.ts";
 
 
 export default class Ping implements ICommand {

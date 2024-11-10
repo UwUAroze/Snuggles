@@ -1,24 +1,24 @@
+import type {SnugglyStats} from "@prisma/client";
 import {Client, type ClientOptions, type User} from "discord.js";
-import {ClientReadyHandler} from "../events/handlers/ClientReadyHandler.ts";
-import {InteractionCreateHandler} from "../events/handlers/InteractionCreateHandler.ts";
-import Ping from "../commands/implementations/utility/ping.ts";
-import SnugglyStatsCommand from "../commands/implementations/utility/snugglystats.ts";
-import type IEvent from "../events/IEvent.ts";
 import Hug from "../commands/implementations/feelings/hug.ts";
 import Lick from "../commands/implementations/feelings/lick.ts";
 import Poke from "../commands/implementations/feelings/poke.ts";
 import Slap from "../commands/implementations/feelings/slap.ts";
 import Yell from "../commands/implementations/feelings/yell.ts";
 import Ship from "../commands/implementations/fun/ship.ts";
+import Evaluate from "../commands/implementations/utility/evaluate.ts";
+import Ping from "../commands/implementations/utility/ping.ts";
+import SnugglyStatsCommand from "../commands/implementations/utility/snugglystats.ts";
+import SnugglyStatsService from "../database/services/SnugglyStatsService.ts";
+import {ClientReadyHandler} from "../events/handlers/ClientReadyHandler.ts";
 import {CountingHandler} from "../events/handlers/CountingHandler.ts";
+import {InteractionCreateHandler} from "../events/handlers/InteractionCreateHandler.ts";
 import {
     MessageCreatePreProcessor,
-    MessageDeletePreProcessor, MessageUpdatePreProcessor
+    MessageDeletePreProcessor,
+    MessageUpdatePreProcessor
 } from "../events/handlers/preprocessor/MessagePreProcessor";
-import type {SnugglyStats} from "@prisma/client";
-import SnugglyStatsService from "../database/services/SnugglyStatsService.ts";
-import Evaluate from "../commands/implementations/utility/evaluate.ts";
-import {countAllUsers} from "../utils/clientUtils.ts";
+import type IEvent from "../events/IEvent.ts";
 
 export default class SnugglesClient extends Client {
     public snugglyStats!: SnugglyStats

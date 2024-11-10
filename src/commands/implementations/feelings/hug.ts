@@ -1,5 +1,4 @@
 import FeelingsCommand from "./FeelingsCommand.ts";
-import type ICommand from "../../ICommand.ts";
 
 export default class Hug extends FeelingsCommand {
     constructor() {

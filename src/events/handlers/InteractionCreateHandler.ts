@@ -1,14 +1,18 @@
 import {
-  Events,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  type CacheType,
+  type ChatInputCommandInteraction,
   type ClientEvents,
+  Events,
   type Interaction,
-  type CacheType, type ChatInputCommandInteraction, ButtonBuilder, ButtonStyle, ActionRowBuilder,
 } from "discord.js";
-import {Logger, type ILogObj} from "tslog";
-import type IEvent from "../IEvent.ts";
-import SnugglesClient from "../../structure/Client.ts";
+import {type ILogObj, Logger} from "tslog";
 import {client} from "../../index.ts";
+import SnugglesClient from "../../structure/Client.ts";
 import {FancyEmbed} from "../../utils/fancyEmbed.ts";
+import type IEvent from "../IEvent.ts";
 
 export const logger: Logger<ILogObj> = new Logger();
 

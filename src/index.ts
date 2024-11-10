@@ -1,10 +1,10 @@
+import {PrismaClient} from "@prisma/client";
 import {GatewayIntentBits, Partials} from "discord.js";
-import {Logger, type ILogObj} from "tslog";
+import {type ILogObj, Logger} from "tslog";
 import config from "./config/config";
 // import {databaseConnect} from "./database/database";
 // import UserMessageService from "./database/services/userMessageService";
 import SnugglesClient from "./structure/Client.ts";
-import {PrismaClient} from "@prisma/client";
 
 export const prisma = new PrismaClient()
 

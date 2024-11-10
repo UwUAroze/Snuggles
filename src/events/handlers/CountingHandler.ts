@@ -1,16 +1,10 @@
-import {
-  Events,
-  type ClientEvents,
-  Message,
-  type OmitPartialGroupDMChannel,
-  type EmojiIdentifierResolvable, Emoji, GuildEmoji, ReactionEmoji, type User, type Interaction
-} from "discord.js";
-import {Logger, type ILogObj} from "tslog";
-import type IEvent from "../IEvent.ts";
-import type SnugglesClient from "../../structure/Client.ts";
-import GuildCountingService from "../../database/services/GuildCountingService.ts";
-import {column, count, evaluate, number, re} from 'mathjs'
 import type {GuildCounting} from "@prisma/client";
+import {type ClientEvents, Events, GuildEmoji, Message, type OmitPartialGroupDMChannel, type User} from "discord.js";
+import {evaluate} from 'mathjs'
+import {type ILogObj, Logger} from "tslog";
+import GuildCountingService from "../../database/services/GuildCountingService.ts";
+import type SnugglesClient from "../../structure/Client.ts";
+import type IEvent from "../IEvent.ts";
 
 
 export const logger: Logger<ILogObj> = new Logger();

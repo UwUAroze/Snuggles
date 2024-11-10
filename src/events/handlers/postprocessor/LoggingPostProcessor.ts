@@ -1,11 +1,7 @@
-import {
-    Message,
-    TextChannel, AttachmentBuilder, type User, Attachment,
-} from "discord.js";
-import {Logger, type ILogObj} from "tslog";
-import type SnugglesClient from "../../../structure/Client.ts";
-import {FancyEmbed} from "../../../utils/fancyEmbed.ts";
 import {Prisma} from "@prisma/client";
+import {AttachmentBuilder, Message, TextChannel, type User,} from "discord.js";
+import {type ILogObj, Logger} from "tslog";
+import {FancyEmbed} from "../../../utils/fancyEmbed.ts";
 
 export const logger: Logger<ILogObj> = new Logger();
 

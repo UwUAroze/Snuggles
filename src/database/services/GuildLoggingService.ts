@@ -1,7 +1,7 @@
-import {prisma} from "../../index.ts";
+import {type GuildLogging, Prisma} from "@prisma/client";
 import type {Message} from "discord.js";
 import {type ILogObj, Logger} from "tslog";
-import {type GuildLogging, type LoggedMessage, Prisma} from "@prisma/client";
+import {prisma} from "../../index.ts";
 
 export const logger: Logger<ILogObj> = new Logger();
 

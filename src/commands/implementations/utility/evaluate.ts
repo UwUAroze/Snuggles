@@ -1,11 +1,8 @@
-import type ICommand from "../../ICommand.ts";
-import {ChatInputCommandInteraction, CommandInteraction, EmbedBuilder} from "discord.js";
+import {ChatInputCommandInteraction} from "discord.js";
+import {evaluate} from "mathjs";
 import {FancyEmbed} from "../../../utils/fancyEmbed.ts";
-import {getRestPing} from "../../../utils/restUtils.ts";
 import CommandBuilder from "../../CommandBuilder.ts";
-import {getDatabasePing} from "../../../utils/databaseUtils.ts";
-import {evaluate, re} from "mathjs";
-import {logger} from "../../../index.ts";
+import type ICommand from "../../ICommand.ts";
 
 
 export default class Evaluate implements ICommand {

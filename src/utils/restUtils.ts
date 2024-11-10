@@ -1,6 +1,6 @@
 import {Client, Routes} from "discord.js";
-import {logger} from "../index";
 import type ICommand from "../commands/ICommand.ts";
+import {logger} from "../index";
 
 export async function getRestPing(client: Client) {
     if (client.user === null) {

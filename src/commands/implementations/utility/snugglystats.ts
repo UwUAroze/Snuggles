@@ -1,22 +1,11 @@
-import type ICommand from "../../ICommand.ts";
-import {
-    ActionRowBuilder,
-    ButtonBuilder,
-    ButtonStyle,
-    ChatInputCommandInteraction,
-    CommandInteraction,
-    EmbedBuilder
-} from "discord.js";
+import {ActionRowBuilder, ButtonBuilder, ButtonStyle, ChatInputCommandInteraction} from "discord.js";
+import {client} from "../../../index.ts";
+import {countAllUsers} from "../../../utils/clientUtils.ts";
 import {FancyEmbed} from "../../../utils/fancyEmbed.ts";
-import {getRestPing} from "../../../utils/restUtils.ts";
-import CommandBuilder from "../../CommandBuilder.ts";
-import {getDatabasePing} from "../../../utils/databaseUtils.ts";
-import {count, evaluate, re} from "mathjs";
-import {client, logger} from "../../../index.ts";
 import {formatCommas, userAsMention} from "../../../utils/stringUtils.ts";
 import {findMutualGuilds} from "../../../utils/userUtils.ts";
-import {countAllUsers} from "../../../utils/clientUtils.ts";
-
+import CommandBuilder from "../../CommandBuilder.ts";
+import type ICommand from "../../ICommand.ts";
 
 export default class SnugglyStats implements ICommand {
     name: string = "snugglystats";

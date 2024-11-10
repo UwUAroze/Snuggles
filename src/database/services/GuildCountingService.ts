@@ -1,6 +1,5 @@
-import {Prisma} from "@prisma/client";
+import type {GuildCounting} from '@prisma/client'
 import {prisma} from "../../index.ts";
-import type { GuildCounting } from '@prisma/client'
 
 
 export default class GuildCountingService {

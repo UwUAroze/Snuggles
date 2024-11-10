@@ -1,10 +1,7 @@
-import {
-    Message,
-    TextChannel, AttachmentBuilder, type User, Attachment,
-} from "discord.js";
-import {Logger, type ILogObj} from "tslog";
 import {type GuildCounting, Prisma} from "@prisma/client";
+import {Message, TextChannel, type User,} from "discord.js";
 import {evaluate} from "mathjs";
+import {type ILogObj, Logger} from "tslog";
 import {CountingHandler} from "../CountingHandler";
 
 export const logger: Logger<ILogObj> = new Logger();
