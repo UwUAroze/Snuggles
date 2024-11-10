@@ -42,8 +42,8 @@ export class InteractionCreateHandler implements IEvent {
       .catch((err: Error) => {
         logger.error(`Error executing command ${interaction.commandName}`, err);
         const embed = new FancyEmbed("error")
-            .setErrorHeader("Awh man! Something went wrong!")
-            .setDescription("We're not quite sure what caused this error, please let us know if you can reproduce it!!")
+            .setErrorHeader("Awh man! Something went wrong...")
+            .setDescription("You deserve better. Please report this and we'll get it fixed asap :3")
 
         const button = new ButtonBuilder()
             .setStyle(ButtonStyle.Link)
