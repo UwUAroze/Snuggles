@@ -1,7 +1,8 @@
-import {Client, type ClientOptions} from "discord.js";
+import {Client, type ClientOptions, type User} from "discord.js";
 import {ClientReadyHandler} from "../events/handlers/ClientReadyHandler.ts";
 import {InteractionCreateHandler} from "../events/handlers/InteractionCreateHandler.ts";
 import Ping from "../commands/implementations/utility/ping.ts";
+import SnugglyStatsCommand from "../commands/implementations/utility/snugglystats.ts";
 import type IEvent from "../events/IEvent.ts";
 import Hug from "../commands/implementations/feelings/hug.ts";
 import Lick from "../commands/implementations/feelings/lick.ts";
@@ -17,9 +18,14 @@ import {
 import type {SnugglyStats} from "@prisma/client";
 import SnugglyStatsService from "../database/services/SnugglyStatsService.ts";
 import Evaluate from "../commands/implementations/utility/evaluate.ts";
+import {countAllUsers} from "../utils/clientUtils.ts";
 
 export default class SnugglesClient extends Client {
     public snugglyStats!: SnugglyStats
+    public owners!: { // Used for some things like snugglystats
+        aroze: User;
+        lily: User;
+    }
 
     public events: (new (client: SnugglesClient) => IEvent)[] = [
         ClientReadyHandler,
@@ -35,6 +41,7 @@ export default class SnugglesClient extends Client {
         // Utility commands
         new Evaluate(),
         new Ping(),
+        new SnugglyStatsCommand(),
 
         // Feeling commands
         new Hug(),
@@ -51,9 +58,13 @@ export default class SnugglesClient extends Client {
         super(options);
     }
 
+    public async startSnuggling(token?: string) {
+        await this.login(token);
+        await this.setupDataCache();
+    }
+
     override async login(token?: string) {
         await this.registerEvents();
-        await this.setupDataCache();
         return super.login(token);
     }
 
@@ -63,6 +74,15 @@ export default class SnugglesClient extends Client {
 
     private async setupDataCache() {
         this.snugglyStats = await SnugglyStatsService.findOrCreateSnugglyStats();
+        this.owners = {
+            aroze: await this.users.fetch("273524398483308549"),
+            lily: await this.users.fetch("712615825965711391")
+        }
+
+        if (!this.owners.aroze || !this.owners.lily) {
+            throw new Error("Failed to fetch lesbians");
+        }
+
         setInterval(() => this.saveCache(), 1000 * 30); // Save every 30 seconds
     }
 

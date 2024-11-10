@@ -31,5 +31,5 @@ export let client: SnugglesClient;
         ]
     });
 
-    await client.login(config().authorization.discord_token)
+    await client.startSnuggling(config().authorization.discord_token)
 })();
