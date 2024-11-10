@@ -9,6 +9,10 @@ const BarStyle = {
     error: {
         color: 0xff9e9e,
         img: "https://github.com/UwUAroze/Snuggles/blob/v3/assets/img/bar_error.png?raw=true"
+    },
+    none: {
+        color: 0x2b2d31,
+        img: ""
     }
 } as const;
 
@@ -18,12 +22,12 @@ export type BarDirection = "vertical" | "horizontal";
 export class FancyEmbed extends EmbedBuilder {
     constructor(bar: BarStyle = "pink", barDirection: BarDirection = "horizontal") {
         super();
-        if (barDirection === "horizontal") {
+        if (bar == "none") {
+            this.setColor(0x2b2d31);
+        } else if (barDirection === "horizontal") {
             this.setColor(0x2b2d31);
             this.setImage(BarStyle[bar].img);
-        }
-
-        if (barDirection === "vertical") {
+        } else if (barDirection === "vertical") {
             this.setColor(BarStyle[bar].color);
         }
     }
