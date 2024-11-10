@@ -16,6 +16,7 @@ import {
 } from "../events/handlers/preprocessor/MessagePreProcessor";
 import type {SnugglyStats} from "@prisma/client";
 import SnugglyStatsService from "../database/services/SnugglyStatsService.ts";
+import Evaluate from "../commands/implementations/utility/evaluate.ts";
 
 export default class SnugglesClient extends Client {
     public snugglyStats!: SnugglyStats
@@ -32,6 +33,7 @@ export default class SnugglesClient extends Client {
 
     public commands = [
         // Utility commands
+        new Evaluate(),
         new Ping(),
 
         // Feeling commands

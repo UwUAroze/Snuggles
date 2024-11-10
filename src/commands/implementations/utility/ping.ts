@@ -2,7 +2,6 @@ import type ICommand from "../../ICommand.ts";
 import {ChatInputCommandInteraction, CommandInteraction} from "discord.js";
 import {FancyEmbed} from "../../../utils/fancyEmbed.ts";
 import {getRestPing} from "../../../utils/restUtils.ts";
-// import {databaseLatency} from "../../database/database";
 import CommandBuilder from "../../CommandBuilder.ts";
 import {getDatabasePing} from "../../../utils/databaseUtils.ts";
 

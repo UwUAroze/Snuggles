@@ -14,4 +14,13 @@ export class FancyEmbed extends EmbedBuilder {
         this.setColor(0x2b2d31);
         this.setImage(BarStyle[bar]);
     }
+
+    /**
+     * Set the author of the embed prefixed with the red forbidden icon, shortcut method for error messages
+     *
+     * @param title The title of the embed (followed by the forbidden icon)
+     */
+    setErrorHeader(title: string): FancyEmbed {
+        return this.setAuthor({name: title, iconURL: "https://github.com/UwUAroze/Snuggles/blob/v3/assets/img/forbidden.png?raw=true"});
+    }
 }
