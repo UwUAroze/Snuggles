@@ -5,10 +5,12 @@
 
 <p align='center'>
   <a href='https://discord.com/api/oauth2/authorize?client_id=1071500899186389132&permissions=140123688001&scope=bot%20applications.commands'>Invite</a>
-•
+  •
   <a href="#overview">Overview</a>
   •
   <a href="#highlights">Highlights</a>
+  •
+  <a href='https://discord.gg/UTQqmzSQEs'>Support Server</a>
 </p>
 
 # Overview
@@ -44,4 +46,4 @@ https://github.com/UwUAroze/Snuggles/assets/68871455/233aa523-a677-4c8b-808a-68d
 
 ## Let's Get Snuggly!
 
-Adding Snuggles to your Discord server is easy! Simply click [here](https://discord.com/api/oauth2/authorize?client_id=1071500899186389132&permissions=140123688001&scope=bot%20applications.commands) for an invite!
+Adding Snuggles to your Discord server is easy! Simply click [here](https://discord.com/api/oauth2/authorize?client_id=1071500899186389132&permissions=140123688001&scope=bot%20applications.commands) for an invite! Additionally, you're welcome to join our [support server](https://discord.gg/UTQqmzSQEs) to test out the bot before using it or test features in development. Additionally, if need help with anything, encounter a bug, have feedback/suggestions, or even just wanna say hi, we'll be here :3
