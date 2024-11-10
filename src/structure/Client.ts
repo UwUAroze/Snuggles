@@ -5,6 +5,7 @@ import Lick from "../commands/implementations/feelings/lick.ts";
 import Poke from "../commands/implementations/feelings/poke.ts";
 import Slap from "../commands/implementations/feelings/slap.ts";
 import Yell from "../commands/implementations/feelings/yell.ts";
+import Minecraft from "../commands/implementations/fun/minecraft.ts";
 import Ship from "../commands/implementations/fun/ship.ts";
 import Evaluate from "../commands/implementations/utility/evaluate.ts";
 import Ping from "../commands/implementations/utility/ping.ts";
@@ -51,6 +52,7 @@ export default class SnugglesClient extends Client {
         new Yell(),
 
         // Fun commands
+        new Minecraft(),
         new Ship()
     ];
 
