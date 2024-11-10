@@ -2,17 +2,30 @@ import {EmbedBuilder} from "discord.js";
 
 // YOU'RE WELCOME LILY
 const BarStyle = {
-    pink: "https://github.com/UwUAroze/Snuggles/blob/v3/assets/img/bar_pink.png?raw=true",
-    error: "https://github.com/UwUAroze/Snuggles/blob/v3/assets/img/bar_error.png?raw=true"
+    pink: {
+        color: 0xffccf3,
+        img: "https://github.com/UwUAroze/Snuggles/blob/v3/assets/img/bar_pink.png?raw=true",
+    },
+    error: {
+        color: 0xff9e9e,
+        img: "https://github.com/UwUAroze/Snuggles/blob/v3/assets/img/bar_error.png?raw=true"
+    }
 } as const;
 
 export type BarStyle = keyof typeof BarStyle;
+export type BarDirection = "vertical" | "horizontal";
 
 export class FancyEmbed extends EmbedBuilder {
-    constructor(bar: BarStyle = "pink") {
+    constructor(bar: BarStyle = "pink", barDirection: BarDirection = "horizontal") {
         super();
-        this.setColor(0x2b2d31);
-        this.setImage(BarStyle[bar]);
+        if (barDirection === "horizontal") {
+            this.setColor(0x2b2d31);
+            this.setImage(BarStyle[bar].img);
+        }
+
+        if (barDirection === "vertical") {
+            this.setColor(BarStyle[bar].color);
+        }
     }
 
     /**
