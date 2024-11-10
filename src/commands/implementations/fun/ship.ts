@@ -90,7 +90,7 @@ export default class Ship implements ICommand {
             ? interaction.options.getString("target2") ?? interaction.user.username
             : interaction.options.getUser("target2")?.username ?? interaction.user.username;
 
-        if (!target || !target2) return;
+        if (!target || !target2) throw new Error("Expression not provided");
 
         // Get & send the ship name
         const shipNames = getShipNames(target, target2);
