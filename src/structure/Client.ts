@@ -10,48 +10,56 @@ import Slap from "../commands/implementations/feelings/slap.ts";
 import Yell from "../commands/implementations/feelings/yell.ts";
 import Ship from "../commands/implementations/fun/ship.ts";
 import {CountingHandler} from "../events/handlers/CountingHandler.ts";
+import {
+    MessageCreatePreProcessor,
+    MessageDeletePreProcessor, MessageUpdatePreProcessor
+} from "../events/handlers/preprocessor/MessagePreProcessor";
 
 export default class SnugglesClient extends Client {
-  public events: (new (client: SnugglesClient) => IEvent)[] = [
-    ClientReadyHandler,
-    InteractionCreateHandler,
-    CountingHandler
-  ];
+    public events: (new (client: SnugglesClient) => IEvent)[] = [
+        ClientReadyHandler,
+        InteractionCreateHandler,
+        CountingHandler,
 
-  public commands = [
-      // Utility commands
-      new Ping(),
+        MessageCreatePreProcessor,
+        MessageDeletePreProcessor,
+        MessageUpdatePreProcessor
+    ];
 
-      // Feeling commands
-      new Hug(),
-      new Lick(),
-      new Poke(),
-      new Slap(),
-      new Yell(),
+    public commands = [
+        // Utility commands
+        new Ping(),
 
-      // Fun commands
-      new Ship()
-  ];
+        // Feeling commands
+        new Hug(),
+        new Lick(),
+        new Poke(),
+        new Slap(),
+        new Yell(),
 
-  constructor(options: ClientOptions) {
-    super(options);
-  }
+        // Fun commands
+        new Ship()
+    ];
 
-  override async login(token?: string) {
-    await this.registerEvents();
-    return super.login(token);
-  }
-
-  private async registerEvents() {
-    for (const Event of this.events) {
-      const eventInstance = new Event(this);
-      const eventName = eventInstance.event;
-      const handler = eventInstance.handle.bind(eventInstance);
-      if (eventInstance.once) {
-        this.once(eventName, handler);
-      } else {
-        this.on(eventName, handler);
-      }
+    constructor(options: ClientOptions) {
+        super(options);
     }
-  }
+
+    override async login(token?: string) {
+        await this.registerEvents();
+        return super.login(token);
+    }
+
+    private async registerEvents() {
+        for (const Event of this.events) {
+            const eventInstance = new Event(this);
+            const eventName = eventInstance.event;
+            const handler = eventInstance.handle.bind(eventInstance);
+            if (eventInstance.once) {
+                this.once(eventName, handler);
+            } else {
+                this.on(eventName, handler);
+            }
+        }
+    }
 }

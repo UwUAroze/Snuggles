@@ -1,4 +1,4 @@
-import {Events, type ClientEvents} from "discord.js";
+import {Events, type ClientEvents, TextChannel} from "discord.js";
 import {Logger, type ILogObj} from "tslog";
 import type IEvent from "../IEvent.ts";
 import {deployCommands} from "../../utils/restUtils.ts";

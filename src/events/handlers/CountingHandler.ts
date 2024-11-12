@@ -22,7 +22,7 @@ export class CountingHandler implements IEvent {
   constructor(private client: SnugglesClient) {}
 
   async handle(message: OmitPartialGroupDMChannel<Message<boolean>>) {
-    const countData = await GuildCountingService.getCountingDataForChannel(message.channelId);
+    const countData = await GuildCountingService.fetchChannelCountingData(message.channelId);
     if (!countData) return;
 
     // Ignore bot messages and webhooks
@@ -46,7 +46,7 @@ export class CountingHandler implements IEvent {
     const lastCounter = countData.lastCounterId
     countData.lastCounterId = message.author.id
 
-    const isCorrect = number === countData.count + 1
+    const isNextNumber = number === countData.count + 1
     let currentCount = countData.count
 
     let failMessage: string | null = null
@@ -55,24 +55,24 @@ export class CountingHandler implements IEvent {
       failMessage = countData.consecutiveCountingFailMessage
     }
 
-    if (!isCorrect) {
+    if (!isNextNumber) {
       failMessage = countData.wrongNumberFailMessage
     }
 
     if (failMessage) {
       countData.count = 0
       await GuildCountingService.updateCountData(countData)
-      await message.reply(this.parseCountingMessage(failMessage, message.author, currentCount))
-      await message.react(this.getReaction(countData, isCorrect))
+      await message.reply(CountingHandler.parseCountingMessage(failMessage, message.author, currentCount))
+      await message.react(this.getReaction(countData, true))
       return
     }
 
     countData.count++
     await GuildCountingService.updateCountData(countData)
-    await message.react(this.getReaction(countData, isCorrect))
+    await message.react(this.getReaction(countData, false))
   }
 
-  private getReaction(countData: GuildCounting, isCorrect: boolean): GuildEmoji | string {
+  private getReaction(countData: GuildCounting, isFail: boolean): GuildEmoji | string {
     let emoji: GuildEmoji | string | undefined = undefined
 
     if (countData.count == countData.highScore) {
@@ -91,14 +91,14 @@ export class CountingHandler implements IEvent {
       emoji = this.client.emojis.cache.get("1302005470461952133")
     }
 
-    if (!isCorrect) {
+    if (isFail) {
       emoji = this.client.emojis.cache.get("1302005494789181540")
     }
 
     return emoji ?? "✅" // Last resort/fallback
   }
 
-  private parseCountingMessage(message: string, author: User, count: number): string {
+  static parseCountingMessage(message: string, author: User, count: number): string {
     return message
         .replace("{authorPing}", "<@" + author.id + ">")
         .replace("{count}", count.toString())
