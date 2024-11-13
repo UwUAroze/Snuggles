@@ -10,6 +10,7 @@ import Ship from "../commands/implementations/fun/ship.ts";
 import Evaluate from "../commands/implementations/utility/evaluate.ts";
 import Ping from "../commands/implementations/utility/ping.ts";
 import SnugglyStatsCommand from "../commands/implementations/utility/snugglystats.ts";
+import UserInfo from "../commands/implementations/utility/userInfo.ts";
 import SnugglyStatsService from "../database/services/SnugglyStatsService.ts";
 import {ClientReadyHandler} from "../events/handlers/ClientReadyHandler.ts";
 import {CountingHandler} from "../events/handlers/CountingHandler.ts";
@@ -43,6 +44,7 @@ export default class SnugglesClient extends Client {
         new Evaluate(),
         new Ping(),
         new SnugglyStatsCommand(),
+        new UserInfo(),
 
         // Feeling commands
         new Hug(),
