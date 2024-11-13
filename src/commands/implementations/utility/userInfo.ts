@@ -23,16 +23,11 @@ export default class UserInfo implements ICommand {
 
     async handle(interaction: ChatInputCommandInteraction) {
         const user = interaction.options.getUser("user")
-        if (!user) throw new Error("Expression not provided");
+        if (!user) throw new Error("User not provided");
 
         const embed = new FancyEmbed()
             .setTitle(`${user.username}`)
             .setThumbnail(user.displayAvatarURL())
-            // .setDescription(`-# ${user.displayName} \`(${user.id})\``)
-            // .setDescription(`
-            // > -# Display Name: ${user.displayName}
-            // > -# ID: \`${user.id}\`
-            // `)
             .addFields(
                 {
                     name: "Origin",
@@ -64,14 +59,14 @@ export default class UserInfo implements ICommand {
                     embed.addFields(
                         {
                             name: "Booster",
-                            value: `Boosting since <t:${boosting / 1000}:R>`,
+                            value: `Boosting since <t:${Math.floor(boosting / 1000)}:R>`,
                             inline: false
                         }
                     )
                 }
 
                 const roles = member.roles.cache.clone()
-                roles.delete(guildId)
+                roles.delete(guildId) // The role ID of @everyone is the same as the guild ID, we wanna ignore @everyone 
                 if (roles.size > 0) {
                     finalField = roles.map(role => `<@&${role.id}>`).join(" ") + `\n${finalField}`
                 }
