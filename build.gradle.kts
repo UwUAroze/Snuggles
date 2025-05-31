@@ -1,6 +1,10 @@
+import org.gradle.kotlin.dsl.withType
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
-    kotlin("jvm") version "2.1.20"
-    kotlin("plugin.serialization") version "2.1.20"
+    alias(libs.plugins.kotlin)
+    alias(libs.plugins.serialization)
+    alias(libs.plugins.ksp)
 }
 
 group = "me.aroze"
@@ -11,12 +15,27 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-    implementation("org.mongodb:mongodb-driver-kotlin-coroutine:4.10.1")
-    implementation("net.dv8tion:JDA:5.5.1")
-    implementation("com.akuleshov7:ktoml-core:0.7.0")
+    implementation(libs.kotlinx)
+    implementation(libs.mongodb)
+    implementation(libs.jda)
+    implementation(libs.ktoml)
+    implementation(libs.auto.service)
+    implementation(libs.autoservice.google)
+    implementation(libs.bundles.cloud)
+    implementation(libs.bundles.log4j)
+    ksp(libs.autoservice.ksp)
 }
 
 kotlin {
     jvmToolchain(21)
+}
+
+tasks.withType<JavaCompile> {
+    options.compilerArgs.add("-parameters")
+}
+
+tasks.withType<KotlinCompile>() {
+    compilerOptions {
+        freeCompilerArgs.add("-java-parameters")
+    }
 }

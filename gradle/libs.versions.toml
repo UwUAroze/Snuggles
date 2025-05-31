@@ -1,0 +1,38 @@
+[versions]
+kotlin = "2.1.20"
+serialization = "1.6.0"
+
+kotlinx = "1.6.4"
+mongodb = "4.10.1"
+jda = "5.5.1"
+ktoml = "0.7.0"
+cloud = "2.0.0"
+cloud-jda = "1.0.0-beta.3"
+auto-service = "1.1.1"
+autoservice-google = "1.1.1"
+autoservice-ksp = "1.2.0"
+ksp = "2.1.20-2.0.1"
+log4j = "2.23.0"
+
+[plugins]
+kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "serialization" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+
+[libraries]
+kotlinx = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx" }
+mongodb = { module = "org.mongodb:mongodb-driver-kotlin-coroutine", version.ref = "mongodb" }
+jda = { module = "net.dv8tion:JDA", version.ref = "jda" }
+ktoml = { module = "com.akuleshov7:ktoml-core", version.ref = "ktoml" }
+cloud = { module = "org.incendo:cloud-core", version.ref = "cloud" }
+cloud-coroutines = { module = "org.incendo:cloud-kotlin-coroutines-annotations", version.ref = "cloud" }
+cloud-jda = { module = "org.incendo:cloud-jda5", version.ref = "cloud-jda" }
+auto-service = { module = "com.google.auto.service:auto-service", version.ref = "auto-service" }
+autoservice-google = { module = "com.google.auto.service:auto-service", version.ref = "autoservice-google" }
+autoservice-ksp = { module = "dev.zacsweers.autoservice:auto-service-ksp", version.ref = "autoservice-ksp" }
+log4j = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j" }
+log4j-slf4j-impl = { module = "org.apache.logging.log4j:log4j-slf4j2-impl", version.ref = "log4j" }
+
+[bundles]
+log4j = ["log4j", "log4j-slf4j-impl"]
+cloud = ["cloud", "cloud-coroutines", "cloud-jda"]
