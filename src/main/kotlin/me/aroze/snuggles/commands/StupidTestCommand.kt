@@ -1,14 +1,17 @@
 package me.aroze.snuggles.commands
 
 import com.google.auto.service.AutoService
+import me.aroze.snuggles.commands.handler.silent.SilentFlag
+import me.aroze.snuggles.commands.handler.silent.replySilently
 import net.dv8tion.jda.api.entities.User
 import org.incendo.cloud.annotations.Command
 import org.incendo.cloud.discord.jda5.JDAInteraction
 
+@SilentFlag(true)
 @AutoService(SnugglyCommand::class)
 class StupidTestCommand : SnugglyCommand {
 
-    @Command("test <user> <message>")
+    @Command("testy <user> <message>")
     fun test(
         interaction: JDAInteraction,
         user: User,
@@ -17,8 +20,7 @@ class StupidTestCommand : SnugglyCommand {
         val event = interaction.interactionEvent()
             ?: return
 
-        event.reply("Hello ${user.asMention}, you said: $message")
-            .setEphemeral(true)
+        event.replySilently("Hello ${user.asMention}, you said: $message")
             .queue()
     }
 
