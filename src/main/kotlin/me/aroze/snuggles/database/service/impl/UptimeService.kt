@@ -1,10 +1,10 @@
-package me.aroze.snuggles.database.service
+package me.aroze.snuggles.database.service.impl
 
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Updates
 import kotlinx.datetime.Instant
 import me.aroze.snuggles.database.entity.Uptime
-import me.aroze.snuggles.database.service.UptimeService.collection
+import me.aroze.snuggles.database.service.DatabaseCollection
 import org.bson.BsonValue
 
 object UptimeService : DatabaseCollection<Uptime>(Uptime::class) {

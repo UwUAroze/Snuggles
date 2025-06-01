@@ -1,5 +1,6 @@
 package me.aroze.snuggles.commands.handler.silent
 
+import net.dv8tion.jda.api.entities.MessageEmbed
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent
 import net.dv8tion.jda.api.requests.restaction.interactions.ReplyCallbackAction
 
@@ -32,10 +33,17 @@ val GenericCommandInteractionEvent.silent: Boolean?
             ?: SilentFlagRegistry.getDefault(this.interaction.fullCommandName)
     }
 
-/**
- * Replies to the interaction event, respecting the silent flag.
- */
+/** Replies to the interaction event, respecting the silent flag. */
 fun GenericCommandInteractionEvent.replySilently(message: String, overrideSilent: Boolean = true): ReplyCallbackAction {
     return this.reply(message)
+        .setEphemeral(this.silent ?: overrideSilent)
+}
+
+/** Replies to the interaction event, respecting the silent flag. */
+fun GenericCommandInteractionEvent.replyEmbedsSilently(
+    vararg embeds: MessageEmbed,
+    overrideSilent: Boolean = true
+): ReplyCallbackAction {
+    return this.replyEmbeds(embeds.toList())
         .setEphemeral(this.silent ?: overrideSilent)
 }

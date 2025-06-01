@@ -8,8 +8,9 @@ import kotlinx.datetime.Clock
 import me.aroze.snuggles.config.Config
 import me.aroze.snuggles.config.TomlConfigLoader
 import me.aroze.snuggles.database.MongoDatabaseConnection
-import me.aroze.snuggles.database.service.UptimeService
-import me.aroze.snuggles.initialisation.BotLoader
+import me.aroze.snuggles.database.service.impl.UptimeService
+import me.aroze.snuggles.lifecycle.BotLoader
+import me.aroze.snuggles.lifecycle.BotUnloader
 import net.dv8tion.jda.api.JDA
 
 lateinit var snuggles: JDA
@@ -33,20 +34,14 @@ fun main(): Unit = runBlocking {
     snuggles = BotLoader(config.authentication.token)
         .loadDefault()
 
+    BotUnloader().registerDefaultShutdownHook()
+
     val initialisationTime = Clock.System.now()
 
-    println("Started in ${initialisationTime - startTime}")
+    println("We're snuggling <3. Logged into ${snuggles.selfUser.asTag}, finished all initialisation tasks in ${initialisationTime - startTime}")
 
     launch(Dispatchers.IO) {
         UptimeService.startTrackingUptime(startTime, initialisationTime)
     }
-
-    // todo: prettify shutdown logic
-    Runtime.getRuntime().addShutdownHook(Thread{
-        val stopTime = Clock.System.now()
-        runBlocking {
-            UptimeService.stopTrackingUptime(stopTime)
-        }
-    })
 
 }

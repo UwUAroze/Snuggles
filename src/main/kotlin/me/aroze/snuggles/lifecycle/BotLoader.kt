@@ -1,4 +1,4 @@
-package me.aroze.snuggles.initialisation
+package me.aroze.snuggles.lifecycle
 
 import me.aroze.snuggles.commands.handler.silent.SilentFlag
 import me.aroze.snuggles.commands.handler.SnugglyCommand
