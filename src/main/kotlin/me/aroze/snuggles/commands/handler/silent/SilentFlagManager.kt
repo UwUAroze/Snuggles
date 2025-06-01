@@ -25,17 +25,16 @@ object SilentFlagManager {
 /**
  * Extension property to check if the command interaction event is silent.
  */
-val GenericCommandInteractionEvent.silent: Boolean
+val GenericCommandInteractionEvent.silent: Boolean?
     get() {
         return this.getOption("silent")?.asBoolean
             ?: SilentFlagManager.getDefault(this.interaction.fullCommandName)
-            ?: error("Attempted to access silent flag without it being set for this command: ${this.interaction.fullCommandName}")
     }
 
 /**
  * Replies to the interaction event, respecting the silent flag.
  */
-fun GenericCommandInteractionEvent.replySilently(message: String): ReplyCallbackAction {
+fun GenericCommandInteractionEvent.replySilently(message: String, overrideSilent: Boolean = true): ReplyCallbackAction {
     return this.reply(message)
-        .setEphemeral(this.silent)
+        .setEphemeral(this.silent ?: overrideSilent)
 }

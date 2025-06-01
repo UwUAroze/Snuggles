@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.entities.User
 import org.incendo.cloud.annotations.Command
 import org.incendo.cloud.discord.jda5.JDAInteraction
 
-@SilentFlag(true)
+//@SilentFlag(false)
 @AutoService(SnugglyCommand::class)
 class StupidTestCommand : SnugglyCommand {
 
@@ -15,7 +15,7 @@ class StupidTestCommand : SnugglyCommand {
     fun test(
         interaction: JDAInteraction,
         user: User,
-        message: String
+        message: String,
     ) {
         val event = interaction.interactionEvent()
             ?: return
