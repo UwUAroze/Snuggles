@@ -1,8 +1,8 @@
 package me.aroze.snuggles.initialisation
 
 import me.aroze.snuggles.commands.handler.silent.SilentFlag
-import me.aroze.snuggles.commands.SnugglyCommand
-import me.aroze.snuggles.commands.handler.silent.SilentFlagManager
+import me.aroze.snuggles.commands.handler.SnugglyCommand
+import me.aroze.snuggles.commands.handler.silent.SilentFlagRegistry
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.entities.Message
@@ -21,11 +21,19 @@ import org.incendo.cloud.execution.ExecutionCoordinator
 import org.incendo.cloud.parser.standard.BooleanParser
 import java.util.ServiceLoader
 
-
+/**
+ * BotLoader is responsible for setting up the JDA instance and registering commands. It initializes the bot with the
+ * provided token, sets up the necessary intents and member cache policies and also registers commands and listeners.
+ */
 class BotLoader(
     private val token: String
 ) {
 
+    /**
+     * Loads everything related to the bot
+     *
+     * @return The initialized JDA instance.
+     */
     fun loadDefault(): JDA {
         val bot = setupJDA()
         MessageRequest.setDefaultMentions(listOf(Message.MentionType.USER, Message.MentionType.CHANNEL, Message.MentionType.EMOJI))
@@ -58,12 +66,16 @@ class BotLoader(
                 .filter { it.type() == CommandComponent.ComponentType.LITERAL }
                 .joinToString(" ") { it.name() }
 
-            SilentFlagManager.register(commandName, flag.value)
+            SilentFlagRegistry.register(commandName, flag.value)
+
+            val extendedDescription =
+                if (flag.value) "Default: True (only you can see)"
+                else "Default: False (anyone can see)"
 
             builder.argument(
                 CommandComponent.builder("silent", BooleanParser.booleanParser<JDAInteraction>())
                     .optional(DefaultValue.constant(flag.value))
-                    .description(Description.description("Whether or not to send the message publicly. Default: ${flag.value}"))
+                    .description(Description.description("Whether only you should see the response to this command. $extendedDescription"))
             )
         }
 

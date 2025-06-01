@@ -2,13 +2,19 @@ package me.aroze.snuggles.config
 
 import com.akuleshov7.ktoml.Toml
 import kotlinx.serialization.KSerializer
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.serializer
 import java.io.File
 import java.nio.file.Files
 import kotlin.jvm.java
 
+/**
+ * A utility class for loading, defaulting and parsing TOML configuration files.
+ *
+ * @param configPath The path to the configuration file.
+ * @param configClass The class type of the configuration to be loaded.
+ * @param T The type of the configuration object.
+ */
 class TomlConfigLoader<T>(
     private val configPath: String,
     private val configClass: Class<T>

@@ -3,7 +3,7 @@ package me.aroze.snuggles.commands.handler.silent
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent
 import net.dv8tion.jda.api.requests.restaction.interactions.ReplyCallbackAction
 
-object SilentFlagManager {
+object SilentFlagRegistry {
     private val defaultSilentMap = mutableMapOf<String, Boolean>()
 
     /**
@@ -28,7 +28,7 @@ object SilentFlagManager {
 val GenericCommandInteractionEvent.silent: Boolean?
     get() {
         return this.getOption("silent")?.asBoolean
-            ?: SilentFlagManager.getDefault(this.interaction.fullCommandName)
+            ?: SilentFlagRegistry.getDefault(this.interaction.fullCommandName)
     }
 
 /**
