@@ -23,7 +23,8 @@ object SilentFlagRegistry {
 }
 
 /**
- * Extension property to check if the command interaction event is silent.
+ * Extension property to check if the command interaction is marked to be silent. Returns null if no silent parameter is
+ * provided and no default is registered.
  */
 val GenericCommandInteractionEvent.silent: Boolean?
     get() {

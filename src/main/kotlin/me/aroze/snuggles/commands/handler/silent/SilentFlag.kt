@@ -8,8 +8,8 @@ package me.aroze.snuggles.commands.handler.silent
 @Target(AnnotationTarget.FUNCTION, AnnotationTarget.CLASS)
 annotation class SilentFlag(
     /**
-     * The default value for the silent flag. If true, the command will respond ephemerally (silently) by default,
-     * otherwise it will respond publicly.
+     * The default value for the silent flag. If true, the command will respond ephemerally by default, otherwise it
+     * will respond publicly.
      */
     val value: Boolean = true
 )

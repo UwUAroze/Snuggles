@@ -1,7 +1,14 @@
 package me.aroze.snuggles
 
+import com.mongodb.kotlin.client.coroutine.MongoDatabase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.datetime.Clock
 import me.aroze.snuggles.config.Config
 import me.aroze.snuggles.config.TomlConfigLoader
+import me.aroze.snuggles.database.MongoDatabaseConnection
+import me.aroze.snuggles.database.service.UptimeService
 import me.aroze.snuggles.initialisation.BotLoader
 import net.dv8tion.jda.api.JDA
 
@@ -11,12 +18,35 @@ lateinit var snuggles: JDA
 lateinit var config: Config
     private set
 
-fun main() {
+lateinit var database: MongoDatabase
+
+
+fun main(): Unit = runBlocking {
+    val startTime = Clock.System.now()
 
     config = TomlConfigLoader<Config>("config.toml")
         .load()
 
+    database = MongoDatabaseConnection(config.mongo.connectionString)
+        .getDatabase(config.mongo.databaseName)
+
     snuggles = BotLoader(config.authentication.token)
         .loadDefault()
+
+    val initialisationTime = Clock.System.now()
+
+    println("Started in ${initialisationTime - startTime}")
+
+    launch(Dispatchers.IO) {
+        UptimeService.startTrackingUptime(startTime, initialisationTime)
+    }
+
+    // todo: prettify shutdown logic
+    Runtime.getRuntime().addShutdownHook(Thread{
+        val stopTime = Clock.System.now()
+        runBlocking {
+            UptimeService.stopTrackingUptime(stopTime)
+        }
+    })
 
 }
