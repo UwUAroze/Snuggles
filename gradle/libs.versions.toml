@@ -5,6 +5,7 @@ serialization = "1.6.0"
 kotlinx = "1.6.4"
 mongodb = "4.10.1"
 jda = "5.5.1"
+jda-fork = "8909551e4f"
 ktoml = "0.7.0"
 cloud = "2.0.0"
 cloud-jda = "1.0.0-beta.3"
@@ -23,6 +24,7 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlinx = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx" }
 mongodb = { module = "org.mongodb:mongodb-driver-kotlin-coroutine", version.ref = "mongodb" }
 jda = { module = "net.dv8tion:JDA", version.ref = "jda" }
+jda-fork = { module = "io.github.JDA-Fork:JDA", version.ref = "jda-fork" }
 ktoml = { module = "com.akuleshov7:ktoml-core", version.ref = "ktoml" }
 cloud = { module = "org.incendo:cloud-core", version.ref = "cloud" }
 cloud-coroutines = { module = "org.incendo:cloud-kotlin-coroutines-annotations", version.ref = "cloud" }

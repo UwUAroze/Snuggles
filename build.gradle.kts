@@ -12,12 +12,13 @@ version = "4.0.0"
 
 repositories {
     mavenCentral()
+    maven("https://jitpack.io")
 }
 
 dependencies {
     implementation(libs.kotlinx)
     implementation(libs.mongodb)
-    implementation(libs.jda)
+    implementation(libs.jda.fork) // Temporary fork for components v2 support
     implementation(libs.ktoml)
     implementation(libs.auto.service)
     implementation(libs.autoservice.google)

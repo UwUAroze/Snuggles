@@ -4,19 +4,20 @@ import com.google.auto.service.AutoService
 import kotlinx.coroutines.runBlocking
 import me.aroze.snuggles.commands.handler.SnugglyCommand
 import me.aroze.snuggles.commands.handler.silent.SilentFlag
-import me.aroze.snuggles.commands.handler.silent.replyEmbedsSilently
+import me.aroze.snuggles.constants.BarColor
 import me.aroze.snuggles.constants.Emoji
 import me.aroze.snuggles.database
 import me.aroze.snuggles.database.ping
 import me.aroze.snuggles.snuggles
-import net.dv8tion.jda.api.EmbedBuilder
+import me.aroze.snuggles.ui.img.coloredBar
+import net.dv8tion.jda.api.components.container.Container
+import net.dv8tion.jda.api.components.textdisplay.TextDisplay
 import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.interactions.InteractionHook
 import org.incendo.cloud.annotations.Command
 import org.incendo.cloud.discord.jda5.JDAInteraction
-import kotlin.collections.joinToString
 
-// todo: implement components v2 and make this prettier. waiting on jda :sob:
+
 @AutoService(SnugglyCommand::class)
 class PingCommand : SnugglyCommand {
 
@@ -33,36 +34,49 @@ class PingCommand : SnugglyCommand {
 
         val description = mutableListOf(
             ":satellite: **Discord Latency**",
-            " - **Gateway Latency** ${snuggles.gatewayPing}ms",
-            " - **Rest Latency** ${Emoji.Animated.LOADING}",
+            "- **Gateway Latency** ${snuggles.gatewayPing}ms",
+            "- **Rest Latency** ${Emoji.Animated.LOADING}",
             "",
             ":stopwatch: **Internal Latency**",
-            " - **Database Latency** ${Emoji.Animated.LOADING}",
+            "- **Database Latency** ${Emoji.Animated.LOADING}",
             "",
-            " - **Total Command Latency** ${now - timeSent}ms"
+            "- **Total Command Latency** ${now - timeSent}ms"
         )
 
-        val eb = EmbedBuilder()
-            .setTitle("${Emoji.Animated.DRUGGED_PING}  Pinging...")
-            .setDescription(description.joinToString("\n"))
+        val container = constructPingResponseComponent(description, false)
 
-        event.replyEmbedsSilently(eb.build())
-            .queue() { response -> updateRestPing(response, eb, description) }
+        event.replyComponents(container)
+            .useComponentsV2()
+            .queue() { response -> updateRestPing(response, description) }
+
     }
 
-    private fun updateRestPing(response: InteractionHook, eb: EmbedBuilder, description: MutableList<String>) {
+    private fun constructPingResponseComponent(description: MutableList<String>, finished: Boolean): Container = Container.of(
+        if (finished) TextDisplay.of("### ${Emoji.Static.PING}  Pong!")
+        else TextDisplay.of("### ${Emoji.Animated.DRUGGED_PING}  Pinging..."),
+
+        TextDisplay.of(description.joinToString("\n")),
+
+        coloredBar(BarColor.PINK, 230, 5)
+    )
+
+    private fun updateRestPing(response: InteractionHook, description: MutableList<String>) {
         snuggles.restPing.queue() { restPing ->
-            description[2] = " - **Rest Latency** ${restPing}ms"
-            eb.setDescription(description.joinToString("\n"))
-            response.editOriginalEmbeds(eb.build()).queue() { response -> updateDatabasePing(response, eb, description) }
+            description[2] = "- **Rest Latency** ${restPing}ms"
+            val newContainer = constructPingResponseComponent(description, false)
+            response.editOriginalComponents(newContainer)
+                .useComponentsV2()
+                .queue() { response -> updateDatabasePing(response, description) }
         }
     }
 
-    private fun updateDatabasePing(response: Message, eb: EmbedBuilder, description: MutableList<String>) {
+    private fun updateDatabasePing(response: Message, description: MutableList<String>) {
         runBlocking {
-            description[5] = " - **Database Latency** ${database.ping()}ms"
-            eb.setDescription(description.joinToString("\n"))
-            response.editMessageEmbeds (eb.build()).queue()
+            description[5] = "- **Database Latency** ${database.ping()}ms"
+            val newContainer = constructPingResponseComponent(description, true)
+            response.editMessageComponents(newContainer)
+                .useComponentsV2()
+                .queue()
         }
     }
 
