@@ -6,6 +6,7 @@ import me.aroze.snuggles.commands.handler.silent.SilentFlag
 import me.aroze.snuggles.commands.handler.silent.replySilently
 import me.aroze.snuggles.constants.Emoji
 import net.dv8tion.jda.api.entities.User
+import org.incendo.cloud.annotation.specifier.Greedy
 import org.incendo.cloud.annotations.Command
 import org.incendo.cloud.discord.jda5.JDAInteraction
 
@@ -17,7 +18,7 @@ class StupidTestCommand : SnugglyCommand {
     fun test(
         interaction: JDAInteraction,
         user: User,
-        message: String,
+        @Greedy message: String,
     ) {
         val event = interaction.interactionEvent()
             ?: return

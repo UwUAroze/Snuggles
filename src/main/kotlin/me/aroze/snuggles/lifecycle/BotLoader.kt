@@ -2,6 +2,7 @@ package me.aroze.snuggles.lifecycle
 
 import me.aroze.snuggles.commands.handler.silent.SilentFlag
 import me.aroze.snuggles.commands.handler.SnugglyCommand
+import me.aroze.snuggles.commands.handler.processor.CommandPostProcessTasks
 import me.aroze.snuggles.commands.handler.silent.SilentFlagRegistry
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
@@ -78,6 +79,8 @@ class BotLoader(
                     .description(Description.description("Whether only you should see the response to this command. $extendedDescription"))
             )
         }
+
+        commandManager.registerCommandPostProcessor(CommandPostProcessTasks())
 
         ReplySettingBuilderModifier.install(annotationParser);
         CommandScopeBuilderModifier.install(annotationParser);
