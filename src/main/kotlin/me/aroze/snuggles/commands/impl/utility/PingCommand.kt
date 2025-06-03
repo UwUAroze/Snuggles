@@ -4,6 +4,7 @@ import com.google.auto.service.AutoService
 import kotlinx.coroutines.runBlocking
 import me.aroze.snuggles.commands.handler.SnugglyCommand
 import me.aroze.snuggles.commands.handler.silent.SilentFlag
+import me.aroze.snuggles.commands.handler.silent.replyComponentsSilently
 import me.aroze.snuggles.constants.BarColor
 import me.aroze.snuggles.constants.Emoji
 import me.aroze.snuggles.database
@@ -34,26 +35,26 @@ class PingCommand : SnugglyCommand {
 
         val description = mutableListOf(
             ":satellite: **Discord Latency**",
-            "- **Gateway Latency** ${snuggles.gatewayPing}ms",
-            "- **Rest Latency** ${Emoji.Animated.LOADING}",
+            "> Gateway: `${snuggles.gatewayPing}ms`",
+            "> REST: ${Emoji.Animated.LOADING}",
             "",
             ":stopwatch: **Internal Latency**",
-            "- **Database Latency** ${Emoji.Animated.LOADING}",
+            "> **Database** ${Emoji.Animated.LOADING}",
             "",
-            "- **Total Command Latency** ${now - timeSent}ms"
+            "\uD83E\uDDEE  Total Command Latency: `${now - timeSent}ms`"
         )
 
         val container = constructPingResponseComponent(description, false)
 
-        event.replyComponents(container)
+        event.replyComponentsSilently(container)
             .useComponentsV2()
             .queue() { response -> updateRestPing(response, description) }
 
     }
 
     private fun constructPingResponseComponent(description: MutableList<String>, finished: Boolean): Container = Container.of(
-        if (finished) TextDisplay.of("### ${Emoji.Static.PING}  Pong!")
-        else TextDisplay.of("### ${Emoji.Animated.DRUGGED_PING}  Pinging..."),
+        if (finished) TextDisplay.of("## ${Emoji.Static.PING}  Pong!")
+        else TextDisplay.of("## ${Emoji.Animated.DRUGGED_PING}  Pinging..."),
 
         TextDisplay.of(description.joinToString("\n")),
 
@@ -62,7 +63,7 @@ class PingCommand : SnugglyCommand {
 
     private fun updateRestPing(response: InteractionHook, description: MutableList<String>) {
         snuggles.restPing.queue() { restPing ->
-            description[2] = "- **Rest Latency** ${restPing}ms"
+            description[2] = "> REST: `${restPing}ms`"
             val newContainer = constructPingResponseComponent(description, false)
             response.editOriginalComponents(newContainer)
                 .useComponentsV2()
@@ -72,7 +73,7 @@ class PingCommand : SnugglyCommand {
 
     private fun updateDatabasePing(response: Message, description: MutableList<String>) {
         runBlocking {
-            description[5] = "- **Database Latency** ${database.ping()}ms"
+            description[5] = "> Database: `${database.ping()}ms`"
             val newContainer = constructPingResponseComponent(description, true)
             response.editMessageComponents(newContainer)
                 .useComponentsV2()

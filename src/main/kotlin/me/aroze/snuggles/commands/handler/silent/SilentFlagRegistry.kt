@@ -1,5 +1,6 @@
 package me.aroze.snuggles.commands.handler.silent
 
+import net.dv8tion.jda.api.components.container.Container
 import net.dv8tion.jda.api.entities.MessageEmbed
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent
 import net.dv8tion.jda.api.requests.restaction.interactions.ReplyCallbackAction
@@ -45,5 +46,13 @@ fun GenericCommandInteractionEvent.replyEmbedsSilently(
     overrideSilent: Boolean = true
 ): ReplyCallbackAction {
     return this.replyEmbeds(embeds.toList())
+        .setEphemeral(this.silent ?: overrideSilent)
+}
+
+fun GenericCommandInteractionEvent.replyComponentsSilently(
+    components: Container,
+    overrideSilent: Boolean = true
+): ReplyCallbackAction {
+    return this.replyComponents(components)
         .setEphemeral(this.silent ?: overrideSilent)
 }
